@@ -13,18 +13,20 @@
 
         <q-card-section @click="showVideo(game.videos[0].embed)">
           <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
-            <div class="col ellipsis row"
+            <div class=" row"
                  v-ripple
             >
-              <div>
+
+              <div style="margin-right: 2.5px">
                 <q-avatar class="q-responsive" style="font-size:20px" size="px">
                   <img :src="game.thumbnail" alt="Image">
                 </q-avatar>
-              </div>&nbsp;
+              </div>
               <span>
-                <div class="fa-bold">
-                  &nbsp;<span style="font-size:12px">{{ game.title }} </span>
-                  &nbsp;<span style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</span>
+                <div class="fa-bold "  style="">
+                  &nbsp;<span style="font-size:12px">{{ game.title }}&nbsp;
+                  <sub style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</sub>
+                </span>
                 </div>
               </span>
             </div>

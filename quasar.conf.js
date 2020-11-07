@@ -32,7 +32,7 @@ module.exports = function (/* ctx */) {
       // 'ionicons-v4',
       // 'mdi-v5',
       // 'fontawesome-v5',
-      // 'eva-icons',
+      'eva-icons',
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
@@ -43,7 +43,8 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
+      // vueRouterMode: 'hash', // available values: 'hash', 'history'
 
       // transpile: false,
 
@@ -99,7 +100,10 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'Dialog',
+        'Notify'
+      ]
     },
 
     // animations: 'all', // --- includes all animations

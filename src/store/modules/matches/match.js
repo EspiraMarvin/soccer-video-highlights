@@ -3,13 +3,15 @@ import axios from 'axios'
 const state = () => ({
   matches: {},
   fetchingMatches: false,
-  addingMatch: false
+  addingMatch: false,
+  currentTab: ' '
 })
 
 const getters = {
   GET_MATCHES: state => state.matches,
   GET_FETCHING_MATCHES: state => state.fetchingMatches,
-  GET_ADDING_MATCH: state => state.addingMatch
+  GET_ADDING_MATCH: state => state.addingMatch,
+  GET_CURRENT_TAB: state => state.currentTab
 }
 
 const mutations = {
@@ -23,6 +25,10 @@ const mutations = {
 
   SET_ADDING_MATCH (state, value) {
     state.addingMatch = value
+  },
+
+  SET_CURRENT_TAB (state, value) {
+    state.currentTab = value
   }
 }
 
@@ -33,7 +39,7 @@ const actions = {
       .then(({ data }) => {
         context.commit('SET_FETCHING_MATCHES', false)
         context.commit('SET_MATCHES', data)
-        console.log(data)
+      // console.log(data)
       })
       .catch(error => {
         context.commit('SET_FETCHING_MATCHES', false)

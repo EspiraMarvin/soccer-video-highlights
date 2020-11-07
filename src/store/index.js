@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 // import example from './module-example'
 import matchStore from './modules/matches/index'
+import common from './modules/common/index'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       // example
+      common,
       matchStore
     },
 

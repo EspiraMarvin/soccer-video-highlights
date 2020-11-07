@@ -13,20 +13,18 @@
 
         <q-card-section @click="showVideo(game.videos[0].embed)">
           <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
-            <div class=" row"
+            <div class="col ellipsis row"
                  v-ripple
             >
-
-              <div style="margin-right: 2.5px">
+              <div>
                 <q-avatar class="q-responsive" style="font-size:20px" size="px">
                   <img :src="game.thumbnail" alt="Image">
                 </q-avatar>
-              </div>
+              </div>&nbsp;
               <span>
-                <div class="fa-bold "  style="">
-                  &nbsp;<span style="font-size:12px">{{ game.title }}&nbsp;
-                  <sub style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</sub>
-                </span>
+                <div class="fa-bold">
+                  &nbsp;<span style="font-size:12px">{{ game.title }} </span>
+                  &nbsp;<span style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</span>
                 </div>
               </span>
             </div>
@@ -59,7 +57,7 @@
 <script>
 const moment = require('moment')
 export default {
-  name: 'EuropaMatches',
+  name: 'LeagueTwoMatches',
   props: {
     matches: {
       type: Array,

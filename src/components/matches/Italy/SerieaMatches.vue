@@ -59,7 +59,7 @@
 <script>
 const moment = require('moment')
 export default {
-  name: 'EuropaMatches',
+  name: 'SerieaMatches',
   props: {
     matches: {
       type: Array,

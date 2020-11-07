@@ -1,207 +1,212 @@
 <template>
   <q-page>
-    <div class="">
       <q-tabs
-          v-model="tab"
           dense
           no-caps
           align="left"
           class="bg-primary text-white shadow-2"
           :breakpoint="0"
         >
-        <q-tab name="allgames" label="Games">
+        <q-tab @click="setCurrentTab('allgames')"  label="Games">
           <q-badge color="red" class="badge" floating><sub>{{ allMatches.length }}</sub></q-badge>
         </q-tab>
-        <q-tab name="epl" label="Premier League">
+        <q-tab @click="setCurrentTab('epl')"  label="Premier League">
           <q-badge color="red" class="badge" floating><sub>{{ eplMatches.length }}</sub></q-badge>
         </q-tab>
 
-        <q-tab name="seriea" label="Serie A">
+        <q-tab @click="setCurrentTab('seriea')" label="Serie A">
           <q-badge color="red" class="badge" floating><sub>{{ serieaMatches.length }}</sub></q-badge>
         </q-tab>
 
-        <q-tab name="laliga" label="La Liga">
+        <q-tab @click="setCurrentTab('laliga')" label="La Liga">
           <q-badge color="red" class="badge" floating><sub>{{ laligaMatches.length }}</sub></q-badge>
         </q-tab>
-        <q-tab name="franceleague1" label="League 1">
+        <q-tab @click="setCurrentTab('franceleague1')" label="League 1">
           <q-badge color="red" class="badge" floating><sub>{{ franceLeague1Matches.length }}</sub></q-badge>
         </q-tab>
-        <q-tab name="uefa" label="Uefa">
+        <q-tab @click="setCurrentTab('bundesliga')" label="Bundesliga">
+          <q-badge color="red" class="badge" floating><sub>{{ bundesligaMatches.length }}</sub></q-badge>
+        </q-tab>
+        <q-tab @click="setCurrentTab('uefa')" label="Uefa">
           <q-badge color="red" class="badge" floating><sub>{{ uefaMatches.length }}</sub></q-badge>
         </q-tab>
-        <q-tab name="europa" label="Europa">
+        <q-tab @click="setCurrentTab('europa')" name="europa" label="Europa">
           <q-badge color="red" class="badge" floating><sub>{{ europaMatches.length }}</sub></q-badge>
         </q-tab>
-        <q-tab name="clubfriendlies" label="Club Friendlies">
+        <q-tab @click="setCurrentTab('clubfriendlies')" label="Club Friendlies">
           <q-badge color="red" class="badge" floating><sub>{{ clubFriendliesMatches.length }}</sub></q-badge>
         </q-tab>
 
           <q-btn-dropdown auto-close stretch flat label="More">
             <q-list>
-              <q-tab name="uefanationsleague" label="Uefa Nations league">
+              <q-tab @click="setCurrentTab('uefanationsleague')" label="Uefa Nations league">
                 <q-badge color="red" floating class="badge-dropdown">{{ uefaNationsLeagueMatches.length }}</q-badge>
               </q-tab>
-              <q-tab name="worldcup" label="World Cup">
+              <q-tab @click="setCurrentTab('uefaeuro')" label="Uefa Euro">
+                <q-badge color="red" floating class="badge-dropdown">{{ uefaEuroMatches.length }}</q-badge>
+              </q-tab>
+              <q-tab @click="setCurrentTab('worldcup')" label="World Cup">
                 <q-badge color="red" floating class="badge-dropdown">{{ worldCupMatches.length }}</q-badge>
               </q-tab>
-              <q-tab name="fa" label="FA Cup">
+              <q-tab @click="setCurrentTab('fa')" label="FA Cup">
                 <q-badge color="red" floating class="badge-dropdown">{{ faMatches.length }}</q-badge>
               </q-tab>
+              <q-tab @click="setCurrentTab('efl')" label="EFL Cup">
+                <q-badge color="red" floating class="badge-dropdown">{{ eflMatches.length }}</q-badge>
+              </q-tab>
 
-      <!--        <q-item clickable @click="tab = 'photos'">
-                <q-item-section>Photos
-                  <q-badge color="red" floating style="margin-right: -8px">2</q-badge>
-                </q-item-section>
-              </q-item>-->
             </q-list>
           </q-btn-dropdown>
         </q-tabs>
         <q-separator />
 
+      <template v-if="!loadingData && matches.length">
         <q-tab-panels v-model="tab">
           <q-tab-panel name="allgames">
             <AllMatches :loading-matches="loadingMatches" :matches="allMatches" v-if="allMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="epl">
             <EplMatches :loading-matches="loadingMatches" :matches="eplMatches" v-if="eplMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No EPL Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="seriea">
             <SerieaMatches :loading-matches="loadingMatches" :matches="serieaMatches" v-if="serieaMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No Serie A Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="laliga">
             <LaligaMatches :loading-matches="loadingMatches" :matches="laligaMatches" v-if="laligaMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No La liga Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="franceleague1">
             <FranceLeague1Matches :loading-matches="loadingMatches" :matches="franceLeague1Matches" v-if="clubFriendliesMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No League 1 Matches Available</p>
+          </q-tab-panel>
+
+          <q-tab-panel name="bundesliga">
+            <BundesligaMatches :loading-matches="loadingMatches" :matches="bundesligaMatches" v-if="bundesligaMatches.length > 0"/>
+            <p class="flex flex-center" v-else>No Bundesliga Matches Available Coming Soon </p>
           </q-tab-panel>
 
           <q-tab-panel name="clubfriendlies">
             <ClubFriendliesMatches :loading-matches="loadingMatches" :matches="clubFriendliesMatches" v-if="clubFriendliesMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No Club Friendlies Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="uefa">
             <UefaMatches :loading-matches="loadingMatches" :matches="uefaMatches" v-if="uefaMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No Uefa Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="europa">
             <EuropaMatches :loading-matches="loadingMatches" :matches="europaMatches" v-if="europaMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No Europa Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="uefanationsleague">
             <UefaNationsleagueMatches :loading-matches="loadingMatches" :matches="uefaNationsLeagueMatches" v-if="uefaNationsLeagueMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No Uefa Nations League Matches Available</p>
+          </q-tab-panel>
+
+          <q-tab-panel name="uefaeuro">
+            <UefaEuroMatches :loading-matches="loadingMatches" :matches="uefaEuroMatches" v-if="uefaEuroMatches.length > 0"/>
+            <p class="flex flex-center" v-else>No Uefa Euro Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="worldcup">
             <WorldCupMatches :loading-matches="loadingMatches" :matches="worldCupMatches" v-if="worldCupMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No World Cup Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="fa">
             <FaMatches :loading-matches="loadingMatches" :matches="faMatches" v-if="faMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Matches Available</p>
+            <p class="flex flex-center" v-else>No FA Matches Available</p>
+          </q-tab-panel>
+
+          <q-tab-panel name="efl">
+            <EflMatches :loading-matches="loadingMatches" :matches="eflMatches" v-if="eflMatches.length > 0"/>
+            <p class="flex flex-center" v-else>No EFL Matches Available</p>
+          </q-tab-panel>
+
+          <q-tab-panel name="englandchampionship">
+            <ChampionshipMatches :loading-matches="loadingMatches" :matches="englandChampionshipMatches" v-if="englandChampionshipMatches.length > 0"/>
+            <p class="flex flex-center" v-else>No Championship Matches Available Coming Soon</p>
+          </q-tab-panel>
+
+          <q-tab-panel name="englandleagueone">
+            <LeagueOneMatches :loading-matches="loadingMatches" :matches="englandLeagueOneMatches" v-if="englandLeagueOneMatches.length > 0"/>
+            <p class="flex flex-center" v-else>No League One Matches Available Coming Soon</p>
+          </q-tab-panel>
+
+          <q-tab-panel name="englandleaguetwo">
+            <LeagueTwoMatches :loading-matches="loadingMatches" :matches="englandLeagueTwoMatches" v-if="englandLeagueTwoMatches.length > 0"/>
+            <p class="flex flex-center" v-else>No League Two Matches Available Coming Soon</p>
           </q-tab-panel>
 
         </q-tab-panels>
-    </div>
-<!--    body section-->
+      </template>
 
-    <div>
-      <q-spinner
-        v-if="loading"
-        class="fixed-center"
-        color="blue"
-        size="3em"
-      />
-        <q-list class="my-list" style="" v-if="!tab">
-        <q-card
-          :loading="loadingMatches"
-          v-for="(game, key) in matches"
-          :key="key"
-          v-ripple
-          class="q-mb-xs"
-        >
-          <template v-slot:loading>
-            <q-inner-loading showing color="primary" />
-          </template>
+<!--
+    <template ref="" v-else-if="!loadingData && !allMatches.length">
+      <h5 class="text-center text-grey"> No Posts Yet</h5>
+    </template>
+    -->
 
-          <q-card-section @click="showVideo(game.videos[0].embed)">
-            <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
-              <div class="col ellipsis row" v-ripple>
-                <div>
-                  <q-avatar class="q-responsive" style="font-size:20px" size="px">
-                    <img :src="game.thumbnail" alt="Image">
-                  </q-avatar>
-                </div>&nbsp;
-                <span>
-                <div class="fa-bold"  style="">
-                  &nbsp;<span style="font-size:12px">{{ game.title }} </span>
-                  &nbsp;<span style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</span>
-                </div>
-              </span>
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-list>
-      </div>
-<!--      <div class="col"></div>-->
+    <template ref="skeleton" v-else>
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+    </template>
 
-      <q-dialog v-model="showVideoDialog" persistent>
-        <q-card class="my-card">
-          <div class="row items-center">
-
-            <div class="text-subtitle1 q-ml-md"> {{ dialogTitle }} </div>
-            <q-space />
-            <q-btn
-              icon="close"
-              @click="closeDialog"
-              flat round  />
-          </div>
-          <q-card-section
-            style="margin-top:-13px"
-          >
-            <q-video v-html="videoUrl" src=""></q-video>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
-      <q-page-scroller position="bottom-right" :scroll-offset="60" :offset="[18, 18]">
-        <q-btn fab-mini icon="keyboard_arrow_up" color="accent glossy" dense/>
-      </q-page-scroller>
   </q-page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import EplMatches from '../components/matches/EplMatches'
+import commonMixins from '../mixins/commonMixins'
+import EplMatches from '../components/matches/England/EplMatches'
+import FaMatches from '../components/matches/England/FaMatches'
+import EflMatches from '../components/matches/England/EflMatches'
+import ChampionshipMatches from '../components/matches/England/ChampionshipMatches'
+import LeagueOneMatches from '../components/matches/England/LeagueOneMatches'
+import LeagueTwoMatches from '../components/matches/England/LeagueTwoMatches'
 import AllMatches from '../components/matches/AllMatches'
 import LaligaMatches from '../components/matches/LaligaMatches'
-import SerieaMatches from '../components/matches/SerieaMatches'
-import FranceLeague1Matches from '../components/matches/FranceLeague1Matches'
-import ClubFriendliesMatches from '../components/matches/ClubFriendliesMatches'
+import SerieaMatches from '../components/matches/Italy/SerieaMatches'
+import FranceLeague1Matches from '../components/matches/France/FranceLeague1Matches'
+import ClubFriendliesMatches from '../components/matches/ClubFriendlies/ClubFriendliesMatches'
 import UefaMatches from '../components/matches/UefaMatches'
 import EuropaMatches from '../components/matches/EuropaMatches'
 import UefaNationsleagueMatches from '../components/matches/UefaNationsleagueMatches'
 import WorldCupMatches from '../components/matches/WorldCupMatches'
-import FaMatches from '../components/matches/FaMatches'
+import UefaEuroMatches from '../components/matches/UefaEuroMatches'
+import BundesligaMatches from '../components/matches/Germany/BundesligaMatches'
+import Skeleton from '../components/Skeleton'
 
 const moment = require('moment')
 export default {
   name: 'PageIndex',
+  mixins: [commonMixins],
   components: {
     EplMatches,
+    ChampionshipMatches,
+    LeagueOneMatches,
+    LeagueTwoMatches,
     AllMatches,
     LaligaMatches,
     SerieaMatches,
@@ -211,35 +216,40 @@ export default {
     EuropaMatches,
     UefaNationsleagueMatches,
     WorldCupMatches,
-    FaMatches
+    FaMatches,
+    EflMatches,
+    UefaEuroMatches,
+    BundesligaMatches,
+    Skeleton
   },
   created () {
-    this.loading = true
-    setTimeout(() => {
-      this.$store.dispatch('FETCH_MATCHES')
-      this.loading = false
-    }, 2000)
-    // this.loadingMatches = true
+    this.requestData()
   },
   data () {
     return {
+      loadingData: false,
       showVideoDialog: false,
       videoUrl: '',
       dialogTitle: '',
-      loading: false,
-      loadingMatches: false,
-      tab: '',
       moment: moment,
+      interval: '',
+      search: '',
       allMatches: [],
       eplMatches: [],
+      englandChampionshipMatches: [],
+      englandLeagueOneMatches: [],
+      englandLeagueTwoMatches: [],
       laligaMatches: [],
       serieaMatches: [],
       franceLeague1Matches: [],
+      bundesligaMatches: [],
       clubFriendliesMatches: [],
       uefaMatches: [],
       europaMatches: [],
       uefaNationsLeagueMatches: [],
       faMatches: [],
+      eflMatches: [],
+      uefaEuroMatches: [],
       worldCupMatches: []
     }
   },
@@ -247,8 +257,36 @@ export default {
     ...mapGetters({
       loadingMatches: 'GET_FETCHING_MATCHES',
       matches: 'GET_MATCHES',
-      addingMatch: 'GET_ADDING_MATCH'
-    })
+      addingMatch: 'GET_ADDING_MATCH',
+      tab: 'GET_CURRENT_TAB'
+    }),
+    resultQuery () {
+      if (this.search) {
+        return this.matches.filter((item) => {
+          return this.search.toLowerCase().split(' ').every(v => item.title.toLowerCase().includes(v))
+        })
+      } else {
+        return this.matches
+      }
+    }
+  },
+  methods: {
+    ...mapActions({
+      getMatches: 'FETCH_MATCHES'
+    }),
+    requestData () {
+      this.loadingData = true
+      // setTimeout(() => {
+      this.interval = setInterval(() => {
+        this.$store.dispatch('FETCH_MATCHES')
+      }, 3000)
+      this.setCurrentTab('allgames')
+      this.loadingData = false
+      // }, 2000)
+    },
+    setCurrentTab (tabName) {
+      this.$store.commit('SET_CURRENT_TAB', tabName)
+    }
   },
   watch: {
     matches: {
@@ -269,6 +307,9 @@ export default {
           this.franceLeague1Matches = this.matches.filter(game => {
             return game.competition.name === 'FRANCE: Ligue 1'
           })
+          this.bundesligaMatches = this.matches.filter(game => {
+            return game.competition.name === 'GERMANY: Bundesliga'
+          })
           this.clubFriendliesMatches = this.matches.filter(game => {
             return game.competition.name === 'INTERNATIONAL: Club Friendlies'
           })
@@ -284,23 +325,19 @@ export default {
           this.faMatches = this.matches.filter(game => {
             return game.competition.name === 'ENGLAND: FA Cup'
           })
+          this.eflMatches = this.matches.filter(game => {
+            return game.competition.name === 'ENGLAND: EFL Trophy' || game.competition.name === 'ENGLAND: League Cup'
+          })
         }
       },
       deep: true
     }
   },
-  methods: {
-    ...mapActions({
-
-    }),
-    showVideo (embed) {
-      this.showVideoDialog = true
-      this.dialogTitle = 'Highlights'
-      this.videoUrl = embed
-    },
-    closeDialog () {
-      this.showVideoDialog = false
-    }
+  mounted () {
+    // this.requestData()
+  },
+  beforeDestroy () {
+    clearInterval(this.interval)
   }
 }
 </script>

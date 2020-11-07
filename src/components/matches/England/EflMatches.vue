@@ -7,10 +7,6 @@
         :key="key"
         v-ripple
         class="q-mb-xs">
-        <template v-slot:loading>
-          <q-inner-loading showing color="primary" />
-        </template>
-
         <q-card-section @click="showVideo(game.videos[0].embed)">
           <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
             <div class="col ellipsis row"
@@ -57,7 +53,7 @@
 <script>
 const moment = require('moment')
 export default {
-  name: 'FranceLeague1Matches',
+  name: 'EflMatches',
   props: {
     matches: {
       type: Array,

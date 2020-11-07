@@ -8,27 +8,22 @@
         :value="game.value"
         v-ripple
         class="q-mb-xs">
-        <template v-slot:loading>
-          <q-inner-loading showing color="primary" />
-        </template>
-
         <q-card-section @click="showVideo(game.videos[0].embed)">
           <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
-            <div class="col ellipsis row"
+            <div class=" row"
                  v-ripple
             >
 
-              <div class="">
+              <div style="margin-right: 2.5px">
                 <q-avatar class="q-responsive" style="font-size:20px" size="px">
                   <img :src="game.thumbnail" alt="Image">
                 </q-avatar>
-              </div>&nbsp;
+              </div>
               <span>
                 <div class="fa-bold "  style="">
-                  &nbsp;<span class="" style="font-size:12px">{{ game.title }} </span>
-                  &nbsp;<span class="" style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</span>
-                  <!--                  &nbsp;<span class="" style="color:black; float:right; font-size:8.5px">{{ game.competition.name}}</span>-->
-
+                  &nbsp;<span style="font-size:12px">{{ game.title }}&nbsp;
+                  <sub style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</sub>
+                </span>
                 </div>
               </span>
             </div>
@@ -64,7 +59,8 @@ export default {
   name: 'AllMatches',
   props: {
     matches: {},
-    loadingMatches: {}
+    loadingMatches: {},
+    searchMatch: {}
   },
   data () {
     return {
@@ -82,6 +78,13 @@ export default {
     },
     closeDialog () {
       this.showVideoDialog = false
+    }
+  },
+  computed: {
+    filteredMatches: function () {
+      return this.matches.filter(game => {
+        return game.title.match(this.search)
+      })
     }
   }
 }

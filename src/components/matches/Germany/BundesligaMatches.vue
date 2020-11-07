@@ -3,8 +3,9 @@
     <q-list class="my-list">
       <q-card
         :loading="loadingMatches"
-        v-for="(game, key) in matches"
-        :key="key"
+        v-for="(game, index) in matches"
+        :key="index"
+        :value="game.value"
         v-ripple
         class="q-mb-xs">
         <template v-slot:loading>
@@ -27,6 +28,8 @@
                   &nbsp;<span style="font-size:12px">{{ game.title }}&nbsp;
                   <sub style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</sub>
                 </span>
+                  <!--                  &nbsp;<span style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</span>-->
+
                 </div>
               </span>
             </div>
@@ -59,16 +62,10 @@
 <script>
 const moment = require('moment')
 export default {
-  name: 'EuropaMatches',
+  name: 'BundesligaMatches',
   props: {
-    matches: {
-      type: Array,
-      required: true
-    },
-    loadingMatches: {
-      type: Boolean,
-      required: true
-    }
+    matches: {},
+    loadingMatches: {}
   },
   data () {
     return {
@@ -88,7 +85,6 @@ export default {
       this.showVideoDialog = false
     }
   }
-
 }
 </script>
 
