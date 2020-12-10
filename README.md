@@ -19,7 +19,7 @@ yarn run lint
 
 ### Build the app for production
 ```bash
-quasar build
+yarn build
 ```
 
 ### Customize the configuration
