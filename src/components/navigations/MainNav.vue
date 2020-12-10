@@ -19,13 +19,13 @@
           </q-toolbar-title>
 
           <div class="search-small-screen-only">
-            <SearchMobile />
+<!--            <SearchMobile />-->
           </div>
           <div class="search-large-screen-only">
 <!--            <input v-model="text" @keyup.enter="send()" />-->
 <!--            <button @click="send()">Send</button> v-on:keyup.enter="submit"-->
 <!--            <Search :message="message" />-->
-            <Search />
+<!--            <Search />-->
 <!--            <Search :search="search" :filteredMatches="matches"/>-->
           </div>
         </q-toolbar>
@@ -208,8 +208,6 @@
 <script>
 
 import CountryFlag from 'vue-country-flag'
-import Search from '../Search'
-import SearchMobile from '../SearchMobile'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -244,8 +242,6 @@ export default {
     }
   },
   components: {
-    SearchMobile,
-    Search,
     CountryFlag
   },
   methods: {

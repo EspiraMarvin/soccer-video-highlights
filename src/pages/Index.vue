@@ -7,6 +7,7 @@
           class="bg-primary text-white shadow-2"
           :breakpoint="0"
         >
+
         <q-tab @click="setCurrentTab('allgames')"  label="Games">
           <q-badge color="red" class="badge" floating><sub>{{ allMatches.length }}</sub></q-badge>
         </q-tab>
@@ -60,7 +61,7 @@
         </q-tabs>
         <q-separator />
 
-      <template v-if="!loadingData && matches.length">
+    <template v-if="!loadingData && matches.length && showInputDialog === false">
         <q-tab-panels v-model="tab">
           <q-tab-panel name="allgames">
             <AllMatches :loading-matches="loadingMatches" :matches="allMatches" v-if="allMatches.length > 0"/>
@@ -155,7 +156,16 @@
     </template>
     -->
 
-    <template ref="skeleton" v-else>
+    <template v-else>
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
       <Skeleton />
       <Skeleton />
       <Skeleton />
@@ -173,19 +183,105 @@
       <Skeleton />
     </template>
 
+    <template>
+      <q-dialog v-model="showInputDialog" half-width>
+        <q-card class="my-card" style="height: 450px; margin-top: -10px">
+          <div>
+            <q-input
+              v-model="search"
+              dense
+              square
+              dark
+              standout
+              label="Search ..."
+              type="search"
+              class="bg-primary"
+            >
+              <template v-slot:append>
+                <q-icon
+                  v-if="search === ''"
+                  text-color=""
+                  color="white"
+                  name="eva-search">
+                </q-icon>
+                <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
+              </template>
+            </q-input>
+          </div>
+          <div v-for="(game, index) in filteredMatches"
+               :key="index"
+               :value="game.value"
+          >
+            <q-card-section @click="showVideo(game.videos[0].embed)">
+              <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
+                <div class=" row"
+                     v-ripple
+                >
+
+                  <div style="margin-right: 2.5px">
+                    <q-avatar class="q-responsive" style="font-size:16px" size="px">
+                      <img :src="game.thumbnail" alt="Image">
+                    </q-avatar>
+                  </div>
+                  <span>
+                <div class="fa-bold" style="font-size: 12px">
+                  &nbsp;<span style="font-size:11px">{{ game.title }}&nbsp;
+                </span>
+                </div>
+              </span>
+                </div>
+              </div>
+            </q-card-section>
+            <q-separator />
+            </div>
+        </q-card>
+      </q-dialog>
+    </template>
+
+    <q-dialog v-model="showVideoDialog" persistent>
+      <q-card class="my-card">
+        <div class="row items-center">
+
+          <div class="text-subtitle1 q-ml-md"> {{ dialogTitle }} </div>
+          <q-space />
+          <q-btn
+            icon="close"
+            @click="closeDialog"
+            flat round />
+        </div>
+        <q-card-section
+          style="margin-top:-13px"
+        >
+          <q-video v-html="videoUrl" src=""></q-video>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-page-sticky position="bottom-right" :offset="[18, 80]">
+      <q-btn
+        @click="searchMobile('top')"
+        glossy
+        push
+        round
+        style="background: #1976D2;"
+        fab
+        text-color="white"
+        icon="eva-search"
+      />
+    </q-page-sticky>
   </q-page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import commonMixins from '../mixins/commonMixins'
+import AllMatches from '../components/matches/AllMatches'
 import EplMatches from '../components/matches/England/EplMatches'
 import FaMatches from '../components/matches/England/FaMatches'
 import EflMatches from '../components/matches/England/EflMatches'
 import ChampionshipMatches from '../components/matches/England/ChampionshipMatches'
 import LeagueOneMatches from '../components/matches/England/LeagueOneMatches'
 import LeagueTwoMatches from '../components/matches/England/LeagueTwoMatches'
-import AllMatches from '../components/matches/AllMatches'
 import LaligaMatches from '../components/matches/LaligaMatches'
 import SerieaMatches from '../components/matches/Italy/SerieaMatches'
 import FranceLeague1Matches from '../components/matches/France/FranceLeague1Matches'
@@ -234,6 +330,8 @@ export default {
       moment: moment,
       interval: '',
       search: '',
+      showInputDialog: false,
+      position: 'top',
       allMatches: [],
       eplMatches: [],
       englandChampionshipMatches: [],
@@ -268,6 +366,11 @@ export default {
       } else {
         return this.matches
       }
+    },
+    filteredMatches: function () {
+      return this.allMatches.filter(game => {
+        return game.title.match(this.search)
+      })
     }
   },
   methods: {
@@ -277,15 +380,32 @@ export default {
     requestData () {
       this.loadingData = true
       // setTimeout(() => {
-      this.interval = setInterval(() => {
-        this.$store.dispatch('FETCH_MATCHES')
-      }, 3000)
+      // this.interval = setInterval(() => {
+      const data = this.$store.dispatch('FETCH_MATCHES')
+      console.log('data', data)
+      // }, 3000)
       this.setCurrentTab('allgames')
       this.loadingData = false
       // }, 2000)
     },
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)
+    },
+    searchMobile (position) {
+      this.position = position
+      this.showInputDialog = true
+    },
+    showVideo (embed, index) {
+      console.log('index', index)
+      this.showVideoDialog = true
+      this.dialogTitle = 'Highlights'
+      this.videoUrl = embed
+    },
+    closeDialog () {
+      this.showVideoDialog = false
+    },
+    para () {
+      console.log('one')
     }
   },
   watch: {
