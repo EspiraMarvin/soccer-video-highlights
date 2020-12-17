@@ -83,7 +83,7 @@
           </q-tab-panel>
 
           <q-tab-panel name="franceleague1">
-            <FranceLeague1Matches :loading-matches="loadingMatches" :matches="franceLeague1Matches" v-if="clubFriendliesMatches.length > 0"/>
+            <FranceLeague1Matches :loading-matches="loadingMatches" :matches="franceLeague1Matches" v-if="franceLeague1Matches.length > 0"/>
             <p class="flex flex-center" v-else>No League 1 Matches Available</p>
           </q-tab-panel>
 
@@ -433,6 +433,7 @@ export default {
             return game.competition.name === 'ITALY: Serie A'
           })
           this.franceLeague1Matches = this.matches.filter(game => {
+            console.log('league 1', this.franceLeague1Matches)
             return game.competition.name === 'FRANCE: Ligue 1'
           })
           this.bundesligaMatches = this.matches.filter(game => {
