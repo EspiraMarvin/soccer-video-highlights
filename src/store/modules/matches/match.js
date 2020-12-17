@@ -39,7 +39,7 @@ const actions = {
       .then(({ data }) => {
         context.commit('SET_FETCHING_MATCHES', false)
         context.commit('SET_MATCHES', data)
-      // console.log(data)
+        // console.log('store', data)
       })
       .catch(error => {
         context.commit('SET_FETCHING_MATCHES', false)

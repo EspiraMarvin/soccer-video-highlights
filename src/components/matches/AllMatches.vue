@@ -80,13 +80,6 @@ export default {
     closeDialog () {
       this.showVideoDialog = false
     }
-  },
-  computed: {
-    filteredMatches: function () {
-      return this.matches.filter(game => {
-        return game.title.match(this.search)
-      })
-    }
   }
 }
 </script>

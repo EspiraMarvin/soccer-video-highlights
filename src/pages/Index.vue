@@ -208,7 +208,7 @@
               </template>
             </q-input>
           </div>
-          <div v-for="(game, index) in filteredMatches"
+          <div v-for="(game, index) in resultQuery"
                :key="index"
                :value="game.value"
           >
@@ -358,16 +358,22 @@ export default {
       addingMatch: 'GET_ADDING_MATCH',
       tab: 'GET_CURRENT_TAB'
     }),
+    // to lowercase search
     resultQuery () {
       if (this.search) {
-        return this.matches.filter((item) => {
-          return this.search.toLowerCase().split(' ').every(v => item.title.toLowerCase().includes(v))
+        return this.allMatches.filter((game) => {
+          return this.search.toLowerCase().split(' ').every(v => game.title.toLowerCase().includes(v))
         })
       } else {
         return this.matches
       }
     },
+    // does not implement to lowercase search
     filteredMatches: function () {
+      // const { title } = this.allMatches
+      // console.log('title', title)
+      // const allgamesfilter = this.allMatches.toLowerCase()
+      // console.log(allgamesfilter)
       return this.allMatches.filter(game => {
         return game.title.match(this.search)
       })
