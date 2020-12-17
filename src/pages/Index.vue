@@ -226,6 +226,8 @@
                   <span>
                 <div class="fa-bold" style="font-size: 12px">
                   &nbsp;<span style="font-size:11px">{{ game.title }}&nbsp;
+                  <sub style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</sub>
+
                 </span>
                 </div>
               </span>
