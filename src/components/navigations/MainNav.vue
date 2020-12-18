@@ -18,6 +18,13 @@
             <p style="font-size: 14px">&nbsp;&nbsp;<sub> Watch Soccer Highlights</sub></p>
           </q-toolbar-title>
 
+          <q-toggle
+            v-model="darkmode"
+            color="black"
+            keep-color
+            icon="nights_stay"
+          />
+
           <div class="search-small-screen-only">
 <!--            <SearchMobile />-->
           </div>
@@ -216,6 +223,7 @@ export default {
     return {
       text: '',
       message: '',
+      darkmode: true,
       leftDrawerOpen: false,
       title: 'kscore.com',
       tab: '',
