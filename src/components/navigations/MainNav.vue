@@ -23,6 +23,7 @@
             color="black"
             keep-color
             icon="nights_stay"
+            size="lg"
           />
 
           <div class="search-small-screen-only">
