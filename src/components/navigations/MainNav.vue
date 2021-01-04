@@ -22,9 +22,8 @@
             :false-value="this.$q.dark.set(theme)"
             :true-value="this.$q.dark.set(theme)"
             v-model="theme"
+            :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
             color="black"
-            keep-color
-            icon="nights_stay"
             size="lg"
           />
 
@@ -217,7 +216,6 @@
 
 <script>
 
-// import { Dark } from 'quasar'
 import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 
@@ -277,6 +275,12 @@ export default {
       if (width < 600) {
         this.leftDrawerOpen = false
       }
+    },
+    setTheme () {
+      console.log('theme', this.$q.dark.isActive)
+      // console.log('theme two', Dark.isActive)
+      this.$q.dark.set(true)
+      // this.$q.dark.set(false)
     },
     send () {
       this.message = this.text
