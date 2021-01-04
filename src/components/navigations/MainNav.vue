@@ -19,7 +19,9 @@
           </q-toolbar-title>
 
           <q-toggle
-            v-model="darkmode"
+            :false-value="this.$q.dark.set(theme)"
+            :true-value="this.$q.dark.set(theme)"
+            v-model="theme"
             color="black"
             keep-color
             icon="nights_stay"
@@ -215,6 +217,7 @@
 
 <script>
 
+// import { Dark } from 'quasar'
 import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 
@@ -224,7 +227,7 @@ export default {
     return {
       text: '',
       message: '',
-      darkmode: true,
+      theme: 'true',
       leftDrawerOpen: false,
       title: 'kscore.com',
       tab: '',
@@ -252,6 +255,15 @@ export default {
   },
   components: {
     CountryFlag
+  },
+  watch: {
+    theme: function () {
+      localStorage.setItem('theme', JSON.stringify(this.theme))
+    }
+  },
+  created () {
+    console.log('theme', this.$q.dark.isActive)
+    this.theme = JSON.parse(localStorage.getItem('theme'))
   },
   methods: {
     setCurrentTab (tabName) {

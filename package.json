@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "moment": "^2.27.0",
     "quasar": "^1.0.0",
-    "vue-country-flag": "^2.0.1",
-    "moment": "^2.27.0"
+    "vue-country-flag": "^2.0.1"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
