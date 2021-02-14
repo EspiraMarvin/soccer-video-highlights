@@ -54,7 +54,7 @@
           style="height: calc(100% - 80px);
           margin-top: -22px; border-right: 1px solid #ddd">
 
-        <q-list  dense padding class="rounded-borders text-grey-8" style="margin-top: 20px">
+        <q-list  dense padding class="" style="margin-top: 20px">
 
           <!--  leagues -->
           <q-item label="England">
@@ -124,21 +124,24 @@
 
             <div class="row ">
               <div class="col-xs-2">
-                <country-flag country='gb-eng' class="" size='small' style="margin-top: -10px" />
+                <country-flag country='gb-eng' size='small' style="margin-top: -10px" />
               </div>
               <div class="col-xs-10 expansion-item">
                 <q-expansion-item dense dense-toggle label="England" style="margin-top: -6px">
-                  <q-item class="text-black"
+                  <q-item
                           @click="setCurrentTab('epl')"
                           dense exact clickable icon="star">
                     Premier League
                     <q-icon icon="star" right name="star"/>
                   </q-item>
-                  <q-item class="text-black" @click="setCurrentTab('englandchampionship')" dense exact clickable to="/">Championship</q-item>
-                  <q-item class="text-black" @click="setCurrentTab('englandleagueone')" dense exact clickable to="/">League One</q-item>
-                  <q-item class="text-black" @click="setCurrentTab('englandleaguetwo')" dense exact clickable to="/">League Two</q-item>
-                  <q-item class="text-black" @click="setCurrentTab('fa')" dense exact clickable to="/">FA Cup</q-item>
-                  <q-item class="text-black" @click="setCurrentTab('efl')" dense exact clickable>EFL Cup</q-item>
+                  <q-item @click="setCurrentTab('englandchampionship')"
+                          dense exact clickable>
+                    Championship
+                  </q-item>
+                  <q-item @click="setCurrentTab('englandleagueone')" dense exact clickable>League One</q-item>
+                  <q-item @click="setCurrentTab('englandleaguetwo')" dense exact clickable>League Two</q-item>
+                  <q-item @click="setCurrentTab('fa')" dense exact clickable>FA Cup</q-item>
+                  <q-item @click="setCurrentTab('efl')" dense exact clickable>EFL Cup</q-item>
                 </q-expansion-item >
               </div>
             </div>
@@ -149,13 +152,13 @@
               </div>
               <div class="col-xs-10">
                 <q-expansion-item dense dense-toggle label="Spain" style="margin-top: -16px">
-                  <q-item class="text-black" dense exact clickable to="/" @click="setCurrentTab('laliga')">
+                  <q-item dense exact clickable @click="setCurrentTab('laliga')">
                     La liga
                     <q-icon icon="star" right name="star"/>
                   </q-item>
-                  <q-item class="text-black" dense exact clickable to="/">La liga2</q-item>
-                  <q-item class="text-black" dense exact clickable to="/">Segunda Div B-Grp1</q-item>
-                  <q-item class="text-black" dense exact clickable to="/">Segunda Div B-Grp2</q-item>
+                  <q-item dense exact clickable>La liga2</q-item>
+                  <q-item dense exact clickable>Segunda Div B-Grp1</q-item>
+                  <q-item dense exact clickable>Segunda Div B-Grp2</q-item>
                 </q-expansion-item>
               </div>
             </div>
@@ -166,13 +169,13 @@
               </div>
               <div class="col-xs-10">
                 <q-expansion-item dense dense-toggle label="Italy" style="margin-top: -12px">
-                  <q-item @click="setCurrentTab('seriea')" class="text-black" dense exact clickable to="/">
+                  <q-item @click="setCurrentTab('seriea')" dense exact clickable>
                     Serie A
                     <q-icon icon="star" right name="star"/>
                   </q-item>
-                  <q-item class="text-black" dense exact clickable to="/">Serie B</q-item>
-                  <q-item class="text-black" dense exact clickable to="/">Serie C Group A</q-item>
-                  <q-item class="text-black" dense exact clickable to="/">Serie C Group B</q-item>
+                  <q-item dense exact clickable>Serie B</q-item>
+                  <q-item dense exact clickable>Serie C Group A</q-item>
+                  <q-item dense exact clickable>Serie C Group B</q-item>
                 </q-expansion-item>
               </div>
             </div>
@@ -183,10 +186,10 @@
               </div>
               <div class="col-xs-10">
                 <q-expansion-item dense dense-toggle label="Germany" style="margin-top: -12px">
-                  <q-item class="text-black" dense exact clickable to="/" @click="setCurrentTab('bundesliga')">Bundesliga</q-item>
-                  <q-item class="text-black" dense exact clickable to="/">2nd Bundesliga</q-item>
-                  <q-item class="text-black" dense exact clickable to="/">3rd Liga</q-item>
-                  <q-item class="text-black" dense exact clickable to="/">Regionalliga North</q-item>
+                  <q-item dense exact clickable @click="setCurrentTab('bundesliga')">Bundesliga</q-item>
+                  <q-item dense exact clickable>2nd Bundesliga</q-item>
+                  <q-item dense exact clickable>3rd Liga</q-item>
+                  <q-item dense exact clickable>Regionalliga North</q-item>
                 </q-expansion-item>
               </div>
             </div>
@@ -197,13 +200,13 @@
               </div>
               <div class="col-xs-10">
                 <q-expansion-item dense dense-toggle label="France" header-class="" style="margin-top: -16px">
-                  <q-item class="text-black" dense exact clickable @click="setCurrentTab('franceleague1')">
+                  <q-item dense exact clickable @click="setCurrentTab('franceleague1')">
                     League 1
                     <q-icon icon="star" right name="star"/>
                   </q-item>
-                  <q-item class="text-black" dense exact clickable to="/">League 2</q-item>
-                  <q-item class="text-black" dense exact clickable to="/">National</q-item>
-                  <q-item class="text-black" dense exact clickable to="/">National 2-Group A</q-item>
+                  <q-item dense exact clickable>League 2</q-item>
+                  <q-item dense exact clickable>National</q-item>
+                  <q-item dense exact clickable>National 2-Group A</q-item>
                 </q-expansion-item>
               </div>
             </div>
