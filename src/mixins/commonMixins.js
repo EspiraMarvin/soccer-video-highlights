@@ -30,11 +30,22 @@ const commonMixins = {
       setTimeout(() => {
         this.$q.dialog({
           title: 'error',
-          message: 'Network Error!'
+          message: "You're Offline!"
         }).onOk(() => {
           // this.matchDialogClick()
         })
       }, 3000)
+    },
+    // i have used matchNotify to notify errors instead of matchDialog
+    matchNotif () {
+      this.$q.notify({
+        message: "You're Offline !",
+        color: 'red',
+        icon: 'announcement',
+        progress: true,
+        persistent: true,
+        classes: 'glossy'
+      })
     }
   },
 
@@ -46,7 +57,8 @@ const commonMixins = {
           Object.entries(this.notification).length !== 0 &&
           this.notification.constructor === Object
         ) {
-          this.matchDialog()
+          // this.matchDialog()
+          this.matchNotif()
           // reset the store for the next action call
           this.$store.commit('SET_NOTIFICATION', {})
         }
@@ -58,7 +70,8 @@ const commonMixins = {
         if (this.errors.length !== 0) {
           // eslint-disable-next-line handle-callback-err
           this.errors.forEach(error => {
-            this.matchDialog()
+            // this.matchDialog()
+            this.matchNotif()
           })
           // reset the store for the next action call
           this.$store.commit('SET_ERRORS', [])

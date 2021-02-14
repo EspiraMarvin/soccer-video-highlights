@@ -277,6 +277,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import commonMixins from '../mixins/commonMixins'
+import Skeleton from '../components/Skeleton'
 import AllMatches from '../components/matches/AllMatches'
 import EplMatches from '../components/matches/England/EplMatches'
 import FaMatches from '../components/matches/England/FaMatches'
@@ -294,7 +295,6 @@ import UefaNationsleagueMatches from '../components/matches/UefaNationsleagueMat
 import WorldCupMatches from '../components/matches/WorldCupMatches'
 import UefaEuroMatches from '../components/matches/UefaEuroMatches'
 import BundesligaMatches from '../components/matches/Germany/BundesligaMatches'
-import Skeleton from '../components/Skeleton'
 
 const moment = require('moment')
 export default {
@@ -372,10 +372,6 @@ export default {
     },
     // does not implement to lowercase search
     filteredMatches: function () {
-      // const { title } = this.allMatches
-      // console.log('title', title)
-      // const allgamesfilter = this.allMatches.toLowerCase()
-      // console.log(allgamesfilter)
       return this.allMatches.filter(game => {
         return game.title.match(this.search)
       })
@@ -404,16 +400,13 @@ export default {
       this.showInputDialog = true
     },
     showVideo (embed, index) {
-      console.log('index', index)
+      // console.log('index', index)
       this.showVideoDialog = true
       this.dialogTitle = 'Highlights'
       this.videoUrl = embed
     },
     closeDialog () {
       this.showVideoDialog = false
-    },
-    para () {
-      console.log('one')
     }
   },
   watch: {
@@ -433,7 +426,7 @@ export default {
             return game.competition.name === 'ITALY: Serie A'
           })
           this.franceLeague1Matches = this.matches.filter(game => {
-            console.log('league 1', this.franceLeague1Matches)
+            // console.log('league 1', this.franceLeague1Matches)
             return game.competition.name === 'FRANCE: Ligue 1'
           })
           this.bundesligaMatches = this.matches.filter(game => {
@@ -461,9 +454,6 @@ export default {
       },
       deep: true
     }
-  },
-  mounted () {
-    // this.requestData()
   },
   beforeDestroy () {
     clearInterval(this.interval)
