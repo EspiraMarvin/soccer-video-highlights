@@ -192,7 +192,7 @@ module.exports = function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'match-highlights-app'
+        appId: 'App id contains a reserved word, or is not a valid identifier'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

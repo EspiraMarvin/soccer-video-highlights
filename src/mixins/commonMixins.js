@@ -38,14 +38,16 @@ const commonMixins = {
     },
     // i have used matchNotify to notify errors instead of matchDialog
     matchNotif () {
-      this.$q.notify({
-        message: "You're Offline !",
-        color: 'red',
-        icon: 'announcement',
-        progress: true,
-        persistent: true,
-        classes: 'glossy'
-      })
+      setTimeout(() => {
+        this.$q.notify({
+          message: "You're Offline !",
+          color: 'red',
+          icon: 'announcement',
+          progress: true,
+          persistent: true,
+          classes: 'glossy'
+        })
+      }, 3000)
     }
   },
 

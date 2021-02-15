@@ -1,8 +1,8 @@
 import { Notify } from 'quasar'
 
 Notify.setDefaults({
-  position: 'center',
-  // timeout: 3000,
+  position: 'bottom',
+  // timeout: 2500,
   textColor: 'white',
   actions: [{ icon: 'close', color: 'white' }]
 })
