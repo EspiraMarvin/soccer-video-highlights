@@ -11,6 +11,8 @@
     "lint": "eslint --ext .js,.vue ./",
     "icons": "icongenie generate -i AppIcon.png --skip-trim --theme-color 1976D2",
     "pwa-icons": "icongenie generate -m pwa -i AppIcon.png --skip-trim --theme-color 1976D2",
+    "add-pwa": "quasar mode add pwa",
+    "add-cordova": "quasar mode add cordova",
     "build-pwa": "quasar build -m pwa",
     "build-electron": "quasar build -m electron",
     "build-android": "quasar build -m android",
