@@ -29,14 +29,13 @@ const commonMixins = {
     },
     matchDialog () {
       this.$q.dialog({
-        title: 'Check your internet connection',
-        message: 'Would you like to click OK to retry?',
+        title: '<p class="text-red">Check your internet connection!<p>' +
+          'Click <span class="text-primary "><strong>OK</strong></span> to retry',
+        message: '',
+        html: true,
+        medium: true,
         ok: {
           push: true
-        },
-        cancel: {
-          push: true,
-          color: 'negative'
         },
         persistent: true
       }).onOk(() => {
