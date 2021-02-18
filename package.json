@@ -12,6 +12,7 @@
     "icons": "icongenie generate -i AppIcon.png --skip-trim --theme-color 1976D2",
     "pwa-icons": "icongenie generate -m pwa -i AppIcon.png --skip-trim --theme-color 1976D2",
     "build-pwa": "quasar build -m pwa",
+    "build-electron": "quasar build -m electron",
     "build-android": "quasar build -m android",
     "build-android-ide": "quasar build -m android --ide",
     "test": "echo \"No test specified\" && exit 0"

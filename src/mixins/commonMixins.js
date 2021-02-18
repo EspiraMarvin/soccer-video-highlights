@@ -28,15 +28,25 @@ const commonMixins = {
       window.location.reload()
     },
     matchDialog () {
-      setTimeout(() => {
-        this.$q.dialog({
-          title: 'Check your internet connection!',
-          message: 'Click Ok to Retry'
-        }).onOk(() => {
-          this.$store.dispatch('FETCH_MATCHES')
-          // this.matchDialogClick()
-        })
-      }, 3000)
+      this.$q.dialog({
+        title: 'Check your internet connection',
+        message: 'Would you like to click OK to retry?',
+        ok: {
+          push: true
+        },
+        cancel: {
+          push: true,
+          color: 'negative'
+        },
+        persistent: true
+      }).onOk(() => {
+        // console.log('>>>> OK')
+        this.$store.dispatch('FETCH_MATCHES')
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
     },
     // i have used matchNotify to notify errors instead of matchDialog
     matchNotif () {
