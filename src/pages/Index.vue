@@ -259,6 +259,20 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog v-model="offline" persistent v-show="!this.allMatches.length">
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
+          <span class="q-ml-sm">You are currently not connected to any network.</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Retry" color="primary" v-close-popup @click="requestData" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
     <q-page-sticky position="bottom-right" :offset="[18, 80]">
       <q-btn
         @click="searchMobile('top')"
@@ -334,6 +348,7 @@ export default {
       search: '',
       showInputDialog: false,
       position: 'top',
+      offline: false,
       allMatches: [],
       eplMatches: [],
       englandChampionshipMatches: [],
@@ -383,14 +398,10 @@ export default {
     }),
     requestData () {
       this.loadingData = true
-      // setTimeout(() => {
-      // this.interval = setInterval(() => {
       const data = this.$store.dispatch('FETCH_MATCHES')
       console.log('data', data)
-      // }, 3000)
       this.setCurrentTab('allgames')
       this.loadingData = false
-      // }, 2000)
     },
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)

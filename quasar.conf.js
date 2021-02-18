@@ -125,8 +125,8 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Match Highlights',
-        short_name: 'Match Highlights',
+        name: 'Kscore Highlights',
+        short_name: 'Kscore Highlights',
         description: 'A match highlights app',
         display: 'standalone',
         orientation: 'portrait',

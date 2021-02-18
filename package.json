@@ -9,6 +9,11 @@
     "dev": "quasar dev",
     "build": "quasar build",
     "lint": "eslint --ext .js,.vue ./",
+    "icons": "icongenie generate -i AppIcon.png --skip-trim --theme-color 1976D2",
+    "pwa-icons": "icongenie generate -m pwa -i AppIcon.png --skip-trim --theme-color 1976D2",
+    "build-pwa": "quasar build -m pwa",
+    "build-android": "quasar build -m android",
+    "build-android-ide": "quasar build -m android --ide",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
@@ -22,6 +27,11 @@
   "devDependencies": {
     "@quasar/app": "^2.0.0",
     "babel-eslint": "^10.0.1",
+    "devtron": "^1.4.0",
+    "electron": "^9.0.0",
+    "electron-debug": "^3.0.1",
+    "electron-devtools-installer": "^3.0.0",
+    "electron-packager": "^14.1.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.3",
@@ -29,7 +39,8 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.1.2"
+    "eslint-plugin-vue": "^6.1.2",
+    "workbox-webpack-plugin": "^5.0.0"
   },
   "browserslist": [
     "last 10 Chrome versions",

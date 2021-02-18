@@ -13,6 +13,7 @@ const commonMixins = {
 
   computed: {
     ...mapGetters({
+      getMatches: 'FETCH_MATCHES',
       notification: 'GET_NOTIFICATION',
       errors: 'GET_ERRORS'
     })
@@ -29,9 +30,10 @@ const commonMixins = {
     matchDialog () {
       setTimeout(() => {
         this.$q.dialog({
-          title: 'error',
-          message: "You're Offline!"
+          title: 'Check your internet connection!',
+          message: 'Click Ok to Retry'
         }).onOk(() => {
+          this.$store.dispatch('FETCH_MATCHES')
           // this.matchDialogClick()
         })
       }, 3000)
@@ -40,7 +42,7 @@ const commonMixins = {
     matchNotif () {
       setTimeout(() => {
         this.$q.notify({
-          message: "You're Offline !",
+          message: "You're Offline!",
           color: 'red',
           icon: 'announcement',
           progress: true,
@@ -56,11 +58,9 @@ const commonMixins = {
       deep: true,
       handler () {
         if (
-          Object.entries(this.notification).length !== 0 &&
-          this.notification.constructor === Object
-        ) {
-          // this.matchDialog()
-          this.matchNotif()
+          Object.entries(this.notification).length !== 0 && this.notification.constructor === Object) {
+          this.matchDialog()
+          // this.matchNotif()
           // reset the store for the next action call
           this.$store.commit('SET_NOTIFICATION', {})
         }
@@ -72,8 +72,8 @@ const commonMixins = {
         if (this.errors.length !== 0) {
           // eslint-disable-next-line handle-callback-err
           this.errors.forEach(error => {
-            // this.matchDialog()
-            this.matchNotif()
+            this.matchDialog()
+            // this.matchNotif()
           })
           // reset the store for the next action call
           this.$store.commit('SET_ERRORS', [])
