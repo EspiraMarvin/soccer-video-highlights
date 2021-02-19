@@ -397,7 +397,8 @@ export default {
     }),
     requestData () {
       this.loadingData = true
-      const data = this.$store.dispatch('FETCH_MATCHES')
+      this.$store.dispatch('FETCH_MATCHES')
+      // const data = this.$store.dispatch('FETCH_MATCHES')
       // console.log('data', data)
       this.setCurrentTab('allgames')
       this.loadingData = false
