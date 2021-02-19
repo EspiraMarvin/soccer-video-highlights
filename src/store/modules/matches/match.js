@@ -2,6 +2,8 @@
 
 import axios from 'axios'
 
+// tried axios interceptors to get behind headers cors issues for youtube
+// not successful yet
 axios.interceptors.request.use(
   config => {
     return {
