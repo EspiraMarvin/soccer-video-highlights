@@ -228,10 +228,9 @@ export default {
     return {
       text: '',
       message: '',
-      theme: 'true',
+      theme: '',
       leftDrawerOpen: false,
       title: 'kscore.com',
-      tab: '',
       contentStyle: {
         color: '#555',
         backgroundColor: 'rgba(0,0,0,0.02)'
@@ -263,14 +262,14 @@ export default {
     }
   },
   created () {
-    console.log('theme', this.$q.dark.isActive)
+    // console.log('theme', this.$q.dark.isActive)
     this.theme = JSON.parse(localStorage.getItem('theme'))
   },
   methods: {
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)
 
-      // get widows/client width
+      // get widows/client width / viewport
       const width = window.innerWidth ||
         document.documentElement.clientWidth ||
         document.body.clientWidth
@@ -278,16 +277,6 @@ export default {
       if (width < 600) {
         this.leftDrawerOpen = false
       }
-    },
-    setTheme () {
-      console.log('theme', this.$q.dark.isActive)
-      // console.log('theme two', Dark.isActive)
-      this.$q.dark.set(true)
-      // this.$q.dark.set(false)
-    },
-    send () {
-      this.message = this.text
-      this.text = ''
     }
   },
   computed: {
@@ -296,12 +285,7 @@ export default {
       matches: 'GET_MATCHES',
       addingMatch: 'GET_ADDING_MATCH',
       tab: 'GET_CURRENT_TAB'
-    }),
-    filteredMatches: function () {
-      return this.matches.filter(game => {
-        return game.title.match(this.search)
-      })
-    }
+    })
   }
 }
 </script>

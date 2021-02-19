@@ -394,7 +394,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      getMatches: 'FETCH_MATCHES'
     }),
     requestData () {
       this.loadingData = true
@@ -410,11 +409,11 @@ export default {
       this.position = position
       this.showInputDialog = true
     },
-    showVideo (embed, index) {
-      // console.log('index', index)
+    showVideo (video, index) {
+      console.log('video', video, 'index', index)
       this.showVideoDialog = true
       this.dialogTitle = 'Highlights'
-      this.videoUrl = embed
+      this.videoUrl = video
     },
     closeDialog () {
       this.showVideoDialog = false

@@ -2,6 +2,17 @@
 
 import axios from 'axios'
 
+axios.interceptors.request.use(
+  config => {
+    return {
+      ...config,
+      headers: {
+      }
+    }
+  },
+  error => Promise.reject(error)
+)
+
 const state = () => ({
   matches: {},
   fetchingMatches: false,
