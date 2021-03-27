@@ -19,12 +19,14 @@
           </q-toolbar-title>
 
           <template v-if="auth">
-            <q-btn round color="green" icon="eva-person-done-outline" class="small-screen-only" @click="btnLogin" />
-<!--            <q-btn-dropdown round color="green" class="small-screen-only" icon="eva-person-done-outline">-->
-<!--            </q-btn-dropdown>-->
+              <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
+                <q-avatar size="42px">
+                  <img :src="image">
+                </q-avatar>
+              </q-btn>
           </template>
           <template v-else>
-            <q-btn round color="red-5" icon="eva-person-outline" class="small-screen-only" @click="btnRegister" />
+            <q-btn round color="grey-5" icon="eva-person-outline" class="small-screen-only" @click="btnLogin" />
           </template>
           <template v-if="auth">
             <q-btn-dropdown color="primary large-screen-only" :label="user">
@@ -41,7 +43,7 @@
             <q-btn
               class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders large-screen-only"
               label="Signin"
-              @click="btnRegister"
+              @click="btnLogin"
               color="primary"
             />
             <q-btn
@@ -51,28 +53,6 @@
               color="primary"
             />
           </template>
-
-          <q-dialog v-model="userAccountDialog">
-            <q-card style="width: 400px; max-width: 80vw;" align="center">
-              <q-toolbar>
-                <q-toolbar-title >{{ dialogTitle }}</q-toolbar-title>
-              </q-toolbar>
-              <q-card-section class="q-pt-none">
-                <q-btn
-                  class="q-pa-sm q-ma-sm text-capitalize rounded-borders text-center"
-                  size="md"
-                  label="Google"
-                  color="primary"
-                  icon="eva-google"
-                  @click="google"
-                >
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
-              </q-card-section>
-            </q-card>
-          </q-dialog>
 
           <q-toggle
             :false-value="this.$q.dark.set(theme)"
@@ -271,6 +251,128 @@
         </q-list>
       </q-scroll-area>
       </q-drawer>
+
+<!--      dialog for user login and signup-->
+      <q-dialog v-model="userAccountDialog">
+        <q-card style="width: 400px; max-width: 80vw;" align="center">
+          <q-toolbar>
+            <q-toolbar-title >{{ dialogTitle }}</q-toolbar-title>
+          </q-toolbar>
+          <q-card-section class="q-pt-none">
+            <p class="text-weight-light text-center">{{ method }} with </p>
+            <div class="row justify-center">
+              <q-btn
+                class="q-pa-sm q-ma-sm rounded-borders google-button"
+                style="margin-top: -5px"
+                size="sm"
+                label="Google"
+                color="primary"
+                icon="eva-google"
+                @click="google"
+              >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+            </div>
+            <q-separator />
+            <p class="text-weight-light text-center q-mt-md q-mb-lg">{{ method }} with credentials</p>
+            <q-form ref="loginForm">
+              <q-input
+                type="email"
+                v-model="form.email"
+                label="Email *"
+                lazy-rules
+                :rules="[val => (val && val.length > 0) || 'Please type your email']"
+              />
+              <q-input
+                type="password"
+                v-model="form.password"
+                label="Password *"
+                lazy-rules
+                :rules="[val => (val !== null && val !== '') || 'Please type your Password']"
+              />
+              <q-toggle v-if="dialogTitle === 'Create an Account'" size="xs" v-model="form.accept" label="I accept the license and terms" />
+            </q-form>
+            <q-card-actions align="right">
+              <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Create an Account'">
+                <q-btn
+                  class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
+                  label="Register"
+                  @click="createUser"
+                  color="primary"
+                  :loading="loading2"
+                  :disable="loading2"
+                >
+                  <template v-slot:loading>
+                    <q-spinner-facebook />
+                  </template>
+                </q-btn>
+              </div>
+              <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Login'">
+                <q-btn
+                  class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
+                  label="Login"
+                  @click="signInExistingUser"
+                  color="primary"
+                  :loading="loading2"
+                  :disable="loading2"
+                >
+                  <template v-slot:loading>
+                    <q-spinner-facebook />
+                  </template>
+                </q-btn>
+              </div>
+            </q-card-actions>
+            <div v-if="dialogTitle === 'Create an Account'">
+              <p class="text-class">
+                Or<q-btn
+                flat
+                label="Login"
+                @click="btnLogin"
+                color="secondary"
+                class="text-capitalize rounded-borders"
+              />
+              </p>
+            </div>
+            <div v-if="dialogTitle === 'Login'">
+              <p class="text-class">
+                Or<q-btn
+                flat
+                label="Register"
+                @click="btnRegister"
+                color="secondary"
+                class="text-capitalize rounded-borders"
+              />
+              </p>
+            </div>
+            <q-space />
+            <q-btn
+              v-if="dialogTitle === 'Login'"
+              flat
+              label="Forgot Password?"
+              @click="btnForgotPwd"
+              color="secondary"
+              class="text-capitalize rounded-borders"
+            />
+          </q-card-section>
+        </q-card>
+      </q-dialog>
+
+<!--      confirm dialog-->
+      <q-dialog v-model="confirm" transition-show="rotate" transition-hide="rotate" persistent>
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="warning" color="white" text-color="red" />
+            <span class="q-ml-sm">This Action Logs you out . Proceed? </span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="Cancel" color="primary" v-close-popup />
+            <q-btn flat label="Logout" color="red" @click="btnLogout" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
 </template>
 
@@ -278,9 +380,11 @@
 import firebase from 'firebase'
 import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
+import commonMixins from '../../mixins/commonMixins'
 
 export default {
   name: 'MainNav',
+  mixins: [commonMixins],
   data () {
     return {
       text: '',
@@ -308,11 +412,19 @@ export default {
         width: '9px',
         opacity: 0.2
       },
-      loggedIn: false,
+      form: {
+        email: '',
+        password: '',
+        accept: ''
+      },
       userAccountDialog: false,
       dialogTitle: '',
+      method: '',
       auth: false,
-      user: ''
+      user: '',
+      image: '',
+      loading2: false,
+      confirm: false
     }
   },
   components: {
@@ -324,6 +436,7 @@ export default {
     }
   },
   created () {
+    this.loading2 = false
     // console.log('theme', this.$q.dark.isActive)
     this.theme = JSON.parse(localStorage.getItem('theme'))
     // firebase
@@ -350,24 +463,73 @@ export default {
       }
     },
     btnLogin () {
-      console.log('loggedin clicked')
+      this.userAccountDialog = true
+      this.method = 'sign in'
+      this.dialogTitle = 'Login'
     },
     btnRegister () {
       console.log('register clicked')
-      this.loading = true
       this.userAccountDialog = true
+      this.method = 'sign up'
       this.dialogTitle = 'Create an Account'
+    },
+    btnConfirmLogout () {
+      this.confirm = true
     },
     btnLogout () {
       firebase.auth().signOut()
-        .then(() => console.log('User Signed Out'))
-      this.auth = false
+        .then(() => {
+          console.log('')
+          this.auth = false
+          this.confirm = false
+          return this.matchNotif('User Signed Out', 'green')
+        })
+        .catch(error => this.matchNotif(error, 'secondary'))
+    },
+    btnForgotPwd () {
+
+    },
+    createUser () {
+      this.loading2 = true
+      firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
+        .then(auth => {
+          console.log(auth)
+          this.userAccountDialog = false
+          this.loading2 = true
+          return this.matchNotif('User Created Successfully', 'green')
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-unused-vars
+          var errorCode = error.code
+          var errorMessage = error.message
+          this.matchNotif(errorMessage, 'red')
+          this.loading2 = false
+        })
+    },
+    signInExistingUser () {
+      this.loading2 = true
+      firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
+        .then((userCredential) => {
+          // Signed in
+          // eslint-disable-next-line no-unused-vars
+          var user = userCredential.user
+          // ...
+          this.loading2 = false
+          return this.matchNotif('Signed In successfully', 'green')
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-unused-vars
+          var errorCode = error.code
+          // eslint-disable-next-line no-unused-vars
+          var errorMessage = error.message
+          this.matchNotif(errorMessage, 'red')
+          this.loading2 = false
+        })
     },
     google () {
       const provider = new firebase.auth.GoogleAuthProvider()
       firebase.auth().signInWithPopup(provider)
         .then(result => {
-          console.log('google result', result)
           const credential = result.credential
           // This gives you a Google Access Token. You can use it to access the Google API.
           // eslint-disable-next-line no-unused-vars
@@ -376,9 +538,10 @@ export default {
           // The signed-in user info.
           // eslint-disable-next-line no-unused-vars
           this.user = result.user.displayName
-          console.log('this user', this.user)
-          this.loggedIn = true
+          this.image = result.user.photoURL
+          console.log('this IMAGE', this.image)
           this.userAccountDialog = false
+          return this.matchNotif('Signed In Successfully', 'green')
           // this.$router.push('/')
         })
         .catch((error) => {
@@ -388,11 +551,12 @@ export default {
           // eslint-disable-next-line no-unused-vars
           var errorMessage = error.message
           // The email of the user's account used.
-          // eslint-disable-next-line no-unused-vars
+          this.matchNotif(errorMessage, 'red')
           var email = error.email
           // The firebase.auth.AuthCredential type that was used.
-          // eslint-disable-next-line no-unused-vars
+          this.matchNotif(email, 'red')
           var credential = error.credential
+          this.matchNotif(credential, 'red')
         })
     }
   },
@@ -408,6 +572,9 @@ export default {
 </script>
 
 <style scoped>
+  .google-button{
+    width: 200px
+  }
   .router-link {
     text-decoration: none;
   }

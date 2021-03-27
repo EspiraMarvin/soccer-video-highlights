@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 // import example from './module-example'
-import matchStore from './modules/matches/index'
 import common from './modules/common/index'
+import matchStore from './modules/matches/index'
+import userStore from './modules/users/index'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default function (/* { ssrContext } */) {
     modules: {
       // example
       common,
-      matchStore
+      matchStore,
+      userStore
     },
 
     // enable strict mode (adds overhead!)
