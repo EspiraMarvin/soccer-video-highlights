@@ -25,6 +25,7 @@
     "core-js": "^3.6.5",
     "moment": "^2.27.0",
     "quasar": "^1.0.0",
+    "firebase": "^7.19.1",
     "vue-country-flag": "^2.0.1"
   },
   "devDependencies": {

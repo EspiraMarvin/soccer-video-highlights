@@ -3,11 +3,14 @@
     <q-list class="my-list">
       <q-card
         :loading="loadingMatches"
-        v-for="(game, index) in matches"
-        :key="index"
-        :value="game.value"
+        v-for="(game, key) in matches"
+        :key="key"
         v-ripple
         class="q-mb-xs">
+        <template v-slot:loading>
+          <q-inner-loading showing color="primary" />
+        </template>
+
         <q-card-section @click="showVideo(game.videos[0].embed)">
           <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
             <div class=" row"
@@ -32,37 +35,40 @@
         <q-separator />
       </q-card>
     </q-list>
+    <q-dialog v-model="showVideoDialog" persistent>
+      <q-card class="my-card">
+        <div class="row items-center">
 
-    <q-dialog v-model="showVideoDialog" transition-show="" transition-hide="" persistent>
-        <q-card class="my-card">
-          <div class="row items-center">
-
-            <div class="text-subtitle1 q-ml-md"> {{ dialogTitle }} </div>
-            <q-space />
-            <q-btn
-              icon="close"
-              @click="closeDialog"
-              flat round />
-          </div>
-          <q-card-section
-            style="margin-top:-13px"
-          >
-            <q-video v-html="videoUrl" src=""></q-video>
-          </q-card-section>
-        </q-card>
-      </q-dialog>
+          <div class="text-subtitle1 q-ml-md"> {{ dialogTitle }} </div>
+          <q-space />
+          <q-btn
+            icon="close"
+            @click="closeDialog"
+            flat round />
+        </div>
+        <q-card-section
+          style="margin-top:-13px"
+        >
+          <q-video v-html="videoUrl" src=""></q-video>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
-
 </template>
 
 <script>
 const moment = require('moment')
 export default {
-  name: 'AllMatches',
+  name: 'AfricaNationsCupMatches',
   props: {
-    matches: {},
-    loadingMatches: {},
-    searchMatch: {}
+    matches: {
+      type: Array,
+      required: true
+    },
+    loadingMatches: {
+      type: Boolean,
+      required: true
+    }
   },
   data () {
     return {

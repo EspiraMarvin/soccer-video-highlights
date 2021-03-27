@@ -15,8 +15,64 @@
             <div style="margin-top: 5px" class="text-italic">
               {{ title }}
             </div>
-            <p style="font-size: 14px">&nbsp;&nbsp;<sub> Watch Soccer Highlights</sub></p>
+            <p style="font-size: 14px; margin-left: -5px">&nbsp;&nbsp;<sub> Watch Soccer Highlights</sub></p>
           </q-toolbar-title>
+
+          <template v-if="auth">
+            <q-btn round color="green" icon="eva-person-done-outline" class="small-screen-only" @click="btnLogin" />
+<!--            <q-btn-dropdown round color="green" class="small-screen-only" icon="eva-person-done-outline">-->
+<!--            </q-btn-dropdown>-->
+          </template>
+          <template v-else>
+            <q-btn round color="red-5" icon="eva-person-outline" class="small-screen-only" @click="btnRegister" />
+          </template>
+          <template v-if="auth">
+            <q-btn-dropdown color="primary large-screen-only" :label="user">
+              <q-list>
+                <q-item clickable v-close-popup @click="btnLogout">
+                  <q-item-section align="center">
+                    <q-item-label>Logout</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </template>
+          <template v-else>
+            <q-btn
+              class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders large-screen-only"
+              label="Signin"
+              @click="btnRegister"
+              color="primary"
+            />
+            <q-btn
+              class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders large-screen-only"
+              label="Signup"
+              @click="btnRegister"
+              color="primary"
+            />
+          </template>
+
+          <q-dialog v-model="userAccountDialog">
+            <q-card style="width: 400px; max-width: 80vw;" align="center">
+              <q-toolbar>
+                <q-toolbar-title >{{ dialogTitle }}</q-toolbar-title>
+              </q-toolbar>
+              <q-card-section class="q-pt-none">
+                <q-btn
+                  class="q-pa-sm q-ma-sm text-capitalize rounded-borders text-center"
+                  size="md"
+                  label="Google"
+                  color="primary"
+                  icon="eva-google"
+                  @click="google"
+                >
+                  <template v-slot:loading>
+                    <q-spinner-facebook />
+                  </template>
+                </q-btn>
+              </q-card-section>
+            </q-card>
+          </q-dialog>
 
           <q-toggle
             :false-value="this.$q.dark.set(theme)"
@@ -126,11 +182,12 @@
               <div class="col-xs-2">
                 <country-flag country='gb-eng' size='small' style="margin-top: -10px" />
               </div>
-              <div class="col-xs-10 expansion-item">
+              <div class="col-xs-10">
                 <q-expansion-item dense dense-toggle label="England" style="margin-top: -6px">
                   <q-item
                           @click="setCurrentTab('epl')"
-                          dense exact clickable icon="star">
+                          dense exact clickable icon="star"
+                  >
                     Premier League
                     <q-icon icon="star" right name="star"/>
                   </q-item>
@@ -218,7 +275,7 @@
 </template>
 
 <script>
-
+import firebase from 'firebase'
 import CountryFlag from 'vue-country-flag'
 import { mapGetters } from 'vuex'
 
@@ -250,7 +307,12 @@ export default {
         backgroundColor: '#027be3',
         width: '9px',
         opacity: 0.2
-      }
+      },
+      loggedIn: false,
+      userAccountDialog: false,
+      dialogTitle: '',
+      auth: false,
+      user: ''
     }
   },
   components: {
@@ -264,6 +326,15 @@ export default {
   created () {
     // console.log('theme', this.$q.dark.isActive)
     this.theme = JSON.parse(localStorage.getItem('theme'))
+    // firebase
+    firebase.auth().onAuthStateChanged((auth) => {
+      if (auth) {
+        this.auth = true
+        console.log('User exists', this.auth)
+      } else {
+        console.log('user does not exist')
+      }
+    })
   },
   methods: {
     setCurrentTab (tabName) {
@@ -277,6 +348,52 @@ export default {
       if (width < 600) {
         this.leftDrawerOpen = false
       }
+    },
+    btnLogin () {
+      console.log('loggedin clicked')
+    },
+    btnRegister () {
+      console.log('register clicked')
+      this.loading = true
+      this.userAccountDialog = true
+      this.dialogTitle = 'Create an Account'
+    },
+    btnLogout () {
+      firebase.auth().signOut()
+        .then(() => console.log('User Signed Out'))
+      this.auth = false
+    },
+    google () {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithPopup(provider)
+        .then(result => {
+          console.log('google result', result)
+          const credential = result.credential
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          // eslint-disable-next-line no-unused-vars
+          const token = credential.accessToken
+          // console.log(token)
+          // The signed-in user info.
+          // eslint-disable-next-line no-unused-vars
+          this.user = result.user.displayName
+          console.log('this user', this.user)
+          this.loggedIn = true
+          this.userAccountDialog = false
+          // this.$router.push('/')
+        })
+        .catch((error) => {
+        // Handle Errors here.
+          // eslint-disable-next-line no-unused-vars
+          var errorCode = error.code
+          // eslint-disable-next-line no-unused-vars
+          var errorMessage = error.message
+          // The email of the user's account used.
+          // eslint-disable-next-line no-unused-vars
+          var email = error.email
+          // The firebase.auth.AuthCredential type that was used.
+          // eslint-disable-next-line no-unused-vars
+          var credential = error.credential
+        })
     }
   },
   computed: {
