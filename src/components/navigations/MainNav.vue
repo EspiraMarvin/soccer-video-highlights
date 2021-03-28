@@ -19,25 +19,47 @@
           </q-toolbar-title>
 
           <template v-if="auth">
+            <template v-if="image">
               <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
                 <q-avatar size="42px">
                   <img :src="image">
                 </q-avatar>
               </q-btn>
+            </template>
+            <template v-else>
+              <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
+                <q-avatar size="42px">
+                  <q-btn round color="green" icon="eva-person-done-outline" />
+                </q-avatar>
+              </q-btn>
+            </template>
           </template>
           <template v-else>
             <q-btn round color="grey-5" icon="eva-person-outline" class="small-screen-only" @click="btnLogin" />
           </template>
           <template v-if="auth">
-            <q-btn-dropdown color="primary large-screen-only" :label="user">
-              <q-list>
-                <q-item clickable v-close-popup @click="btnLogout">
-                  <q-item-section align="center">
-                    <q-item-label>Logout</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-btn-dropdown>
+            <template v-if="user">
+              <q-btn-dropdown color="bg-green large-screen-only" :label="user">
+                <q-list>
+                  <q-item clickable v-close-popup @click="btnLogout">
+                    <q-item-section align="center">
+                      <q-item-label>Logout</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </template>
+            <template v-else>
+              <q-btn-dropdown color="primary large-screen-only" icon="eva-person-done-outline">
+                <q-list>
+                  <q-item clickable v-close-popup @click="btnLogout">
+                    <q-item-section align="center">
+                      <q-item-label>Logout</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </template>
           </template>
           <template v-else>
             <q-btn
@@ -164,17 +186,11 @@
               </div>
               <div class="col-xs-10">
                 <q-expansion-item dense dense-toggle label="England" style="margin-top: -6px">
-                  <q-item
-                          @click="setCurrentTab('epl')"
-                          dense exact clickable icon="star"
-                  >
+                  <q-item @click="setCurrentTab('epl')" dense exact clickable icon="star">
                     Premier League
                     <q-icon icon="star" right name="star"/>
                   </q-item>
-                  <q-item @click="setCurrentTab('englandchampionship')"
-                          dense exact clickable>
-                    Championship
-                  </q-item>
+                  <q-item @click="setCurrentTab('englandchampionship')" dense exact clickable>Championship</q-item>
                   <q-item @click="setCurrentTab('englandleagueone')" dense exact clickable>League One</q-item>
                   <q-item @click="setCurrentTab('englandleaguetwo')" dense exact clickable>League Two</q-item>
                   <q-item @click="setCurrentTab('fa')" dense exact clickable>FA Cup</q-item>
@@ -379,7 +395,7 @@
 <script>
 import firebase from 'firebase'
 import CountryFlag from 'vue-country-flag'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import commonMixins from '../../mixins/commonMixins'
 
 export default {
@@ -421,10 +437,10 @@ export default {
       dialogTitle: '',
       method: '',
       auth: false,
-      user: '',
-      image: '',
       loading2: false,
-      confirm: false
+      confirm: false,
+      user: '',
+      image: ''
     }
   },
   components: {
@@ -443,13 +459,18 @@ export default {
     firebase.auth().onAuthStateChanged((auth) => {
       if (auth) {
         this.auth = true
-        console.log('User exists', this.auth)
+        this.user = auth.displayName
+        this.image = auth.photoURL
+        // console.log('User exists', this.auth)
       } else {
-        console.log('user does not exist')
+        // console.log('user does not exist')
       }
     })
   },
   methods: {
+    ...mapActions({
+      signInUser: 'LOGIN_USER'
+    }),
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)
 
@@ -468,7 +489,6 @@ export default {
       this.dialogTitle = 'Login'
     },
     btnRegister () {
-      console.log('register clicked')
       this.userAccountDialog = true
       this.method = 'sign up'
       this.dialogTitle = 'Create an Account'
@@ -479,7 +499,6 @@ export default {
     btnLogout () {
       firebase.auth().signOut()
         .then(() => {
-          console.log('')
           this.auth = false
           this.confirm = false
           return this.matchNotif('User Signed Out', 'green')
@@ -491,11 +510,17 @@ export default {
     },
     createUser () {
       this.loading2 = true
+      if (!this.form.accept) {
+        this.loading2 = false
+        return this.matchNotif('Accept terms of use first', 'red')
+      }
       firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(auth => {
-          console.log(auth)
+          this.user = auth.user.displayName
+          this.image = auth.user.photoURL
           this.userAccountDialog = false
           this.loading2 = true
+          this.userAccountDialog = false
           return this.matchNotif('User Created Successfully', 'green')
         })
         .catch(error => {
@@ -512,9 +537,12 @@ export default {
         .then((userCredential) => {
           // Signed in
           // eslint-disable-next-line no-unused-vars
-          var user = userCredential.user
+          const user = userCredential.user
+          this.user = user.displayName
+          this.image = user.photoURL
           // ...
           this.loading2 = false
+          this.userAccountDialog = false
           return this.matchNotif('Signed In successfully', 'green')
         })
         .catch((error) => {
@@ -522,11 +550,13 @@ export default {
           var errorCode = error.code
           // eslint-disable-next-line no-unused-vars
           var errorMessage = error.message
-          this.matchNotif(errorMessage, 'red')
           this.loading2 = false
+          return this.matchNotif(errorMessage, 'red')
         })
     },
     google () {
+      // this.signInUser()
+      // this.userAccountDialog = false
       const provider = new firebase.auth.GoogleAuthProvider()
       firebase.auth().signInWithPopup(provider)
         .then(result => {
@@ -539,13 +569,11 @@ export default {
           // eslint-disable-next-line no-unused-vars
           this.user = result.user.displayName
           this.image = result.user.photoURL
-          console.log('this IMAGE', this.image)
           this.userAccountDialog = false
-          return this.matchNotif('Signed In Successfully', 'green')
-          // this.$router.push('/')
+          this.matchNotif('Sign In Success', 'green')
         })
         .catch((error) => {
-        // Handle Errors here.
+          // Handle Errors here.
           // eslint-disable-next-line no-unused-vars
           var errorCode = error.code
           // eslint-disable-next-line no-unused-vars
@@ -566,6 +594,9 @@ export default {
       matches: 'GET_MATCHES',
       addingMatch: 'GET_ADDING_MATCH',
       tab: 'GET_CURRENT_TAB'
+      // currentUser: 'GET_CURRENT_USER',
+      // image: 'GET_USER_PHOTO',
+      // user: 'GET_DISPLAY_NAME'
     })
   }
 }

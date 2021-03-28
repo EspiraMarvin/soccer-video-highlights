@@ -48,17 +48,24 @@
             style="margin-top:-13px"
           >
             <q-video v-html="videoUrl" src=""></q-video>
+
           </q-card-section>
+          <q-card-actions>
+<!--            comments-->
+<!--            <Comment />-->
+          </q-card-actions>
         </q-card>
-      </q-dialog>
+    </q-dialog>
   </div>
 
 </template>
 
 <script>
+// import Comment from '../comments/Comment'
 const moment = require('moment')
 export default {
   name: 'AllMatches',
+  components: { },
   props: {
     matches: {},
     loadingMatches: {},

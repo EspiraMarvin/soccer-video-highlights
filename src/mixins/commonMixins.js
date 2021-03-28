@@ -27,6 +27,29 @@ const commonMixins = {
     matchDialogClick () {
       window.location.reload()
     },
+    // i have used matchNotify to notify errors instead of matchDialog
+    matchNotif (message, color) {
+      this.$q.notify({
+        message: message,
+        color: color,
+        position: 'top',
+        icon: 'announcement',
+        progress: true,
+        persistent: true
+        // classes: 'glossy'
+      })
+    },
+    MatchNotifyType (message, type) {
+      this.$q.notify({
+        type: type,
+        message: message,
+        position: 'top',
+        icon: 'announcement',
+        progress: true,
+        persistent: true
+      })
+    },
+
     matchDialog () {
       this.$q.dialog({
         title: '<p class="text-red">Check your internet connection! 😥<p>',
@@ -45,18 +68,6 @@ const commonMixins = {
       }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
       })
-    },
-    // i have used matchNotify to notify errors instead of matchDialog
-    matchNotif (message, type) {
-      this.$q.notify({
-        message: message,
-        color: type,
-        position: 'top',
-        icon: 'announcement',
-        progress: true,
-        persistent: true
-        // classes: 'glossy'
-      })
     }
   },
 
@@ -66,8 +77,9 @@ const commonMixins = {
       handler () {
         if (
           Object.entries(this.notification).length !== 0 && this.notification.constructor === Object) {
-          this.matchDialog()
-          // this.matchNotif()
+          // this.matchDialog()
+          this.matchNotif(this.notification)
+          // this.$.notify(this.notification)
           // reset the store for the next action call
           this.$store.commit('SET_NOTIFICATION', {})
         }
@@ -79,8 +91,9 @@ const commonMixins = {
         if (this.errors.length !== 0) {
           // eslint-disable-next-line handle-callback-err
           this.errors.forEach(error => {
-            this.matchDialog()
+            // this.matchDialog()
             // this.matchNotif()
+            this.MatchNotifyType('negative', error, 'top')
           })
           // reset the store for the next action call
           this.$store.commit('SET_ERRORS', [])

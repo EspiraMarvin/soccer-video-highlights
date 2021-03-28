@@ -332,7 +332,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="offline" persistent v-show="!this.allMatches.length">
+    <q-dialog persistent v-show="!this.allMatches.length">
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
