@@ -22,5 +22,13 @@ yarn run lint
 yarn build
 ```
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+<div>
+<img src="src/assets/screenshots/Screenshot1.png" alt="" style="width: 50%">
+<img src="src/assets/screenshots/Screenshot2.png" alt="" style="width: 50%">
+<img src="src/assets/screenshots/Screenshot3.png" alt="" style="width: 50%">
+<img src="src/assets/screenshots/Screenshot4.png" alt="" style="width: 50%">
+<img src="src/assets/screenshots/Screenshot5.png" alt="" style="width: 50%">
+<img src="src/assets/screenshots/Screenshot6.png" alt="" style="width: 50%">
+
+</div>
+
