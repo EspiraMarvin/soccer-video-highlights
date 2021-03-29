@@ -8,8 +8,7 @@ axios.interceptors.request.use(
   config => {
     return {
       ...config,
-      headers: {
-      }
+      headers: {}
     }
   },
   error => Promise.reject(error)
@@ -19,7 +18,7 @@ const state = () => ({
   matches: {},
   fetchingMatches: false,
   addingMatch: false,
-  currentTab: ' '
+  currentTab: ''
 })
 
 const getters = {
@@ -50,7 +49,8 @@ const mutations = {
 const actions = {
   FETCH_MATCHES (context) {
     context.commit('SET_FETCHING_MATCHES', true)
-    axios.get('https://www.scorebat.com/video-api/v1')
+    axios
+      .get('https://www.scorebat.com/video-api/v1')
       .then(({ data }) => {
         context.commit('SET_FETCHING_MATCHES', false)
         context.commit('SET_MATCHES', data)
@@ -63,7 +63,11 @@ const actions = {
           message: 'Failed to Load Matches',
           position: 'top'
         }
-        if (error.response && error.response.data && error.response.data.message) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           alert.message = error.response.data.message
         }
         context.commit('SET_NOTIFICATION', alert, { root: true })

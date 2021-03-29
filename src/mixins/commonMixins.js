@@ -77,8 +77,8 @@ const commonMixins = {
       handler () {
         if (
           Object.entries(this.notification).length !== 0 && this.notification.constructor === Object) {
-          // this.matchDialog()
-          this.matchNotif(this.notification)
+          this.matchDialog()
+          // this.matchNotif(this.notification)
           // this.$.notify(this.notification)
           // reset the store for the next action call
           this.$store.commit('SET_NOTIFICATION', {})
@@ -93,7 +93,7 @@ const commonMixins = {
           this.errors.forEach(error => {
             // this.matchDialog()
             // this.matchNotif()
-            this.MatchNotifyType('negative', error, 'top')
+            // this.MatchNotifyType('negative', error, 'top')
           })
           // reset the store for the next action call
           this.$store.commit('SET_ERRORS', [])
