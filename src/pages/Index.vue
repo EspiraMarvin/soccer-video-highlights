@@ -259,7 +259,7 @@ import WorldCupMatches from '../components/matches/WorldCupMatches'
 import UefaEuroMatches from '../components/matches/UefaEuroMatches'
 import BundesligaMatches from '../components/matches/Germany/BundesligaMatches'
 import AfricaNationsCupMatches from '../components/matches/AfricaNationsCupMatches'
-import Tab from '../components/Tab/Tab'
+import Tab from '../components/tabs/Tab'
 
 const moment = require('moment')
 export default {
