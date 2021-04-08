@@ -272,5 +272,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .badge {
+    margin-right: -13px
+  }
+  .badge-dropdown {
+    margin-right: 0px
+  }
 </style>

@@ -431,12 +431,6 @@ export default {
 </script>
 
 <style scoped>
-  .badge {
-    margin-right: -13px
-  }
-  .badge-dropdown {
-    margin-right: 0px
-  }
   .my-card{
     width: 100%;
     max-width: 800px
