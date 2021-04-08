@@ -45,7 +45,7 @@
         </template>
       </template>
       <template v-else>
-        <div class="large-screen-only horizontal-align">
+        <div class="large-screen-only">
           <q-btn
             class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders button"
             label="Signin"
@@ -53,14 +53,12 @@
             color="primary"
           />
           <q-space />
-          <!--
           <q-btn
-            class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders button"
+            class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders button "
             label="Signup"
             @click="btnRegister"
             color="primary"
           />
-          -->
         </div>
       </template>
 
