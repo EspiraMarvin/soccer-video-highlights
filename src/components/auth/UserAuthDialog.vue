@@ -53,12 +53,14 @@
             color="primary"
           />
           <q-space />
+        <!--
           <q-btn
             class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders button "
             label="Signup"
             @click="btnRegister"
             color="primary"
           />
+          -->
         </div>
       </template>
 
