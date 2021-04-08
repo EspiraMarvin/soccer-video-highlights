@@ -1,132 +1,8 @@
 <template>
   <q-page>
-    <div class="large-screen-only">
-      <q-tabs
-        dense
-        no-caps
-        align="left"
-        class="bg-primary text-white shadow-2"
-        :breakpoint="0"
-      >
 
-        <q-tab @click="setCurrentTab('allgames')"  label="Games">
-          <q-badge color="red" class="badge" floating><sub>{{ allMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('epl')"  label="Premier League">
-          <q-badge color="red" class="badge" floating><sub>{{ eplMatches.length }}</sub></q-badge>
-        </q-tab>
+    <Tab />
 
-        <q-tab @click="setCurrentTab('seriea')" label="Serie A">
-          <q-badge color="red" class="badge" floating><sub>{{ serieaMatches.length }}</sub></q-badge>
-        </q-tab>
-
-        <q-tab @click="setCurrentTab('laliga')" label="La Liga">
-          <q-badge color="red" class="badge" floating><sub>{{ laligaMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('franceleague1')" label="League 1">
-          <q-badge color="red" class="badge" floating><sub>{{ franceLeague1Matches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('bundesliga')" label="Bundesliga">
-          <q-badge color="red" class="badge" floating><sub>{{ bundesligaMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('uefa')" label="Uefa">
-          <q-badge color="red" class="badge" floating><sub>{{ uefaMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('europa')" name="europa" label="Europa">
-          <q-badge color="red" class="badge" floating><sub>{{ europaMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('clubfriendlies')" label="Club Friendlies">
-          <q-badge color="red" class="badge" floating><sub>{{ clubFriendliesMatches.length }}</sub></q-badge>
-        </q-tab>
-
-        <q-tab @click="setCurrentTab('africanationscup')" label="African Nations Cup">
-          <q-badge color="red" floating class="badge">{{ africanationscupMatches.length }}</q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('uefanationsleague')" label="Uefa Nations league">
-          <q-badge color="red" floating class="badge">{{ uefaNationsLeagueMatches.length }}</q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('uefaeuro')" label="Uefa Euro">
-          <q-badge color="red" floating class="badge">{{ uefaEuroMatches.length }}</q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('worldcup')" label="World Cup">
-          <q-badge color="red" floating class="badge">{{ worldCupMatches.length }}</q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('fa')" label="FA Cup">
-          <q-badge color="red" floating class="badge">{{ faMatches.length }}</q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('efl')" label="EFL Cup">
-          <q-badge color="red" floating class="badge">{{ eflMatches.length }}</q-badge>
-        </q-tab>
-      </q-tabs>
-    </div>
-
-    <div class="small-screen-only">
-      <q-tabs
-        dense
-        no-caps
-        align="left"
-        class="bg-primary text-white shadow-2"
-        :breakpoint="0"
-        inline-label
-        outside-arrows
-        mobile-arrows
-      >
-
-        <q-tab @click="setCurrentTab('allgames')"  label="Games">
-          <q-badge color="red" class="badge" floating><sub>{{ allMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('epl')"  label="Premier League">
-          <q-badge color="red" class="badge" floating><sub>{{ eplMatches.length }}</sub></q-badge>
-        </q-tab>
-
-        <q-tab @click="setCurrentTab('seriea')" label="Serie A">
-          <q-badge color="red" class="badge" floating><sub>{{ serieaMatches.length }}</sub></q-badge>
-        </q-tab>
-
-        <q-tab @click="setCurrentTab('laliga')" label="La Liga">
-          <q-badge color="red" class="badge" floating><sub>{{ laligaMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('franceleague1')" label="League 1">
-          <q-badge color="red" class="badge" floating><sub>{{ franceLeague1Matches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('bundesliga')" label="Bundesliga">
-          <q-badge color="red" class="badge" floating><sub>{{ bundesligaMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('uefa')" label="Uefa">
-          <q-badge color="red" class="badge" floating><sub>{{ uefaMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('europa')" name="europa" label="Europa">
-          <q-badge color="red" class="badge" floating><sub>{{ europaMatches.length }}</sub></q-badge>
-        </q-tab>
-        <q-tab @click="setCurrentTab('clubfriendlies')" label="Club Friendlies">
-          <q-badge color="red" class="badge" floating><sub>{{ clubFriendliesMatches.length }}</sub></q-badge>
-        </q-tab>
-
-        <q-btn-dropdown auto-close stretch no-caps flat label="More">
-          <q-list>
-            <q-tab @click="setCurrentTab('africanationscup')" label="African Nations Cup">
-              <q-badge color="red" floating class="badge-dropdown">{{ africanationscupMatches.length }}</q-badge>
-            </q-tab>
-            <q-tab @click="setCurrentTab('uefanationsleague')" label="Uefa Nations league">
-              <q-badge color="red" floating class="badge-dropdown">{{ uefaNationsLeagueMatches.length }}</q-badge>
-            </q-tab>
-            <q-tab @click="setCurrentTab('uefaeuro')" label="Uefa Euro">
-              <q-badge color="red" floating class="badge-dropdown">{{ uefaEuroMatches.length }}</q-badge>
-            </q-tab>
-            <q-tab @click="setCurrentTab('worldcup')" label="World Cup">
-              <q-badge color="red" floating class="badge-dropdown">{{ worldCupMatches.length }}</q-badge>
-            </q-tab>
-            <q-tab @click="setCurrentTab('fa')" label="FA Cup">
-              <q-badge color="red" floating class="badge-dropdown">{{ faMatches.length }}</q-badge>
-            </q-tab>
-            <q-tab @click="setCurrentTab('efl')" label="EFL Cup">
-              <q-badge color="red" floating class="badge-dropdown">{{ eflMatches.length }}</q-badge>
-            </q-tab>
-
-          </q-list>
-        </q-btn-dropdown>
-      </q-tabs>
-    </div>
     <q-separator />
 
     <template v-if="!loadingData && matches.length && showInputDialog === false">
@@ -364,7 +240,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import commonMixins from '../mixins/commonMixins'
-import Skeleton from '../components/Skeleton'
+import Skeleton from '../components/skeleton/Skeleton'
 import AllMatches from '../components/matches/AllMatches'
 import EplMatches from '../components/matches/England/EplMatches'
 import FaMatches from '../components/matches/England/FaMatches'
@@ -383,12 +259,14 @@ import WorldCupMatches from '../components/matches/WorldCupMatches'
 import UefaEuroMatches from '../components/matches/UefaEuroMatches'
 import BundesligaMatches from '../components/matches/Germany/BundesligaMatches'
 import AfricaNationsCupMatches from '../components/matches/AfricaNationsCupMatches'
+import Tab from '../components/Tab/Tab'
 
 const moment = require('moment')
 export default {
   name: 'PageIndex',
   mixins: [commonMixins],
   components: {
+    Tab,
     EplMatches,
     ChampionshipMatches,
     LeagueOneMatches,
@@ -548,9 +426,6 @@ export default {
       },
       deep: true
     }
-  },
-  beforeDestroy () {
-    clearInterval(this.interval)
   }
 }
 </script>
@@ -565,10 +440,5 @@ export default {
   .my-card{
     width: 100%;
     max-width: 800px
-  }
-  .my-list{
-    margin-top: 8px;
-    margin-left: 4px;
-    margin-right: 4px
   }
 </style>
