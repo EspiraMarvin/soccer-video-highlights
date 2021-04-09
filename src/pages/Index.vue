@@ -99,12 +99,6 @@
         </q-tab-panels>
       </template>
 
-<!--
-    <template ref="" v-else-if="!loadingData && !allMatches.length">
-      <h5 class="text-center text-grey"> No Posts Yet</h5>
-    </template>
-    -->
-
     <template v-else>
       <Skeleton />
       <Skeleton />
@@ -224,7 +218,7 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 80]">
       <q-btn
-        @click="searchMobile('top')"
+        @click="searchMatch('top')"
         glossy
         push
         round
@@ -360,7 +354,7 @@ export default {
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)
     },
-    searchMobile (position) {
+    searchMatch (position) {
       this.position = position
       this.showInputDialog = true
     },

@@ -29,17 +29,6 @@
             color="black"
             size="lg"
           />
-
-          <div class="search-small-screen-only">
-<!--            <SearchMobile />-->
-          </div>
-          <div class="search-large-screen-only">
-<!--            <input v-model="text" @keyup.enter="send()" />-->
-<!--            <button @click="send()">Send</button> v-on:keyup.enter="submit"-->
-<!--            <Search :message="message" />-->
-<!--            <Search />-->
-<!--            <Search :search="search" :filteredMatches="matches"/>-->
-          </div>
         </q-toolbar>
       </q-header>
 

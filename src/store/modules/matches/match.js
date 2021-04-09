@@ -1,18 +1,4 @@
-// import axios from 'axios'
-
 import axios from 'axios'
-
-// tried axios interceptors to get behind headers cors issues for youtube
-// not successful yet
-axios.interceptors.request.use(
-  config => {
-    return {
-      ...config,
-      headers: {}
-    }
-  },
-  error => Promise.reject(error)
-)
 
 const state = () => ({
   matches: {},
@@ -29,20 +15,20 @@ const getters = {
 }
 
 const mutations = {
-  SET_MATCHES (state, value) {
-    state.matches = value
+  SET_MATCHES (state, data) {
+    state.matches = data
   },
 
-  SET_FETCHING_MATCHES (state, value) {
-    state.fetchingMatches = value
+  SET_FETCHING_MATCHES (state, data) {
+    state.fetchingMatches = data
   },
 
-  SET_ADDING_MATCH (state, value) {
-    state.addingMatch = value
+  SET_ADDING_MATCH (state, data) {
+    state.addingMatch = data
   },
 
-  SET_CURRENT_TAB (state, value) {
-    state.currentTab = value
+  SET_CURRENT_TAB (state, data) {
+    state.currentTab = data
   }
 }
 

@@ -152,8 +152,6 @@ export default {
       interval: '',
       search: '',
       showInputDialog: false,
-      position: 'top',
-      offline: false,
       allMatches: [],
       eplMatches: [],
       englandChampionshipMatches: [],

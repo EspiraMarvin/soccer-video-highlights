@@ -20,6 +20,7 @@
       <template v-else>
         <q-btn round color="grey-5" icon="eva-person-outline" class="small-screen-only" @click="btnLogin" />
       </template>
+
       <template v-if="auth">
         <template v-if="user">
           <q-btn-dropdown color="bg-green large-screen-only" :label="user">
@@ -52,15 +53,6 @@
             @click="btnLogin"
             color="primary"
           />
-          <q-space />
-        <!--
-          <q-btn
-            class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders button "
-            label="Signup"
-            @click="btnRegister"
-            color="primary"
-          />
-          -->
         </div>
       </template>
 
@@ -136,6 +128,7 @@
                 </q-btn>
               </div>
             </q-card-actions>
+
             <div v-if="dialogTitle === 'Create an Account'">
               <p class="text-class">
                 Or<q-btn
@@ -162,6 +155,7 @@
             <q-btn
               v-if="dialogTitle === 'Login'"
               flat
+              to="forgot-password"
               label="Forgot Password?"
               @click="btnForgotPwd"
               color="secondary"
@@ -169,6 +163,19 @@
             />
           </q-card-section>
         </q-card>
+      </q-dialog>
+
+      <!--- forgot password -->
+      <q-dialog v-model="forgotpwd">
+        <q-form ref="forgotPasswordForm">
+          <q-input
+            type="email"
+            v-model="form.email"
+            label="Email *"
+            lazy-rules
+            :rules="[val => (val && val.length > 0) || 'Please type your email']"
+          />
+        </q-form>
       </q-dialog>
 
       <!--      confirm dialog-->
@@ -192,6 +199,7 @@
 <script>
 import firebase from 'firebase'
 import commonMixins from '../../mixins/commonMixins'
+
 export default {
   name: 'UserAuthDialog',
   mixins: [commonMixins],
@@ -209,7 +217,8 @@ export default {
       loading2: false,
       confirm: false,
       user: '',
-      image: ''
+      image: '',
+      forgotpwd: false
     }
   },
   created () {
@@ -237,6 +246,7 @@ export default {
       this.dialogTitle = 'Create an Account'
     },
     btnConfirmLogout () {
+      this.userAccountDialog = false
       this.confirm = true
     },
     btnLogout () {
@@ -249,7 +259,10 @@ export default {
         .catch(error => this.matchNotif(error, 'secondary'))
     },
     btnForgotPwd () {
-
+      console.log('forgot password')
+      // this.$router.push('/forgot-password')
+      this.userAccountDialog = false
+      this.forgotpwd = true
     },
     createUser () {
       this.loading2 = true
@@ -337,10 +350,6 @@ export default {
 <style scoped>
   .google-button{
     width: 200px
-  }
-  .horizontal-align{
-    display: inline-block;
-    box-sizing: border-box;
   }
   .button {
     display: inline-block;
