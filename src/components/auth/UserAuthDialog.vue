@@ -157,7 +157,6 @@
               flat
               to="forgot-password"
               label="Forgot Password?"
-              @click="btnForgotPwd"
               color="secondary"
               class="text-capitalize rounded-borders"
             />
@@ -257,12 +256,6 @@ export default {
           return this.matchNotif('User Signed Out', 'green')
         })
         .catch(error => this.matchNotif(error, 'secondary'))
-    },
-    btnForgotPwd () {
-      console.log('forgot password')
-      // this.$router.push('/forgot-password')
-      this.userAccountDialog = false
-      this.forgotpwd = true
     },
     createUser () {
       this.loading2 = true

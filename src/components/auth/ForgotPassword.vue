@@ -25,6 +25,7 @@
                   class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
                   label="Submit"
                   color="primary"
+                  @click="resetPassword"
                   :loading="loading"
                   :disable="loading"
                 >
@@ -48,8 +49,11 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+import commonMixins from '../../mixins/commonMixins'
 export default {
   name: 'ForgotPassword',
+  mixins: [commonMixins],
   data () {
     return {
       loading: false,
@@ -57,6 +61,26 @@ export default {
         email: ''
       },
       icon: '../../assets/icons/AppIcon.png'
+    }
+  },
+  methods: {
+    resetPassword () {
+      if (!this.form.email.length) {
+        return this.matchNotif('Enter email address', 'red')
+      }
+      this.loading = true
+      firebase.auth().sendPasswordResetEmail(this.form.email)
+        .then(() => {
+          this.matchNotif('Check your Email to Reset Password', 'green')
+          this.form.email = ''
+          this.loading = false
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-unused-vars
+          var errorMessage = error.message
+          this.matchNotif(errorMessage, 'red')
+          this.loading = false
+        })
     }
   }
 }
