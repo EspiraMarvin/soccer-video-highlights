@@ -1,50 +1,44 @@
 <template>
     <div class="fixed-center">
-        <q-card class="card" align="center">
-          <q-toolbar>
-            <q-toolbar-title>
-              <q-avatar>
-                <img src="../../assets/icons/AppIcon.png">
-              </q-avatar>
-              Reset Password
-            </q-toolbar-title>
-          </q-toolbar>
-          <q-card-section class="q-pt-md">
-            <q-form ref="resetPasswordForm">
-              <q-input
-                type="email"
-                v-model="form.email"
-                label="Email *"
-                lazy-rules
-                :rules="[val => (val && val.length > 0) || 'Please type your email']"
-              />
-            </q-form>
-            <q-card-actions align="right">
-              <div class="row q-mt-xs">
-                <q-btn
-                  class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
-                  label="Submit"
-                  color="primary"
-                  @click="resetPassword"
-                  :loading="loading"
-                  :disable="loading"
-                >
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
-              </div>
-            </q-card-actions>
-            <q-space />
-            <q-btn
-              flat
-              to="/"
-              label="Back Home"
-              color="secondary"
-              class="text-capitalize q-pt-sm rounded-borders"
+      <q-card class="card">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">
+            <q-avatar>
+              <img src="../../assets/icons/AppIcon.png">
+            </q-avatar>
+            Reset Password
+          </div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section class="q-pt-md">
+          <q-form ref="resetPasswordForm">
+            <q-input
+              type="email"
+              v-model="form.email"
+              label="Email *"
+              lazy-rules
+              :rules="[val => (val && val.length > 0) || 'Please type your email']"
             />
-          </q-card-section>
-        </q-card>
+          </q-form>
+          <q-card-actions align="right">
+            <div class="row q-mt-xs">
+              <q-btn
+                class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
+                label="Submit"
+                color="primary"
+                @click="resetPassword"
+                :loading="loading2"
+                :disable="loading2"
+              >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
+            </div>
+          </q-card-actions>
+        </q-card-section>
+      </q-card>
     </div>
 </template>
 
@@ -56,7 +50,7 @@ export default {
   mixins: [commonMixins],
   data () {
     return {
-      loading: false,
+      loading2: false,
       form: {
         email: ''
       },
@@ -68,18 +62,18 @@ export default {
       if (!this.form.email.length) {
         return this.matchNotif('Enter email address', 'red')
       }
-      this.loading = true
+      this.loading2 = true
       firebase.auth().sendPasswordResetEmail(this.form.email)
         .then(() => {
           this.matchNotif('Check your Email to Reset Password', 'green')
           this.form.email = ''
-          this.loading = false
+          this.loading2 = false
         })
         .catch(error => {
           // eslint-disable-next-line no-unused-vars
           var errorMessage = error.message
-          this.matchNotif(errorMessage, 'red')
-          this.loading = false
+          this.matchNotif('Invalid Email. Does not exist !', 'red')
+          this.loading2 = false
         })
     }
   }

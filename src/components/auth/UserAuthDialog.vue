@@ -58,10 +58,18 @@
 
       <!--      dialog for user login and signup-->
       <q-dialog v-model="userAccountDialog">
-        <q-card style="width: 400px; max-width: 80vw;" align="center">
-          <q-toolbar>
-            <q-toolbar-title >{{ dialogTitle }}</q-toolbar-title>
-          </q-toolbar>
+        <q-card class="card" align="center">
+          <q-card-section class="row items-center q-pb-none">
+            <div class="text-h6">
+              <q-avatar>
+                <img src="../../assets/icons/AppIcon.png">
+              </q-avatar>
+              &nbsp;&nbsp;&nbsp;
+              {{ dialogTitle }}
+            </div>
+            <q-space />
+            <q-btn icon="close" flat round dense v-close-popup />
+          </q-card-section>
           <q-card-section class="q-pt-none">
             <p class="text-weight-light text-center">{{ method }} with </p>
             <div class="row justify-center">
@@ -113,11 +121,25 @@
                   </template>
                 </q-btn>
               </div>
-              <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Login'">
+              <div class="row q-mt-xs float-right" v-if="method === 'sign in'">
                 <q-btn
                   class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
                   label="Login"
                   @click="signInExistingUser"
+                  color="primary"
+                  :loading="loading2"
+                  :disable="loading2"
+                >
+                  <template v-slot:loading>
+                    <q-spinner-facebook />
+                  </template>
+                </q-btn>
+              </div>
+              <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Reset Password'">
+                <q-btn
+                  class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
+                  label="Send"
+                  @click="resetPassword"
                   color="primary"
                   :loading="loading2"
                   :disable="loading2"
@@ -140,7 +162,7 @@
               />
               </p>
             </div>
-            <div v-if="dialogTitle === 'Login'">
+            <div v-if="method === 'sign in'">
               <p class="text-class">
                 Or<q-btn
                 flat
@@ -153,9 +175,9 @@
             </div>
             <q-space />
             <q-btn
-              v-if="dialogTitle === 'Login'"
+              v-if="method === 'sign in'"
               flat
-              to="forgot-password"
+              @click="forgotPassword"
               label="Forgot Password?"
               color="secondary"
               class="text-capitalize rounded-borders"
@@ -164,19 +186,11 @@
         </q-card>
       </q-dialog>
 
-      <!--- forgot password -->
-      <q-dialog v-model="forgotpwd">
-        <q-form ref="forgotPasswordForm">
-          <q-input
-            type="email"
-            v-model="form.email"
-            label="Email *"
-            lazy-rules
-            :rules="[val => (val && val.length > 0) || 'Please type your email']"
-          />
-        </q-form>
-      </q-dialog>
+<!--      reset password dialog-->
 
+      <q-dialog v-model="resetPwdDialog">
+        <ForgotPassword />
+      </q-dialog>
       <!--      confirm dialog-->
       <q-dialog v-model="confirm" transition-show="rotate" transition-hide="rotate" persistent>
         <q-card>
@@ -198,9 +212,11 @@
 <script>
 import firebase from 'firebase'
 import commonMixins from '../../mixins/commonMixins'
+import ForgotPassword from './ForgotPassword'
 
 export default {
   name: 'UserAuthDialog',
+  components: { ForgotPassword },
   mixins: [commonMixins],
   data () {
     return {
@@ -210,14 +226,14 @@ export default {
         accept: ''
       },
       userAccountDialog: false,
+      resetPwdDialog: false,
       dialogTitle: '',
       method: '',
       auth: false,
       loading2: false,
       confirm: false,
       user: '',
-      image: '',
-      forgotpwd: false
+      image: ''
     }
   },
   created () {
@@ -237,12 +253,16 @@ export default {
     btnLogin () {
       this.userAccountDialog = true
       this.method = 'sign in'
-      this.dialogTitle = 'Login'
+      this.dialogTitle = 'Login to your Account'
     },
     btnRegister () {
       this.userAccountDialog = true
       this.method = 'sign up'
       this.dialogTitle = 'Create an Account'
+    },
+    forgotPassword () {
+      this.userAccountDialog = false
+      this.resetPwdDialog = true
     },
     btnConfirmLogout () {
       this.userAccountDialog = false
@@ -258,11 +278,9 @@ export default {
         .catch(error => this.matchNotif(error, 'secondary'))
     },
     createUser () {
+      if (!this.form.email || !this.form.password) return this.matchNotif('All fields are required !', 'red')
+      if (!this.form.accept.length) return this.matchNotif('Accept terms of use first', 'red')
       this.loading2 = true
-      if (!this.form.accept) {
-        this.loading2 = false
-        return this.matchNotif('Accept terms of use first', 'red')
-      }
       firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(auth => {
           this.user = auth.user.displayName
@@ -282,6 +300,7 @@ export default {
     },
     signInExistingUser () {
       this.loading2 = true
+      if (!this.form.email || !this.form.password) return this.matchNotif('All Fields are required', 'red')
       firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
         .then((userCredential) => {
           // Signed in
@@ -296,11 +315,9 @@ export default {
         })
         .catch((error) => {
           // eslint-disable-next-line no-unused-vars
-          var errorCode = error.code
-          // eslint-disable-next-line no-unused-vars
           var errorMessage = error.message
           this.loading2 = false
-          return this.matchNotif(errorMessage, 'red')
+          return this.matchNotif('User Does Not Exist !', 'red')
         })
     },
     google () {
@@ -347,5 +364,9 @@ export default {
   .button {
     display: inline-block;
     box-sizing: border-box;
+  }
+  .card {
+    width: 400px;
+    max-width: 80vw;
   }
 </style>

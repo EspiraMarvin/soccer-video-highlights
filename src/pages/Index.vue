@@ -13,87 +13,87 @@
 
           <q-tab-panel name="epl">
             <EplMatches :loading-matches="loadingMatches" :matches="eplMatches" v-if="eplMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No EPL Matches Available</p>
+            <p v-else>No EPL Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="seriea">
             <SerieaMatches :loading-matches="loadingMatches" :matches="serieaMatches" v-if="serieaMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Serie A Matches Available</p>
+            <p v-else>No Serie A Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="laliga">
             <LaligaMatches :loading-matches="loadingMatches" :matches="laligaMatches" v-if="laligaMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No La liga Matches Available</p>
+            <p v-else>No La liga Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="franceleague1">
             <FranceLeague1Matches :loading-matches="loadingMatches" :matches="franceLeague1Matches" v-if="franceLeague1Matches.length > 0"/>
-            <p class="flex flex-center" v-else>No League 1 Matches Available</p>
+            <p v-else>No League 1 Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="bundesliga">
             <BundesligaMatches :loading-matches="loadingMatches" :matches="bundesligaMatches" v-if="bundesligaMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Bundesliga Matches Available Coming Soon </p>
+            <p v-else>No Bundesliga Matches Available Coming Soon </p>
           </q-tab-panel>
 
           <q-tab-panel name="clubfriendlies">
             <ClubFriendliesMatches :loading-matches="loadingMatches" :matches="clubFriendliesMatches" v-if="clubFriendliesMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Club Friendlies Matches Available</p>
+            <p v-else>No Club Friendlies Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="uefa">
             <UefaMatches :loading-matches="loadingMatches" :matches="uefaMatches" v-if="uefaMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Uefa Matches Available</p>
+            <p v-else>No Uefa Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="europa">
             <EuropaMatches :loading-matches="loadingMatches" :matches="europaMatches" v-if="europaMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Europa Matches Available</p>
+            <p v-else>No Europa Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="africanationscup">
             <AfricaNationsCupMatches :loading-matches="loadingMatches" :matches="africanationscupMatches" v-if="africanationscupMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No African Nations Cup Matches Available</p>
+            <p v-else>No African Nations Cup Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="uefanationsleague">
             <UefaNationsleagueMatches :loading-matches="loadingMatches" :matches="uefaNationsLeagueMatches" v-if="uefaNationsLeagueMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Uefa Nations League Matches Available</p>
+            <p v-else>No Uefa Nations League Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="uefaeuro">
             <UefaEuroMatches :loading-matches="loadingMatches" :matches="uefaEuroMatches" v-if="uefaEuroMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Uefa Euro Matches Available</p>
+            <p v-else>No Uefa Euro Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="worldcup">
             <WorldCupMatches :loading-matches="loadingMatches" :matches="worldCupMatches" v-if="worldCupMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No World Cup Matches Available</p>
+            <p v-else>No World Cup Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="fa">
             <FaMatches :loading-matches="loadingMatches" :matches="faMatches" v-if="faMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No FA Matches Available</p>
+            <p v-else>No FA Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="efl">
             <EflMatches :loading-matches="loadingMatches" :matches="eflMatches" v-if="eflMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No EFL Matches Available</p>
+            <p v-else>No EFL Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="englandchampionship">
             <ChampionshipMatches :loading-matches="loadingMatches" :matches="englandChampionshipMatches" v-if="englandChampionshipMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No Championship Matches Available Coming Soon</p>
+            <p v-else>No Championship Matches Available Coming Soon</p>
           </q-tab-panel>
 
           <q-tab-panel name="englandleagueone">
             <LeagueOneMatches :loading-matches="loadingMatches" :matches="englandLeagueOneMatches" v-if="englandLeagueOneMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No League One Matches Available Coming Soon</p>
+            <p v-else>No League One Matches Available Coming Soon</p>
           </q-tab-panel>
 
           <q-tab-panel name="englandleaguetwo">
             <LeagueTwoMatches :loading-matches="loadingMatches" :matches="englandLeagueTwoMatches" v-if="englandLeagueTwoMatches.length > 0"/>
-            <p class="flex flex-center" v-else>No League Two Matches Available Coming Soon</p>
+            <p v-else>No League Two Matches Available Coming Soon</p>
           </q-tab-panel>
 
         </q-tab-panels>
@@ -249,7 +249,7 @@ import ClubFriendliesMatches from '../components/matches/ClubFriendlies/ClubFrie
 import UefaMatches from '../components/matches/Uefa/UefaMatches'
 import EuropaMatches from '../components/matches/Europa/EuropaMatches'
 import UefaNationsleagueMatches from '../components/matches/Uefa/UefaNationsleagueMatches'
-import WorldCupMatches from '../components/matches/WorldCup/WorldCupMatches'
+import WorldCupMatches from '../components/matches/WorldCupMatches'
 import UefaEuroMatches from '../components/matches/Uefa/UefaEuroMatches'
 import BundesligaMatches from '../components/matches/Germany/BundesligaMatches'
 import AfricaNationsCupMatches from '../components/matches/African/AfricaNationsCupMatches'
@@ -428,5 +428,8 @@ export default {
   .my-card{
     width: 100%;
     max-width: 800px
+  }
+  p{
+    text-align: center;
   }
 </style>
