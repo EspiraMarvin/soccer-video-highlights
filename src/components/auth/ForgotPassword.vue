@@ -6,6 +6,7 @@
             <q-avatar>
               <img src="../../assets/icons/AppIcon.png">
             </q-avatar>
+            &nbsp;&nbsp;&nbsp;
             Reset Password
           </div>
           <q-space />
