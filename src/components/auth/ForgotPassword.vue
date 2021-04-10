@@ -53,8 +53,7 @@ export default {
       loading2: false,
       form: {
         email: ''
-      },
-      icon: '../../assets/icons/AppIcon.png'
+      }
     }
   },
   methods: {

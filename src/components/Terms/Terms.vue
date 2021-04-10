@@ -2,7 +2,12 @@
   <div>
     <q-card>
       <q-card-section>
-        <div class="text-h6">Terms of Agreement</div>
+        <div class="text-h6">
+          <q-avatar size="md">
+            <img src="../../assets/icons/AppIcon.png">
+          </q-avatar>
+          Terms of Agreement
+        </div>
       </q-card-section>
 
       <q-separator />
