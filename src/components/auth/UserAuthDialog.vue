@@ -62,10 +62,9 @@
       <q-card class="card" align="center">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">
-            <q-avatar>
+            <q-avatar size="md">
               <img src="../../assets/icons/AppIcon.png">
             </q-avatar>
-            &nbsp;&nbsp;&nbsp;
             {{ dialogTitle }}
           </div>
           <q-space />
@@ -105,10 +104,10 @@
               lazy-rules
               :rules="[val => (val !== null && val !== '') || 'Please type your Password']"
             />
-            <q-toggle v-if="dialogTitle === 'Create an Account'" size="xs" v-model="form.accept" label="I accept the license and terms" />
+            <q-toggle ref="term" v-if="method === 'sign up'" size="xs" v-model="form.accept" label="I accept the license and terms"/>
           </q-form>
           <q-card-actions align="right">
-            <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Create an Account'">
+            <div class="row q-mt-xs float-right" v-if="method === 'sign up'">
               <q-btn
                 class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
                 label="Register"
@@ -169,6 +168,14 @@
             color="secondary"
             class="text-capitalize rounded-borders"
           />
+          <q-btn
+            v-if="method === 'sign up'"
+            flat
+            @click="terms"
+            label="Terms and Conditions"
+            color="secondary"
+            class="text-capitalize rounded-borders"
+          />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -178,6 +185,12 @@
       <q-dialog v-model="resetPwdDialog">
         <ForgotPassword />
       </q-dialog>
+
+<!--    terms and conditions dialog-->
+    <q-dialog v-model="fixed">
+      <Terms />
+    </q-dialog>
+
       <!--      confirm dialog-->
       <q-dialog v-model="confirm" transition-show="rotate" transition-hide="rotate" persistent>
         <q-card>
@@ -200,10 +213,11 @@
 import firebase from 'firebase'
 import commonMixins from '../../mixins/commonMixins'
 import ForgotPassword from './ForgotPassword'
+import Terms from '../Terms/Terms'
 
 export default {
   name: 'UserAuthDialog',
-  components: { ForgotPassword },
+  components: { Terms, ForgotPassword },
   mixins: [commonMixins],
   data () {
     return {
@@ -220,7 +234,8 @@ export default {
       loading2: false,
       confirm: false,
       user: '',
-      image: ''
+      image: '',
+      fixed: false
     }
   },
   created () {
@@ -237,10 +252,13 @@ export default {
     })
   },
   methods: {
+    terms () {
+      this.fixed = true
+    },
     btnLogin () {
       this.userAccountDialog = true
       this.method = 'sign in'
-      this.dialogTitle = 'Login to your Account'
+      this.dialogTitle = 'Login Account'
     },
     btnRegister () {
       this.userAccountDialog = true

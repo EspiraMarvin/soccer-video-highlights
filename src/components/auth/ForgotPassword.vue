@@ -3,10 +3,9 @@
       <q-card class="card">
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">
-            <q-avatar>
+            <q-avatar size="md">
               <img src="../../assets/icons/AppIcon.png">
             </q-avatar>
-            &nbsp;&nbsp;&nbsp;
             Reset Password
           </div>
           <q-space />
