@@ -1,192 +1,193 @@
+
 <template>
-    <div>
+  <div>
 
-      <template v-if="auth">
-        <template v-if="image">
-          <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
-            <q-avatar size="42px">
-              <img :src="image">
-            </q-avatar>
-          </q-btn>
-        </template>
-        <template v-else>
-          <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
-            <q-avatar size="42px">
-              <q-btn round color="green" icon="eva-person-done-outline" />
-            </q-avatar>
-          </q-btn>
-        </template>
+    <template v-if="auth">
+      <template v-if="image">
+        <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
+          <q-avatar size="42px">
+            <img :src="image">
+          </q-avatar>
+        </q-btn>
       </template>
       <template v-else>
-        <q-btn round color="grey-5" icon="eva-person-outline" class="small-screen-only" @click="btnLogin" />
+        <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
+          <q-avatar size="42px">
+            <q-btn round color="green" icon="eva-person-done-outline" />
+          </q-avatar>
+        </q-btn>
       </template>
+    </template>
+    <template v-else>
+      <q-btn round color="grey-5" icon="eva-person-outline" class="small-screen-only" @click="btnLogin" />
+    </template>
 
-      <template v-if="auth">
-        <template v-if="user">
-          <q-btn-dropdown color="bg-green large-screen-only" :label="user">
-            <q-list>
-              <q-item clickable v-close-popup @click="btnLogout">
-                <q-item-section align="center">
-                  <q-item-label>Logout</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
-        </template>
-        <template v-else>
-          <q-btn-dropdown color="primary large-screen-only" icon="eva-person-done-outline">
-            <q-list>
-              <q-item clickable v-close-popup @click="btnLogout">
-                <q-item-section align="center">
-                  <q-item-label>Logout</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
-        </template>
+    <template v-if="auth">
+      <template v-if="user">
+        <q-btn-dropdown color="bg-green large-screen-only" :label="user">
+          <q-list>
+            <q-item clickable v-close-popup @click="btnLogout">
+              <q-item-section align="center">
+                <q-item-label>Logout</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </template>
       <template v-else>
-        <div class="large-screen-only">
-          <q-btn
-            class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders button"
-            label="Signin"
-            @click="btnLogin"
-            color="primary"
-          />
-        </div>
+        <q-btn-dropdown color="primary large-screen-only" icon="eva-person-done-outline">
+          <q-list>
+            <q-item clickable v-close-popup @click="btnLogout">
+              <q-item-section align="center">
+                <q-item-label>Logout</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </template>
+    </template>
+    <template v-else>
+      <div class="large-screen-only">
+        <q-btn
+          class="q-pl-sm q-pr-sm q-mr-sm text-capitalize rounded-borders button"
+          label="Signin"
+          @click="btnLogin"
+          color="primary"
+        />
+      </div>
+    </template>
 
-      <!--      dialog for user login and signup-->
-      <q-dialog v-model="userAccountDialog">
-        <q-card class="card" align="center">
-          <q-card-section class="row items-center q-pb-none">
-            <div class="text-h6">
-              <q-avatar>
-                <img src="../../assets/icons/AppIcon.png">
-              </q-avatar>
-              &nbsp;&nbsp;&nbsp;
-              {{ dialogTitle }}
-            </div>
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup />
-          </q-card-section>
-          <q-card-section class="q-pt-none">
-            <p class="text-weight-light text-center">{{ method }} with </p>
-            <div class="row justify-center">
+    <!--      dialog for user login and signup-->
+    <q-dialog v-model="userAccountDialog">
+      <q-card class="card" align="center">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">
+            <q-avatar>
+              <img src="../../assets/icons/AppIcon.png">
+            </q-avatar>
+            &nbsp;&nbsp;&nbsp;
+            {{ dialogTitle }}
+          </div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+        <q-card-section class="q-pt-none">
+          <p class="text-weight-light text-center">{{ method }} with </p>
+          <div class="row justify-center">
+            <q-btn
+              class="q-pa-sm q-ma-sm rounded-borders google-button"
+              style="margin-top: -5px"
+              size="sm"
+              label="Google"
+              color="primary"
+              icon="eva-google"
+              @click="google"
+            >
+              <template v-slot:loading>
+                <q-spinner-facebook />
+              </template>
+            </q-btn>
+          </div>
+          <q-separator />
+          <p class="text-weight-light text-center q-mt-md q-mb-lg">{{ method }} with credentials</p>
+          <q-form ref="loginForm">
+            <q-input
+              type="email"
+              v-model="form.email"
+              label="Email *"
+              lazy-rules
+              :rules="[val => (val && val.length > 0) || 'Please type your email']"
+            />
+            <q-input
+              type="password"
+              v-model="form.password"
+              label="Password *"
+              lazy-rules
+              :rules="[val => (val !== null && val !== '') || 'Please type your Password']"
+            />
+            <q-toggle v-if="dialogTitle === 'Create an Account'" size="xs" v-model="form.accept" label="I accept the license and terms" />
+          </q-form>
+          <q-card-actions align="right">
+            <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Create an Account'">
               <q-btn
-                class="q-pa-sm q-ma-sm rounded-borders google-button"
-                style="margin-top: -5px"
-                size="sm"
-                label="Google"
+                class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
+                label="Register"
+                @click="createUser"
                 color="primary"
-                icon="eva-google"
-                @click="google"
+                :loading="loading2"
+                :disable="loading2"
               >
                 <template v-slot:loading>
                   <q-spinner-facebook />
                 </template>
               </q-btn>
             </div>
-            <q-separator />
-            <p class="text-weight-light text-center q-mt-md q-mb-lg">{{ method }} with credentials</p>
-            <q-form ref="loginForm">
-              <q-input
-                type="email"
-                v-model="form.email"
-                label="Email *"
-                lazy-rules
-                :rules="[val => (val && val.length > 0) || 'Please type your email']"
-              />
-              <q-input
-                type="password"
-                v-model="form.password"
-                label="Password *"
-                lazy-rules
-                :rules="[val => (val !== null && val !== '') || 'Please type your Password']"
-              />
-              <q-toggle v-if="dialogTitle === 'Create an Account'" size="xs" v-model="form.accept" label="I accept the license and terms" />
-            </q-form>
-            <q-card-actions align="right">
-              <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Create an Account'">
-                <q-btn
-                  class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
-                  label="Register"
-                  @click="createUser"
-                  color="primary"
-                  :loading="loading2"
-                  :disable="loading2"
-                >
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
-              </div>
-              <div class="row q-mt-xs float-right" v-if="method === 'sign in'">
-                <q-btn
-                  class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
-                  label="Login"
-                  @click="signInExistingUser"
-                  color="primary"
-                  :loading="loading2"
-                  :disable="loading2"
-                >
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
-              </div>
-              <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Reset Password'">
-                <q-btn
-                  class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
-                  label="Send"
-                  @click="resetPassword"
-                  color="primary"
-                  :loading="loading2"
-                  :disable="loading2"
-                >
-                  <template v-slot:loading>
-                    <q-spinner-facebook />
-                  </template>
-                </q-btn>
-              </div>
-            </q-card-actions>
-
-            <div v-if="dialogTitle === 'Create an Account'">
-              <p class="text-class">
-                Or<q-btn
-                flat
+            <div class="row q-mt-xs float-right" v-if="method === 'sign in'">
+              <q-btn
+                class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
                 label="Login"
-                @click="btnLogin"
-                color="secondary"
-                class="text-capitalize rounded-borders"
-              />
-              </p>
+                @click="signInExistingUser"
+                color="primary"
+                :loading="loading2"
+                :disable="loading2"
+              >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
             </div>
-            <div v-if="method === 'sign in'">
-              <p class="text-class">
-                Or<q-btn
-                flat
-                label="Register"
-                @click="btnRegister"
-                color="secondary"
-                class="text-capitalize rounded-borders"
-              />
-              </p>
+            <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Reset Password'">
+              <q-btn
+                class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
+                label="Send"
+                @click="resetPassword"
+                color="primary"
+                :loading="loading2"
+                :disable="loading2"
+              >
+                <template v-slot:loading>
+                  <q-spinner-facebook />
+                </template>
+              </q-btn>
             </div>
-            <q-space />
-            <q-btn
-              v-if="method === 'sign in'"
+          </q-card-actions>
+
+          <div v-if="dialogTitle === 'Create an Account'">
+            <p class="text-class">
+              Or<q-btn
               flat
-              @click="forgotPassword"
-              label="Forgot Password?"
+              label="Login"
+              @click="btnLogin"
               color="secondary"
               class="text-capitalize rounded-borders"
             />
-          </q-card-section>
-        </q-card>
-      </q-dialog>
+            </p>
+          </div>
+          <div v-if="method === 'sign in'">
+            <p class="text-class">
+              Or<q-btn
+              flat
+              label="Register"
+              @click="btnRegister"
+              color="secondary"
+              class="text-capitalize rounded-borders"
+            />
+            </p>
+          </div>
+          <q-space />
+          <q-btn
+            v-if="method === 'sign in'"
+            flat
+            @click="forgotPassword"
+            label="Forgot Password?"
+            color="secondary"
+            class="text-capitalize rounded-borders"
+          />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
 
-<!--      reset password dialog-->
+    <!--      reset password dialog-->
 
       <q-dialog v-model="resetPwdDialog">
         <ForgotPassword />
