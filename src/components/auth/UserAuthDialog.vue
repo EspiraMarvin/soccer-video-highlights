@@ -136,20 +136,6 @@
                 </template>
               </q-btn>
             </div>
-            <div class="row q-mt-xs float-right" v-if="dialogTitle === 'Reset Password'">
-              <q-btn
-                class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
-                label="Send"
-                @click="resetPassword"
-                color="primary"
-                :loading="loading2"
-                :disable="loading2"
-              >
-                <template v-slot:loading>
-                  <q-spinner-facebook />
-                </template>
-              </q-btn>
-            </div>
           </q-card-actions>
 
           <div v-if="dialogTitle === 'Create an Account'">

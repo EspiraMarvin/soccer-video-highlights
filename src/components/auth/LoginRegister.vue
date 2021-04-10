@@ -159,6 +159,10 @@ export default {
       this.method = 'sign up'
       this.dialogTitle = 'Create an Account'
     },
+    forgotPassword () {
+      this.userAccountDialog = false
+      this.resetPwdDialog = true
+    },
     createUser () {
       if (!this.form.email || !this.form.password) return this.matchNotif('All fields are required !', 'red')
       if (!this.form.accept.length) return this.matchNotif('Accept terms of use first', 'red')
