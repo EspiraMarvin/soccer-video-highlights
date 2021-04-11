@@ -65,7 +65,7 @@ export default {
       firebase.auth().sendPasswordResetEmail(this.form.email)
         .then(() => {
           this.matchNotif('Check your Email to Reset Password', 'green')
-          this.form.email = ''
+          this.form = {}
           this.loading2 = false
         })
         .catch(error => {

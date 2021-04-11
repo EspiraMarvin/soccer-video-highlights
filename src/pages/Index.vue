@@ -192,7 +192,7 @@
             </div>
           </template>
           <template v-else>
-            <p class="text-h6">No Match Found! </p>
+            <p class="text-h6">No Match Found 😪! </p>
           </template>
         </q-card>
       </q-dialog>
