@@ -304,8 +304,8 @@ export default {
         })
     },
     signInExistingUser () {
-      this.loading2 = true
       if (!this.form.email || !this.form.password) return this.matchNotif('All Fields are required', 'red')
+      this.loading2 = true
       firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
         .then((userCredential) => {
           // Signed in

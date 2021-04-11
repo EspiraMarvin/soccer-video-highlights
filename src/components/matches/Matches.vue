@@ -3,14 +3,11 @@
     <q-list class="my-list">
       <q-card
         :loading="loadingMatches"
-        v-for="(game, key) in matches"
-        :key="key"
+        v-for="(game, index) in matches"
+        :key="index"
+        :value="game.value"
         v-ripple
         class="q-mb-xs">
-        <template v-slot:loading>
-          <q-inner-loading showing color="primary" />
-        </template>
-
         <q-card-section @click="showVideo(game.videos[0].embed)">
           <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
             <div class=" row"
@@ -35,7 +32,8 @@
         <q-separator />
       </q-card>
     </q-list>
-    <q-dialog v-model="showVideoDialog" persistent>
+
+    <q-dialog v-model="showVideoDialog" transition-show="" transition-hide="" persistent>
       <q-card class="my-card">
         <div class="row items-center">
 
@@ -50,25 +48,28 @@
           style="margin-top:-13px"
         >
           <q-video v-html="videoUrl" src=""></q-video>
+
         </q-card-section>
+        <q-card-actions>
+          <!--            comments-->
+          <!--            <Comment />-->
+        </q-card-actions>
       </q-card>
     </q-dialog>
   </div>
+
 </template>
 
 <script>
+// import Comment from '../comments/Comment'
 const moment = require('moment')
 export default {
-  name: 'EuropaMatches',
+  name: 'Matches',
+  components: { },
   props: {
-    matches: {
-      type: Array,
-      required: true
-    },
-    loadingMatches: {
-      type: Boolean,
-      required: true
-    }
+    matches: {},
+    loadingMatches: {},
+    searchMatch: {}
   },
   data () {
     return {
@@ -88,7 +89,6 @@ export default {
       this.showVideoDialog = false
     }
   }
-
 }
 </script>
 
