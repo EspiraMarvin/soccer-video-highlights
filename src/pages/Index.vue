@@ -42,7 +42,7 @@
           </q-tab-panel>
 
           <q-tab-panel name="uefa">
-            <Matches :loading-matches="loadingMatches" :matches="uefaMatches" v-if="uefaMatches.length > 0"/>
+            <Matches :loading-maches="loadingMatches" :matches="uefaMatches" v-if="uefaMatches.length > 0"/>
             <p v-else>No Uefa Matches Available</p>
           </q-tab-panel>
 
@@ -129,12 +129,12 @@
     <template>
       <q-dialog v-model="showInputDialog" half-width>
         <q-card class="my-card" style="height: 450px; margin-top: -10px">
-          <q-card-section class="row items-center q-pb-sm">
+          <q-card-section class="row items-center q-pb-none">
             <div class="text-h6">
               <q-avatar size="md">
                 <img src="../assets/icons/AppIcon.png">
               </q-avatar>
-              &nbsp; Search Matches
+              &nbsp; search matches
             </div>
             <q-space />
             <q-btn icon="close" flat round dense v-close-popup />
