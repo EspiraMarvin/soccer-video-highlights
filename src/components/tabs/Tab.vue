@@ -178,23 +178,7 @@ export default {
       matches: 'GET_MATCHES',
       addingMatch: 'GET_ADDING_MATCH',
       tab: 'GET_CURRENT_TAB'
-    }),
-    // to lowercase search
-    resultQuery () {
-      if (this.search) {
-        return this.allMatches.filter((game) => {
-          return this.search.toLowerCase().split(' ').every(v => game.title.toLowerCase().includes(v))
-        })
-      } else {
-        return this.matches
-      }
-    },
-    // does not implement to lowercase search
-    filteredMatches: function () {
-      return this.allMatches.filter(game => {
-        return game.title.match(this.search)
-      })
-    }
+    })
   },
   methods: {
     ...mapActions({}),
@@ -262,9 +246,6 @@ export default {
       },
       deep: true
     }
-  },
-  beforeDestroy () {
-    clearInterval(this.interval)
   }
 }
 </script>
