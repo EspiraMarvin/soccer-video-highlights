@@ -284,7 +284,7 @@ export default {
     },
     createUser () {
       if (!this.form.email || !this.form.password) return this.matchNotif('All fields are required !', 'red')
-      if (!this.form.accept.length) return this.matchNotif('Accept terms of use first', 'red')
+      if (!this.form.accept) return this.matchNotif('Accept terms of use first', 'red')
       this.loading2 = true
       firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(auth => {
