@@ -313,6 +313,12 @@ export default {
       } else {
         return this.matches
       }
+    },
+    // does not implement to lowercase search
+    filteredMatches: function () {
+      return this.allMatches.filter(game => {
+        return game.title.match(this.search)
+      })
     }
   },
   methods: {
