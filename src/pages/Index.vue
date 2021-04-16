@@ -1,11 +1,13 @@
 <template>
-  <q-page>
+  <q-page class="relative-position">
 
     <Tab />
 
     <q-separator />
 
-    <template v-if="!loadingData && matches.length && showInputDialog === false">
+    <q-scroll-area class="absolute full-height full-width">
+
+      <template v-if="!loadingData && matches.length && showInputDialog === false">
         <q-tab-panels v-model="tab">
           <q-tab-panel name="allgames">
             <Matches :loading-matches="loadingMatches" :matches="allMatches" v-if="allMatches.length > 0"/>
@@ -77,8 +79,8 @@
           </q-tab-panel>
 
           <q-tab-panel name="efl">
-            <Matches :loading-matches="loadingMatches" :matches="eflMatches" v-if="eflMatches.length > 0"/>
-            <p v-else>No EFL Matches Available</p>
+             <Matches :loading-matches="loadingMatches" :matches="eflMatches" v-if="eflMatches.length > 0"/>
+             <p v-else>No EFL Matches Available</p>
           </q-tab-panel>
 
           <q-tab-panel name="englandchampionship">
@@ -99,32 +101,34 @@
         </q-tab-panels>
       </template>
 
-    <template v-else>
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-    </template>
+      <template v-else>
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </template>
+
+    </q-scroll-area>
 
     <template>
       <q-dialog v-model="showInputDialog" half-width>
