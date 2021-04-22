@@ -67,6 +67,7 @@ export default {
           this.matchNotif('Check your Email to Reset Password', 'green')
           this.form = {}
           this.loading2 = false
+          this.$refs.resetPasswordForm.hide()
         })
         .catch(error => {
           // eslint-disable-next-line no-unused-vars

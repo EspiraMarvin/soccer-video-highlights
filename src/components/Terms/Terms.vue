@@ -2,7 +2,7 @@
   <div>
     <q-card>
       <q-card-section>
-        <div class="text-h6">
+        <div class="text-h6 row justify-start">
           <q-avatar size="md">
             <img src="../../assets/icons/AppIcon.png">
           </q-avatar>
@@ -13,7 +13,10 @@
       <q-separator />
 
       <q-card-section style="max-height: 50vh" class="scroll">
-        <p v-for="n in 15" :key="n">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</p>
+        <p v-for="n in 15" :key="n">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro.
+          Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+        </p>
       </q-card-section>
 
       <q-separator />
