@@ -2459,6 +2459,21 @@
   optionalDependencies:
     prettier "^1.18.2"
 
+"@vueuse/core@^4.8.4":
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-4.8.4.tgz#aed42b1d4e058869ff403be64a06e1b31dc3758d"
+  integrity sha512-qo5xWC93MxJqHuT19XfFqOUCHppU988yZWoPko3jy/oBDaZRzZakibahpCuPmiZSAWViJCcNGTqH3gAHeH5c4w==
+  dependencies:
+    "@vueuse/shared" "4.8.4"
+    vue-demi latest
+
+"@vueuse/shared@4.8.4":
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-4.8.4.tgz#bc2b034dcf9805b620f9ff304a6d3728cea93b2b"
+  integrity sha512-dN5qZnC3hTJppUL8fFqkfJvgcfKT5agyYtr8nyO47kWTdNKYq7S/yXUvcA1W/OBY95erdpo4s2vlcy0aV2CdgA==
+  dependencies:
+    vue-demi latest
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -11112,6 +11127,11 @@ vue-country-flag@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/vue-country-flag/-/vue-country-flag-2.0.1.tgz#b5b9c2092284dbcb793deee690ae12a13571f6fe"
   integrity sha512-an33mrPd6v48oxgFWlYD+QPOUNWWwovyyOpUHwOa8y5xx+NalehYmloDdCyIqnEqPJC2/i6c33G68RqrvC6BQQ==
+
+vue-demi@latest:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.7.5.tgz#88dee7492fc99a0f911ff03fc02c658fa2a79af8"
+  integrity sha512-eFSQSvbQdY7C9ujOzvM6tn7XxwLjn0VQDXQsiYBLBwf28Na+2nTQR4BBBcomhmdP6mmHlBKAwarq6a0BPG87hQ==
 
 vue-eslint-parser@^7.0.0:
   version "7.1.0"
