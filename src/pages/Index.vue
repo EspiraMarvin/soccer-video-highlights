@@ -197,6 +197,7 @@
           </template>
           <template v-else>
             <p class="text-h6">No Match Found 😪! </p>
+            <Cube class="flex flex-center" style="max-height: 20px !important" />
           </template>
         </q-card>
       </q-dialog>
@@ -256,12 +257,14 @@ import commonMixins from '../mixins/commonMixins'
 import Skeleton from '../components/skeleton/Skeleton'
 import Tab from '../components/tabs/Tab'
 import Matches from '../components/matches/Matches'
+import Cube from '../components/animations/Cube'
 
 const moment = require('moment')
 export default {
   name: 'PageIndex',
   mixins: [commonMixins],
   components: {
+    Cube,
     Matches,
     Tab,
     Skeleton

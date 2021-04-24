@@ -161,6 +161,7 @@ export default {
     },
     forgotPassword () {
       this.userAccountDialog = false
+      this.resetPwdDialog = true
     },
     createUser () {
       if (!this.form.email || !this.form.password) return this.matchNotif('All fields are required !', 'red')
