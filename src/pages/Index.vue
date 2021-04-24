@@ -3,7 +3,7 @@
 
     <Tab />
 
-    <q-separator />
+    <q-separator dense />
 
     <q-scroll-area class="absolute full-height full-width">
 
@@ -102,30 +102,9 @@
       </template>
 
       <template v-else>
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
+        <div v-for="item in numberOfSkeletons" :key="item.index">
+          <Skeleton />
+        </div>
       </template>
 
     </q-scroll-area>
@@ -217,22 +196,8 @@
         <q-card-section
           style="margin-top:-13px"
         >
-          <q-video v-html="videoUrl" src=""></q-video>
+          <q-video v-html="videoUrl"></q-video>
         </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <q-dialog persistent v-show="!this.allMatches.length">
-      <q-card>
-        <q-card-section class="row items-center">
-          <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
-          <span class="q-ml-sm">You are currently not connected to any network.</span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-popup />
-          <q-btn flat label="Retry" color="primary" v-close-popup @click="requestData" />
-        </q-card-actions>
       </q-card>
     </q-dialog>
 
@@ -300,7 +265,8 @@ export default {
       faMatches: [],
       eflMatches: [],
       uefaEuroMatches: [],
-      worldCupMatches: []
+      worldCupMatches: [],
+      numberOfSkeletons: 24
     }
   },
   computed: {
