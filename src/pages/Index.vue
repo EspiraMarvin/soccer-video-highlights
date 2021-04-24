@@ -197,7 +197,7 @@
           </template>
           <template v-else>
             <p class="text-h6">No Match Found 😪! </p>
-            <Cube class="flex flex-center" style="max-height: 20px !important" />
+            <Cube class="flex flex-center" />
           </template>
         </q-card>
       </q-dialog>
