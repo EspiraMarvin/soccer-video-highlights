@@ -238,7 +238,7 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 80]">
       <q-btn
-        @click="searchMatch('top')"
+        @click="searchMatch"
         glossy
         push
         round
@@ -282,7 +282,6 @@ export default {
       interval: '',
       search: '',
       showInputDialog: false,
-      position: 'top',
       offline: false,
       allMatches: [],
       eplMatches: [],
@@ -336,8 +335,7 @@ export default {
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)
     },
-    searchMatch (position) {
-      this.position = position
+    searchMatch () {
       this.showInputDialog = true
     },
     showVideo (video, index) {
