@@ -32,10 +32,7 @@ const commonMixins = {
       this.$q.notify({
         message: message,
         color: color,
-        position: 'top',
-        icon: 'announcement',
-        progress: true,
-        persistent: true
+        icon: 'announcement'
         // classes: 'glossy'
       })
     },
@@ -43,10 +40,7 @@ const commonMixins = {
       this.$q.notify({
         type: type,
         message: message,
-        position: 'top',
-        icon: 'announcement',
-        progress: true,
-        persistent: true
+        icon: 'announcement'
       })
     },
 
