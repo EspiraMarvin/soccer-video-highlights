@@ -1,3 +1,4 @@
+<!--
 <template>
   <q-card class="card" align="center">
     <q-card-section class="row items-center q-pb-none">
@@ -246,3 +247,4 @@ export default {
 <style scoped>
 
 </style>
+-->

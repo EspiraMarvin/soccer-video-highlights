@@ -2,8 +2,8 @@
 <template>
   <div>
 
-    <template v-if="auth">
-      <template v-if="image">
+    <template v-if="this.auth">
+      <template v-if="this.image">
         <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
           <q-avatar size="42px">
             <img :src="image">
@@ -22,8 +22,8 @@
       <q-btn round color="grey-5" icon="eva-person-outline" class="small-screen-only" @click="btnLogin" />
     </template>
 
-    <template v-if="auth">
-      <template v-if="user">
+    <template v-if="this.auth">
+      <template v-if="this.user">
         <q-btn-dropdown color="bg-green large-screen-only" :label="user">
           <q-list>
             <q-item clickable v-close-popup @click="btnLogout">
@@ -80,7 +80,7 @@
               label="Google"
               color="primary"
               icon="eva-google"
-              @click="google"
+              @click="withGoogle"
             >
               <template v-slot:loading>
                 <q-spinner-facebook />
@@ -183,7 +183,7 @@
     <!--      reset password dialog-->
 
       <q-dialog v-model="resetPwdDialog">
-        <ForgotPassword />
+        <ForgotPassword :resetPwdDialog="resetPwdDialog" />
       </q-dialog>
 
 <!--    terms and conditions dialog-->
@@ -212,6 +212,7 @@
 <script>
 import firebase from 'firebase'
 import commonMixins from '../../mixins/commonMixins'
+import { mapActions, mapGetters } from 'vuex'
 import ForgotPassword from './ForgotPassword'
 import Terms from '../Terms/Terms'
 
@@ -230,28 +231,29 @@ export default {
       resetPwdDialog: false,
       dialogTitle: '',
       method: '',
-      auth: false,
       loading2: false,
       confirm: false,
-      user: '',
-      image: '',
       fixed: false
     }
   },
   created () {
     // firebase
-    firebase.auth().onAuthStateChanged((auth) => {
-      if (auth) {
-        this.auth = true
-        this.user = auth.displayName
-        this.image = auth.photoURL
-        // console.log('User exists', this.auth)
-      } else {
-        // console.log('user does not exist')
-      }
+    this.loginUser()
+  },
+  computed: {
+    ...mapGetters({
+      auth: 'GET_AUTH',
+      user: 'GET_DISPLAY_NAME',
+      image: 'GET_USER_PHOTO'
     })
   },
   methods: {
+    ...mapActions({
+      loginUser: 'LOGIN_USER',
+      withGoogle: 'GOOGLE',
+      withEMailAndPassword: 'EMAIL_AND_PASSWORD',
+      withsignInExistingUser: 'SIGNIN_EXISTING_USER'
+    }),
     terms () {
       this.fixed = true
     },
@@ -286,77 +288,13 @@ export default {
       if (!this.form.email || !this.form.password) return this.matchNotif('All fields are required !', 'red')
       if (!this.form.accept) return this.matchNotif('Accept terms of use first', 'red')
       this.loading2 = true
-      firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then(auth => {
-          this.user = auth.user.displayName
-          this.image = auth.user.photoURL
-          this.userAccountDialog = false
-          this.loading2 = true
-          this.userAccountDialog = false
-          return this.matchNotif('User Created Successfully', 'green')
-        })
-        .catch(error => {
-          // eslint-disable-next-line no-unused-vars
-          var errorCode = error.code
-          var errorMessage = error.message
-          this.matchNotif(errorMessage, 'red')
-          this.loading2 = false
-        })
+      this.withEMailAndPassword({ email: this.form.email, password: this.form.password })
+      this.loading2 = false
     },
     signInExistingUser () {
       if (!this.form.email || !this.form.password) return this.matchNotif('All Fields are required', 'red')
       this.loading2 = true
-      firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
-        .then((userCredential) => {
-          // Signed in
-          // eslint-disable-next-line no-unused-vars
-          const user = userCredential.user
-          this.user = user.displayName
-          this.image = user.photoURL
-          // ...
-          this.loading2 = false
-          this.userAccountDialog = false
-          return this.matchNotif('Signed In successfully', 'green')
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-unused-vars
-          var errorMessage = error.message
-          this.loading2 = false
-          return this.matchNotif('User Does Not Exist !', 'red')
-        })
-    },
-    google () {
-      // this.signInUser()
-      // this.userAccountDialog = false
-      const provider = new firebase.auth.GoogleAuthProvider()
-      firebase.auth().signInWithPopup(provider)
-        .then(result => {
-          const credential = result.credential
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          // eslint-disable-next-line no-unused-vars
-          const token = credential.accessToken
-          // console.log(token)
-          // The signed-in user info.
-          // eslint-disable-next-line no-unused-vars
-          this.user = result.user.displayName
-          this.image = result.user.photoURL
-          this.userAccountDialog = false
-          this.matchNotif('Sign In Success', 'green')
-        })
-        .catch((error) => {
-          // Handle Errors here.
-          // eslint-disable-next-line no-unused-vars
-          var errorCode = error.code
-          // eslint-disable-next-line no-unused-vars
-          var errorMessage = error.message
-          // The email of the user's account used.
-          this.matchNotif(errorMessage, 'red')
-          var email = error.email
-          // The firebase.auth.AuthCredential type that was used.
-          this.matchNotif(email, 'red')
-          var credential = error.credential
-          this.matchNotif(credential, 'red')
-        })
+      this.withsignInExistingUser({ email: this.form.email, password: this.form.password })
     }
   }
 }
