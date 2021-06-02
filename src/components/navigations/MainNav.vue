@@ -259,11 +259,7 @@ export default {
       this.$store.commit('SET_CURRENT_TAB', tabName)
 
       // get widows/client width / viewport
-      const width = window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth
-
-      if (width < 600) {
+      if (this.clientWidth < 600) {
         this.leftDrawerOpen = false
       }
     }
@@ -273,7 +269,8 @@ export default {
       loadingMatches: 'GET_FETCHING_MATCHES',
       matches: 'GET_MATCHES',
       addingMatch: 'GET_ADDING_MATCH',
-      tab: 'GET_CURRENT_TAB'
+      tab: 'GET_CURRENT_TAB',
+      clientWidth: 'GET_CLIENT_WIDTH'
       // currentUser: 'GET_CURRENT_USER',
       // image: 'GET_USER_PHOTO',
       // user: 'GET_DISPLAY_NAME'

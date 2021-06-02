@@ -2,8 +2,8 @@
     <div class="fixed-center">
       <q-card class="card">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">
-            <q-avatar size="md">
+          <div class="text-subtitle1">
+            <q-avatar size="xs">
               <img src="../../assets/icons/AppIcon.png">
             </q-avatar>
             Reset Password

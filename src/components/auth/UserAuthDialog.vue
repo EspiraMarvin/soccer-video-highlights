@@ -61,8 +61,8 @@
     <q-dialog v-model="userAccountDialog">
       <q-card class="card" align="center">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">
-            <q-avatar size="md">
+          <div class="text-subtitle1">
+            <q-avatar size="sm">
               <img src="../../assets/icons/AppIcon.png">
             </q-avatar>
             {{ dialogTitle }}
@@ -253,7 +253,7 @@ export default {
   },
   methods: {
     terms () {
-      this.fixed = true
+      this.fixed = !this.fixed
     },
     btnLogin () {
       this.userAccountDialog = true
