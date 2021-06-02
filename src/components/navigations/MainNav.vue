@@ -216,6 +216,7 @@ export default {
   created () {
     // console.log('theme', this.$q.dark.isActive)
     this.theme = JSON.parse(localStorage.getItem('theme'))
+    this.getWidth()
   },
   data () {
     return {
@@ -253,12 +254,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      signInUser: 'LOGIN_USER'
+      signInUser: 'LOGIN_USER',
+      getWidth: 'CLIENT_WIDTH'
     }),
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)
 
-      // get widows/client width / viewport
       if (this.clientWidth < 600) {
         this.leftDrawerOpen = false
       }
