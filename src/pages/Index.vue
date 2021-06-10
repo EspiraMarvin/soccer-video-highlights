@@ -217,7 +217,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import commonMixins from '../mixins/commonMixins'
 import Skeleton from '../components/skeleton/Skeleton'
 import Tab from '../components/tabs/Tab'
@@ -288,8 +288,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-    }),
     requestData () {
       this.loadingData = true
       this.$store.dispatch('FETCH_MATCHES')

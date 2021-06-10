@@ -1,7 +1,6 @@
 
 <template>
   <div>
-
     <template v-if="auth">
       <template v-if="image">
         <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
@@ -214,6 +213,7 @@ import firebase from 'firebase'
 import commonMixins from '../../mixins/commonMixins'
 import ForgotPassword from './ForgotPassword'
 import Terms from '../Terms/Terms'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'UserAuthDialog',
@@ -245,15 +245,33 @@ export default {
         this.auth = true
         this.user = auth.displayName
         this.image = auth.photoURL
-        // console.log('User exists', this.auth)
       } else {
-        // console.log('user does not exist')
+        setTimeout(() => {
+          this.$store.dispatch('PROMPT_SIGN_IN', true)
+        }, 3000)
       }
     })
+  },
+  computed: {
+    ...mapGetters({
+      checkAuthForSignInPrompt: 'GET_IF_AUTH'
+    })
+  },
+  watch: {
+    checkAuthForSignInPrompt: {
+      handler () {
+        const isPromptAuth = this.checkAuthForSignInPrompt
+        return isPromptAuth ? this.btnLogin() : ''
+      },
+      deep: true
+    }
   },
   methods: {
     terms () {
       this.fixed = !this.fixed
+    },
+    prompSignInAfterLoadingData () {
+      this.btnLogin()
     },
     btnLogin () {
       this.userAccountDialog = true

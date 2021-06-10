@@ -6,7 +6,8 @@ const state = () => ({
   currentUser: '',
   addingUser: false,
   displayName: '',
-  userPhoto: ''
+  userPhoto: '',
+  checkAuthForSignInPrompt: false
 })
 
 const getters = {
@@ -14,8 +15,8 @@ const getters = {
   GET_CURRENT_USER: state => state.currentUser,
   GET_ADDING_USER: state => state.addingUser,
   GET_DISPLAY_NAME: state => state.displayName,
-  GET_USER_PHOTO: state => state.userPhoto
-
+  GET_USER_PHOTO: state => state.userPhoto,
+  GET_IF_AUTH: state => state.checkAuthForSignInPrompt
 }
 
 const mutations = {
@@ -33,10 +34,16 @@ const mutations = {
   },
   SET_USER_PHOTO (state, data) {
     state.userPhoto = data
+  },
+  SET_CHECK_AUTH (state, data) {
+    state.checkAuthForSignInPrompt = data
   }
 }
 
 const actions = {
+  PROMPT_SIGN_IN (context, payload) {
+    context.commit('SET_CHECK_AUTH', payload)
+  },
   LOGIN_USER (context, form) {
     context.commit('SET_ADDING_USER', true)
     const provider = new firebase.auth.GoogleAuthProvider()
