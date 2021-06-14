@@ -11,6 +11,11 @@ const routes = [
     path: '/forgot-password',
     component: () => import('components/auth/ForgotPassword.vue')
   },
+  {
+    path: '/no-internet',
+    name: 'no-internet',
+    component: () => import('pages/NoInternet.vue')
+  },
 
   // Always leave this as last one,
   // but you can also remove it

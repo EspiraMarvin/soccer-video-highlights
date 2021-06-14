@@ -28,10 +28,11 @@ const commonMixins = {
       window.location.reload()
     },
     // i have used matchNotify to notify errors instead of matchDialog
-    matchNotif (message, color) {
+    matchNotif (notification) {
       this.$q.notify({
-        message: message,
-        color: color,
+        message: notification.message,
+        color: notification.type,
+        position: notification.position,
         icon: 'announcement'
         // classes: 'glossy'
       })
@@ -46,17 +47,17 @@ const commonMixins = {
 
     matchDialog () {
       this.$q.dialog({
+        // title: this.notification.message,
         title: '<p class="text-red">Check your internet connection! 😥<p>',
         message: 'Click <span class="text-primary "><strong> OK </strong></span> to retry',
         html: true,
         medium: true,
         ok: {
           push: true
-        },
-        persistent: true
+        }
       }).onOk(() => {
         // console.log('>>>> OK')
-        this.$store.dispatch('FETCH_MATCHES')
+        this.$store.dispatch('FETCH_MATCHES').catch(e => console.log(e))
       }).onCancel(() => {
         // console.log('>>>> Cancel')
       }).onDismiss(() => {
@@ -71,9 +72,8 @@ const commonMixins = {
       handler () {
         if (
           Object.entries(this.notification).length !== 0 && this.notification.constructor === Object) {
-          this.matchDialog()
+          // this matchNotif below, notifies that we cant fetch data.. I have commented out for better UI just like LinkedIn
           // this.matchNotif(this.notification)
-          // this.$.notify(this.notification)
           // reset the store for the next action call
           this.$store.commit('SET_NOTIFICATION', {})
         }
@@ -88,6 +88,7 @@ const commonMixins = {
             // this.matchDialog()
             // this.matchNotif()
             // this.MatchNotifyType('negative', error, 'top')
+            // console.log('errors', error)
           })
           // reset the store for the next action call
           this.$store.commit('SET_ERRORS', [])

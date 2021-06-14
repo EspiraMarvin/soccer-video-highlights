@@ -238,7 +238,7 @@ export default {
       fixed: false
     }
   },
-  created () {
+  mounted () {
     // firebase
     firebase.auth().onAuthStateChanged((auth) => {
       if (auth) {
@@ -248,7 +248,7 @@ export default {
       } else {
         setTimeout(() => {
           this.$store.dispatch('PROMPT_SIGN_IN', true)
-        }, 3000)
+        }, 5000)
       }
     })
   },

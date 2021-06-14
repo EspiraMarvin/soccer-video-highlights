@@ -43,11 +43,12 @@ const actions = {
         // console.log('store', data)
       })
       .catch(error => {
+        console.log('error', error)
         context.commit('SET_FETCHING_MATCHES', false)
         const alert = {
           type: 'negative',
           message: 'Failed to Load Matches',
-          position: 'top'
+          position: 'bottom'
         }
         if (
           error.response &&
@@ -57,6 +58,7 @@ const actions = {
           alert.message = error.response.data.message
         }
         context.commit('SET_NOTIFICATION', alert, { root: true })
+        this.$router.push('/no-internet')
       })
   }
 }
