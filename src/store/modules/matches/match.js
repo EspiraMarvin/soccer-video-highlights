@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { axios } from 'boot/axios'
 
 const state = () => ({
   matches: {},
