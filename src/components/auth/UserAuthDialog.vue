@@ -5,7 +5,7 @@
       <template v-if="image">
         <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
           <q-avatar size="42px">
-            <img :src="image">
+            <q-img :src="image" />
           </q-avatar>
         </q-btn>
       </template>
@@ -103,7 +103,15 @@
               lazy-rules
               :rules="[val => (val !== null && val !== '') || 'Please type your Password']"
             />
-            <q-toggle ref="term" v-if="method === 'sign up'" size="xs" v-model="form.accept" label="I accept the license and terms"/>
+            <q-toggle ref="term" v-if="method === 'sign up'" size="sm" v-model="form.accept"/>
+            <q-btn
+              v-if="method === 'sign up'"
+              flat
+              @click="terms"
+              label="Accept Terms and Conditions"
+              color="secondary"
+              class="text-capitalize rounded-borders"
+            />
           </q-form>
           <q-card-actions align="right">
             <div class="row q-mt-xs float-right" v-if="method === 'sign up'">
@@ -138,7 +146,7 @@
 
           <div v-if="dialogTitle === 'Create an Account'">
             <p class="text-class">
-              Or<q-btn
+              Already Registered?  <q-btn
               flat
               label="Login"
               @click="btnLogin"
@@ -149,7 +157,7 @@
           </div>
           <div v-if="method === 'sign in'">
             <p class="text-class">
-              Or<q-btn
+              No Account? <q-btn
               flat
               label="Register"
               @click="btnRegister"
@@ -167,14 +175,7 @@
             color="secondary"
             class="text-capitalize rounded-borders"
           />
-          <q-btn
-            v-if="method === 'sign up'"
-            flat
-            @click="terms"
-            label="Terms and Conditions"
-            color="secondary"
-            class="text-capitalize rounded-borders"
-          />
+
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -182,7 +183,7 @@
     <!--      reset password dialog-->
 
       <q-dialog v-model="resetPwdDialog">
-        <ForgotPassword />
+        <ForgotPassword @closeForm="closeResetPwdForm" />
       </q-dialog>
 
 <!--    terms and conditions dialog-->
@@ -209,6 +210,7 @@
 </template>
 
 <script>
+import { firebaseAuth } from 'src/boot/firebase'
 import firebase from 'firebase'
 import commonMixins from '../../mixins/commonMixins'
 import ForgotPassword from './ForgotPassword'
@@ -240,7 +242,7 @@ export default {
   },
   mounted () {
     // firebase
-    firebase.auth().onAuthStateChanged((auth) => {
+    firebaseAuth.onAuthStateChanged((auth) => {
       if (auth) {
         this.auth = true
         this.user = auth.displayName
@@ -267,9 +269,11 @@ export default {
     }
   },
   methods: {
+    // show terms  and conditions
     terms () {
       this.fixed = !this.fixed
     },
+    // prompt sign in After LoadingData
     prompSignInAfterLoadingData () {
       this.btnLogin()
     },
@@ -287,44 +291,57 @@ export default {
       this.userAccountDialog = false
       this.resetPwdDialog = true
     },
+    // close password reset dialog
+    closeResetPwdForm (value) {
+      this.resetPwdDialog = value
+    },
+    // confirm logout action before logging out
     btnConfirmLogout () {
       this.userAccountDialog = false
       this.confirm = true
     },
+    // logout user
     btnLogout () {
-      firebase.auth().signOut()
+      firebaseAuth.signOut()
         .then(() => {
           this.auth = false
           this.confirm = false
-          return this.matchNotif('User Signed Out', 'green')
+          return this.matchNotif({ message: 'Signed Out', type: 'green', avatar: this.image })
         })
-        .catch(error => this.matchNotif(error, 'secondary'))
+        .catch(error => this.matchNotif({ message: error, type: 'secondary' }))
     },
+    // firebase register new user
     createUser () {
-      if (!this.form.email || !this.form.password) return this.matchNotif('All fields are required !', 'red')
-      if (!this.form.accept) return this.matchNotif('Accept terms of use first', 'red')
+      if (!this.form.email || !this.form.password) {
+        this.$refs.loginForm.focus()
+        return
+      }
+      if (!this.form.accept) return this.matchNotif({ message: 'Accept terms of use first', type: 'red' })
       this.loading2 = true
-      firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
+      firebaseAuth.createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(auth => {
           this.user = auth.user.displayName
           this.image = auth.user.photoURL
           this.userAccountDialog = false
           this.loading2 = true
           this.userAccountDialog = false
-          return this.matchNotif('User Created Successfully', 'green')
+          return this.matchNotif({ message: 'User Created Successfully', type: 'green' })
         })
         .catch(error => {
           // eslint-disable-next-line no-unused-vars
           var errorCode = error.code
           var errorMessage = error.message
-          this.matchNotif(errorMessage, 'red')
+          this.matchNotif({ message: errorMessage, type: 'red' })
           this.loading2 = false
         })
     },
     signInExistingUser () {
-      if (!this.form.email || !this.form.password) return this.matchNotif('All Fields are required', 'red')
+      if (!this.form.email || !this.form.password) {
+        this.$refs.loginForm.focus()
+        return
+      }
       this.loading2 = true
-      firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
+      firebaseAuth.signInWithEmailAndPassword(this.form.email, this.form.password)
         .then((userCredential) => {
           // Signed in
           // eslint-disable-next-line no-unused-vars
@@ -334,46 +351,40 @@ export default {
           // ...
           this.loading2 = false
           this.userAccountDialog = false
-          return this.matchNotif('Signed In successfully', 'green')
+          return this.matchNotif({ message: 'Signed In successfully', type: 'green' })
         })
         .catch((error) => {
           // eslint-disable-next-line no-unused-vars
           var errorMessage = error.message
           this.loading2 = false
-          return this.matchNotif('User Does Not Exist !', 'red')
+          return this.matchNotif({ message: 'User Does Not Exist !', type: 'red' })
         })
     },
     google () {
-      // this.signInUser()
-      // this.userAccountDialog = false
       const provider = new firebase.auth.GoogleAuthProvider()
-      firebase.auth().signInWithPopup(provider)
+      firebaseAuth.signInWithPopup(provider)
         .then(result => {
           const credential = result.credential
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          // eslint-disable-next-line no-unused-vars
-          const token = credential.accessToken
-          // console.log(token)
-          // The signed-in user info.
-          // eslint-disable-next-line no-unused-vars
+          console.log('credential', credential)
           this.user = result.user.displayName
           this.image = result.user.photoURL
+          const avatar = result.user.photoURL
           this.userAccountDialog = false
-          this.matchNotif('Sign In Success', 'green')
+          this.matchNotif({ message: 'Sign In Success', type: 'green', avatar: avatar })
         })
         .catch((error) => {
-          // Handle Errors here.
           // eslint-disable-next-line no-unused-vars
           var errorCode = error.code
           // eslint-disable-next-line no-unused-vars
           var errorMessage = error.message
           // The email of the user's account used.
-          this.matchNotif(errorMessage, 'red')
+          this.matchNotifErr({ message: errorMessage, type: 'red' })
           var email = error.email
           // The firebase.auth.AuthCredential type that was used.
           this.matchNotif(email, 'red')
           var credential = error.credential
-          this.matchNotif(credential, 'red')
+          // this.matchNotif({ message: credential, type: 'red' })
+          this.matchNotifErr({ message: credential, type: 'red' })
         })
     }
   }

@@ -2,7 +2,6 @@ import firebase from 'firebase'
 
 const state = () => ({
   user: {},
-  token: '',
   currentUser: '',
   addingUser: false,
   displayName: '',
@@ -11,7 +10,6 @@ const state = () => ({
 })
 
 const getters = {
-  GET_TOKEN: state => state.token,
   GET_CURRENT_USER: state => state.currentUser,
   GET_ADDING_USER: state => state.addingUser,
   GET_DISPLAY_NAME: state => state.displayName,
@@ -20,9 +18,6 @@ const getters = {
 }
 
 const mutations = {
-  SET_TOKEN (state, data) {
-    state.token = data
-  },
   SET_CURRENT_USER (state, data) {
     state.currentUser = data
   },
