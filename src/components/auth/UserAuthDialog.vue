@@ -47,10 +47,10 @@
     <q-dialog v-model="userAccountDialog">
       <q-card class="card" align="center">
         <q-card-section class="row items-center q-pb-none">
-          <div class="text-subtitle1">
-            <q-avatar size="sm">
+          <div class="text-h6 flex text-center">
+            <q-avatar size="md" class="q-ml-lg">
               <q-img src="../../assets/icons/AppIcon.png" />
-            </q-avatar>
+            </q-avatar> &nbsp;
             {{ dialogTitle }}
           </div>
           <q-space />
@@ -103,7 +103,7 @@
           <q-card-actions align="right">
             <div class="row q-mt-xs float-right" v-if="method === 'sign up'">
               <q-btn
-                class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
+                class="q-px-md text-capitalize rounded-borders"
                 label="Register"
                 @click="createUser"
                 color="primary"
@@ -117,7 +117,7 @@
             </div>
             <div class="row q-mt-xs float-right" v-if="method === 'sign in'">
               <q-btn
-                class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
+                class="q-px-lg text-capitalize rounded-borders"
                 label="Login"
                 @click="signInExistingUser"
                 color="primary"
@@ -270,10 +270,6 @@ export default {
     // show terms  and conditions
     terms () {
       this.fixed = !this.fixed
-    },
-    // prompt sign in After LoadingData
-    prompSignInAfterLoadingData () {
-      this.btnLogin()
     },
     btnLogin () {
       this.userAccountDialog = true
