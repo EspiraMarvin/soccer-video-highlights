@@ -13,8 +13,12 @@
 
           <q-toolbar-title>
             <div style="margin-top: 5px" class="text-italic">
+              <q-avatar size="xs" class="rotatecontinuous">
+                <q-img src="../../assets/icons/AppIcon.png" />
+              </q-avatar>
               {{ title }}
             </div>
+            <q-space />
             <p style="font-size: 14px; margin-left: -5px">&nbsp;&nbsp;<sub> Watch Soccer Highlights</sub></p>
           </q-toolbar-title>
 
@@ -296,6 +300,18 @@ export default {
   }
   .myLeagues {
     margin-top: -13px
+  }
+
+  .rotatecontinuous {
+    animation: rotation 4s infinite linear;
+  }
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
   }
 
 </style>

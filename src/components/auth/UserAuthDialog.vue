@@ -1,11 +1,11 @@
 
 <template>
   <div>
-    <template v-if="auth">
-      <template v-if="image">
+    <template v-if="user.auth">
+      <template v-if="user.auth">
         <q-btn round color="green" class="small-screen-only" @click="btnConfirmLogout">
           <q-avatar size="42px">
-            <q-img :src="image" />
+            <q-img ref="userImage" :src="user.userPhoto" />
           </q-avatar>
         </q-btn>
       </template>
@@ -18,12 +18,11 @@
       </template>
     </template>
     <template v-else>
-      <q-btn round color="grey-5" icon="eva-person-outline" class="small-screen-only" @click="btnLogin" />
+      <q-btn round color="grey-5" unelevated  icon="eva-person-outline" class="small-screen-only" @click="btnLogin" />
     </template>
 
-    <template v-if="auth">
-      <template v-if="user">
-        <q-btn-dropdown color="bg-green large-screen-only" :label="user">
+    <template v-if="user.auth">
+        <q-btn-dropdown class="large-screen-only" :label="user.userName">
           <q-list>
             <q-item clickable v-close-popup @click="btnLogout">
               <q-item-section align="center">
@@ -32,18 +31,6 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-      </template>
-      <template v-else>
-        <q-btn-dropdown color="primary large-screen-only" icon="eva-person-done-outline">
-          <q-list>
-            <q-item clickable v-close-popup @click="btnLogout">
-              <q-item-section align="center">
-                <q-item-label>Logout</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
-      </template>
     </template>
     <template v-else>
       <div class="large-screen-only">
@@ -62,7 +49,7 @@
         <q-card-section class="row items-center q-pb-none">
           <div class="text-subtitle1">
             <q-avatar size="sm">
-              <img src="../../assets/icons/AppIcon.png">
+              <q-img src="../../assets/icons/AppIcon.png" />
             </q-avatar>
             {{ dialogTitle }}
           </div>
@@ -215,7 +202,7 @@ import firebase from 'firebase'
 import commonMixins from '../../mixins/commonMixins'
 import ForgotPassword from './ForgotPassword'
 import Terms from '../Terms/Terms'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'UserAuthDialog',
@@ -235,28 +222,35 @@ export default {
       auth: false,
       loading2: false,
       confirm: false,
-      user: '',
       image: '',
       fixed: false
     }
   },
-  mounted () {
-    // firebase
-    firebaseAuth.onAuthStateChanged((auth) => {
-      if (auth) {
-        this.auth = true
-        this.user = auth.displayName
-        this.image = auth.photoURL
-      } else {
-        setTimeout(() => {
-          this.$store.dispatch('PROMPT_SIGN_IN', true)
-        }, 5000)
-      }
-    })
-  },
+  // created () {
+  //   // firebase
+  //   firebaseAuth.onAuthStateChanged((auth) => {
+  //     if (auth) {
+  //       // this.auth = true
+  //       // this.user = auth.displayName
+  //       // this.image = auth.photoURL
+  //       const userDetails = {
+  //         auth: true,
+  //         userName: auth.displayName,
+  //         userPhoto: auth.photoURL,
+  //         userNumber: auth.phoneNumber
+  //       }
+  //       this.updateUserDetails(userDetails)
+  //     } else {
+  //       setTimeout(() => {
+  //         this.$store.dispatch('PROMPT_SIGN_IN', true)
+  //       }, 5000)
+  //     }
+  //   })
+  // },
   computed: {
     ...mapGetters({
-      checkAuthForSignInPrompt: 'GET_IF_AUTH'
+      checkAuthForSignInPrompt: 'GET_IF_AUTH',
+      user: 'GET_CURRENT_USER'
     })
   },
   watch: {
@@ -269,6 +263,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      updateUserDetails: 'USER_DETAILS',
+      logout: 'lOGOUT_USER'
+    }),
     // show terms  and conditions
     terms () {
       this.fixed = !this.fixed
@@ -304,9 +302,10 @@ export default {
     btnLogout () {
       firebaseAuth.signOut()
         .then(() => {
-          this.auth = false
-          this.confirm = false
-          return this.matchNotif({ message: 'Signed Out', type: 'green', avatar: this.image })
+          // this.auth = false
+          // this.confirm = false
+          this.matchNotif({ message: 'Signed Out', type: 'green', avatar: this.user.userPhoto })
+          this.logout('')
         })
         .catch(error => this.matchNotif({ message: error, type: 'secondary' }))
     },
