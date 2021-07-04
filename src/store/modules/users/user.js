@@ -34,7 +34,7 @@ const actions = {
     console.log('user details payload', payload)
     commit('SET_CURRENT_USER', payload)
   },
-  lOGOUT_USER ({ commit }, payload) {
+  LOGOUT_USER ({ commit }, payload) {
     commit('SET_CURRENT_USER', payload)
   }
 }

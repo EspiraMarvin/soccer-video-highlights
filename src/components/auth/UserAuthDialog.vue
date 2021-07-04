@@ -22,7 +22,7 @@
     </template>
 
     <template v-if="user.auth">
-        <q-btn-dropdown class="large-screen-only" :label="user.userName">
+        <q-btn-dropdown class="large-screen-only" :label="user.userName ?  user.userName : user.email ">
           <q-list>
             <q-item clickable v-close-popup @click="btnLogout">
               <q-item-section align="center">
@@ -219,34 +219,13 @@ export default {
       resetPwdDialog: false,
       dialogTitle: '',
       method: '',
-      auth: false,
       loading2: false,
       confirm: false,
       image: '',
       fixed: false
     }
   },
-  // created () {
-  //   // firebase
-  //   firebaseAuth.onAuthStateChanged((auth) => {
-  //     if (auth) {
-  //       // this.auth = true
-  //       // this.user = auth.displayName
-  //       // this.image = auth.photoURL
-  //       const userDetails = {
-  //         auth: true,
-  //         userName: auth.displayName,
-  //         userPhoto: auth.photoURL,
-  //         userNumber: auth.phoneNumber
-  //       }
-  //       this.updateUserDetails(userDetails)
-  //     } else {
-  //       setTimeout(() => {
-  //         this.$store.dispatch('PROMPT_SIGN_IN', true)
-  //       }, 5000)
-  //     }
-  //   })
-  // },
+
   computed: {
     ...mapGetters({
       checkAuthForSignInPrompt: 'GET_IF_AUTH',
@@ -265,7 +244,7 @@ export default {
   methods: {
     ...mapActions({
       updateUserDetails: 'USER_DETAILS',
-      logout: 'lOGOUT_USER'
+      logout: 'LOGOUT_USER'
     }),
     // show terms  and conditions
     terms () {
@@ -298,8 +277,6 @@ export default {
     btnLogout () {
       firebaseAuth.signOut()
         .then(() => {
-          // this.auth = false
-          // this.confirm = false
           this.matchNotif({ message: 'Signed Out', type: 'green', avatar: this.user.userPhoto })
           this.logout('')
         })
@@ -315,12 +292,20 @@ export default {
       this.loading2 = true
       firebaseAuth.createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(auth => {
-          this.user = auth.user.displayName
-          this.image = auth.user.photoURL
+          const avatar = auth.user.photoURL
+          const userDetails = {
+            auth: true,
+            userName: auth.user.displayName,
+            userPhoto: auth.user.photoURL,
+            userNumber: auth.user.phoneNumber,
+            userEmail: auth.user.email
+          }
+          this.updateUserDetails(userDetails)
           this.userAccountDialog = false
           this.loading2 = true
           this.userAccountDialog = false
-          return this.matchNotif({ message: 'User Created Successfully', type: 'green' })
+          this.form = {}
+          return this.matchNotif({ message: 'User Created Successfully', type: 'green', avatar: avatar })
         })
         .catch(error => {
           // eslint-disable-next-line no-unused-vars
@@ -338,15 +323,21 @@ export default {
       this.loading2 = true
       firebaseAuth.signInWithEmailAndPassword(this.form.email, this.form.password)
         .then((userCredential) => {
-          // Signed in
           // eslint-disable-next-line no-unused-vars
           const user = userCredential.user
-          this.user = user.displayName
-          this.image = user.photoURL
-          // ...
+          const avatar = user.photoURL
+          const userDetails = {
+            auth: true,
+            userName: user.displayName,
+            userPhoto: user.photoURL,
+            userNumber: user.phoneNumber,
+            userEmail: user.email
+          }
+          this.updateUserDetails(userDetails)
           this.loading2 = false
           this.userAccountDialog = false
-          return this.matchNotif({ message: 'Signed In successfully', type: 'green' })
+          this.form = {}
+          return this.matchNotif({ message: 'Signed In successfully', type: 'green', avatar: avatar })
         })
         .catch((error) => {
           // eslint-disable-next-line no-unused-vars
@@ -359,27 +350,29 @@ export default {
       const provider = new firebase.auth.GoogleAuthProvider()
       firebaseAuth.signInWithPopup(provider)
         .then(result => {
+          // eslint-disable-next-line no-unused-vars
           const credential = result.credential
-          console.log('credential', credential)
-          this.user = result.user.displayName
-          this.image = result.user.photoURL
           const avatar = result.user.photoURL
+          const userDetails = {
+            auth: true,
+            userName: result.user.displayName,
+            userPhoto: result.user.photoURL,
+            userNumber: result.user.phoneNumber,
+            userEmail: result.user.email
+          }
+          this.updateUserDetails(userDetails)
           this.userAccountDialog = false
           this.matchNotif({ message: 'Sign In Success', type: 'green', avatar: avatar })
         })
         .catch((error) => {
-          // eslint-disable-next-line no-unused-vars
-          var errorCode = error.code
-          // eslint-disable-next-line no-unused-vars
           var errorMessage = error.message
           // The email of the user's account used.
-          this.matchNotifErr({ message: errorMessage, type: 'red' })
+          this.matchNotif({ message: errorMessage, type: 'red' })
           var email = error.email
           // The firebase.auth.AuthCredential type that was used.
-          this.matchNotif(email, 'red')
+          this.matchNotif({ message: email, type: 'red' })
           var credential = error.credential
-          // this.matchNotif({ message: credential, type: 'red' })
-          this.matchNotifErr({ message: credential, type: 'red' })
+          this.matchNotif({ message: credential, type: 'red' })
         })
     }
   }

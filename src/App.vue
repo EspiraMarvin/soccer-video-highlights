@@ -4,7 +4,6 @@
   </div>
 </template>
 <script>
-// import { firebaseAuth } from 'boot/firebase'
 import { firebaseAuth } from 'boot/firebase'
 import { mapActions } from 'vuex'
 
@@ -14,9 +13,6 @@ export default {
     // firebase
     firebaseAuth.onAuthStateChanged((auth) => {
       if (auth) {
-        // this.auth = true
-        // this.user = auth.displayName
-        // this.image = auth.photoURL
         const userDetails = {
           auth: true,
           userName: auth.displayName,
@@ -33,8 +29,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateUserDetails: 'USER_DETAILS',
-      logout: 'lOGOUT_USER'
+      updateUserDetails: 'USER_DETAILS'
     })
   }
 }

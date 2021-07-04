@@ -218,7 +218,6 @@ export default {
   name: 'MainNav',
   components: { CountryFlag, UserAuthDialog },
   created () {
-    // console.log('theme', this.$q.dark.isActive)
     this.theme = JSON.parse(localStorage.getItem('theme'))
     this.getWidth()
   },
@@ -276,9 +275,6 @@ export default {
       addingMatch: 'GET_ADDING_MATCH',
       tab: 'GET_CURRENT_TAB',
       clientWidth: 'GET_CLIENT_WIDTH'
-      // currentUser: 'GET_CURRENT_USER',
-      // image: 'GET_USER_PHOTO',
-      // user: 'GET_DISPLAY_NAME'
     })
   }
 }

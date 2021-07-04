@@ -29,16 +29,12 @@ const commonMixins = {
     },
     // i have used matchNotify to notify errors instead of matchDialog
     matchNotif (notification) {
-      console.log('notification mixins', notification)
-      console.log('mixins avatar', notification.avatar)
       this.$q.notify({
         message: notification.message,
         color: notification.type,
         position: notification.position,
         // icon: 'announcement',
         avatar: notification.avatar
-        // avatar: 'https://lh3.googleusercontent.com/a-/AOh14Ghg9eraTVVjpuwF1GC2LN6bNZsC8YBgRedYd5uwTg=s96-c'
-        // avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
         // classes: 'glossy'
       })
     },
