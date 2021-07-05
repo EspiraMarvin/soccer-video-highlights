@@ -58,7 +58,7 @@ const actions = {
           alert.message = error.response.data.message
         }
         context.commit('SET_NOTIFICATION', alert, { root: true })
-        this.$router.push('/no-internet')
+        this.$router.replace('/no-internet')
       })
   }
 }

@@ -1,7 +1,6 @@
 <template>
-
-  <q-card class="my-card" style="height: 450px; margin-top: -10px">
-    <q-card-section class="row items-center q-pb-sm">
+  <q-card class="my-card q-mt-xl" style="height: 450px; margin-top: -10px">
+    <q-card-section class="q-pb-sm row items-center justify-center">
       <div class="text-h6">
         <q-avatar size="md">
           <img src="../../assets/icons/AppIcon.png">
@@ -9,7 +8,10 @@
         &nbsp; Search Matches
       </div>
       <q-space />
-      <q-btn icon="close" flat round dense v-close-popup />
+      <q-btn
+        @click="closeSearch"
+        icon="close" size="lg" class="small-screen-only" flat round dense v-close-popup
+      />
     </q-card-section>
     <div>
       <q-input
@@ -66,37 +68,39 @@
     <template v-else>
       <p class="text-h6">No Match Found 😪 </p>
     </template>
-    <q-dialog v-model="showVideoDialog" persistent>
-      <q-card class="my-card">
-        <div class="row items-center">
+<!--    <q-dialog v-model="showVideoDialog" persistent>-->
+<!--      <q-card class="my-card">-->
+<!--        <div class="row items-center">-->
 
-          <div class="text-subtitle1 q-ml-md"> {{ dialogTitle }} </div>
-          <q-space />
-          <q-btn
-            icon="close"
-            @click="closeDialog"
-            flat round />
-        </div>
-        <q-card-section
-          style="margin-top:-13px"
-        >
-          <q-video v-html="videoUrl" src=""></q-video>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+<!--          <div class="text-subtitle1 q-ml-md"> {{ dialogTitle }} </div>-->
+<!--          <q-space />-->
+<!--          <q-btn-->
+<!--            icon="close"-->
+<!--            @click="closeDialog"-->
+<!--            flat round />-->
+<!--        </div>-->
+<!--        <q-card-section-->
+<!--          style="margin-top:-13px"-->
+<!--        >-->
+<!--          <q-video :src="videoUrl" />-->
+<!--        </q-card-section>-->
+<!--      </q-card>-->
+<!--    </q-dialog>-->
 
   </q-card>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+const moment = require('moment')
 
 export default {
   name: 'Search',
   data () {
     return {
       search: '',
-      showVideoDialog: true
+      showVideoDialog: true,
+      moment: moment
     }
   },
   computed: {
@@ -118,6 +122,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      openRightDrawer: 'RIGHT_DRAWER'
+    }),
     requestData () {
       this.loadingData = true
       this.$store.dispatch('FETCH_MATCHES')
@@ -133,6 +140,9 @@ export default {
     },
     closeDialog () {
       this.showVideoDialog = false
+    },
+    closeSearch () {
+      this.openRightDrawer(false)
     }
   }
 }

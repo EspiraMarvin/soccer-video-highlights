@@ -16,7 +16,7 @@
               <q-avatar size="xs" class="rotatecontinuous">
                 <q-img src="../../assets/icons/AppIcon.png" />
               </q-avatar>
-              {{ title }}
+                {{ title }}
             </div>
             <q-space />
             <p style="font-size: 14px; margin-left: -5px">&nbsp;&nbsp;<sub> Watch Soccer Highlights</sub></p>
@@ -38,6 +38,7 @@
 
       <q-drawer
         v-model="leftDrawerOpen"
+        side="left"
         show-if-above
         :width="200"
         :breakpoint="600"
@@ -206,6 +207,27 @@
       </q-scroll-area>
       </q-drawer>
 
+      <!--      right drawer for search component-->
+      <q-drawer
+        v-if="rightDrawer"
+        v-model="rightDrawerOpen"
+        side="right"
+        show-if-above
+        :width="280"
+        class="small-screen-only"
+      >
+        <Search  />
+      </q-drawer>
+      <q-drawer
+      v-if="rightDrawer"
+      v-model="rightDrawerOpen"
+        side="right"
+        show-if-above
+        :breakpoint="700"
+      >
+        <Search  />
+      </q-drawer>
+
     </div>
 </template>
 
@@ -213,10 +235,11 @@
 import UserAuthDialog from '../auth/UserAuthDialog'
 import CountryFlag from 'vue-country-flag'
 import { mapGetters, mapActions } from 'vuex'
+import Search from 'components/search/Search'
 
 export default {
   name: 'MainNav',
-  components: { CountryFlag, UserAuthDialog },
+  components: { CountryFlag, UserAuthDialog, Search },
   created () {
     this.theme = JSON.parse(localStorage.getItem('theme'))
     this.getWidth()
@@ -227,6 +250,7 @@ export default {
       message: '',
       theme: '',
       leftDrawerOpen: false,
+      rightDrawerOpen: false,
       title: 'kscore.com',
       contentStyle: {
         color: '#555',
@@ -253,11 +277,13 @@ export default {
   watch: {
     theme: function () {
       localStorage.setItem('theme', JSON.stringify(this.theme))
+    },
+    rightDrawer: function () {
+      this.rightDrawer === true ? this.rightDrawerOpen = true : this.rightDrawerOpen = false
     }
   },
   methods: {
     ...mapActions({
-      signInUser: 'LOGIN_USER',
       getWidth: 'CLIENT_WIDTH'
     }),
     setCurrentTab (tabName) {
@@ -274,7 +300,8 @@ export default {
       matches: 'GET_MATCHES',
       addingMatch: 'GET_ADDING_MATCH',
       tab: 'GET_CURRENT_TAB',
-      clientWidth: 'GET_CLIENT_WIDTH'
+      clientWidth: 'GET_CLIENT_WIDTH',
+      rightDrawer: 'GET_RIGHT_DRAWER'
     })
   }
 }

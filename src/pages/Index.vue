@@ -176,7 +176,6 @@
           </template>
           <template v-else>
             <p class="text-h6">No Match Found 😪! </p>
-            <Cube class="flex flex-center" />
           </template>
         </q-card>
       </q-dialog>
@@ -196,20 +195,32 @@
         <q-card-section
           style="margin-top:-13px"
         >
-          <q-video v-html="videoUrl"></q-video>
+          <q-video :src="videoUrl" />
         </q-card-section>
       </q-card>
     </q-dialog>
 
     <q-page-sticky position="bottom-right" :offset="[18, 80]">
       <q-btn
-        @click="searchMatch"
+        @click="openSearchDrawer = !openSearchDrawer"
         glossy
         push
         round
         style="background: #1976D2;"
         fab
         text-color="white"
+        class="large-screen-only"
+        :icon="!openSearchDrawer ? 'eva-search' : 'close'"
+      />
+      <q-btn
+        @click="openSearchDrawer = !openSearchDrawer"
+        glossy
+        push
+        round
+        style="background: #1976D2;"
+        fab
+        text-color="white"
+        class="small-screen-only"
         icon="eva-search"
       />
     </q-page-sticky>
@@ -217,19 +228,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import commonMixins from '../mixins/commonMixins'
 import Skeleton from '../components/skeleton/Skeleton'
 import Tab from '../components/tabs/Tab'
 import Matches from '../components/matches/Matches'
-import Cube from '../components/animations/Cube'
 
 const moment = require('moment')
 export default {
   name: 'PageIndex',
   mixins: [commonMixins],
   components: {
-    Cube,
     Matches,
     Tab,
     Skeleton
@@ -266,7 +275,8 @@ export default {
       eflMatches: [],
       uefaEuroMatches: [],
       worldCupMatches: [],
-      numberOfSkeletons: 24
+      numberOfSkeletons: 24,
+      openSearchDrawer: false
     }
   },
   computed: {
@@ -274,7 +284,9 @@ export default {
       loadingMatches: 'GET_FETCHING_MATCHES',
       matches: 'GET_MATCHES',
       addingMatch: 'GET_ADDING_MATCH',
-      tab: 'GET_CURRENT_TAB'
+      tab: 'GET_CURRENT_TAB',
+      rightDrawer: 'GET_RIGHT_DRAWER',
+      clientWidth: 'GET_CLIENT_WIDTH'
     }),
     // to lowercase search
     resultQuery () {
@@ -288,6 +300,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      openRightDrawer: 'RIGHT_DRAWER'
+    }),
     requestData () {
       this.loadingData = true
       this.$store.dispatch('FETCH_MATCHES')
@@ -296,9 +311,6 @@ export default {
     },
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)
-    },
-    searchMatch () {
-      this.showInputDialog = true
     },
     showVideo (video, index) {
       this.showVideoDialog = true
@@ -360,6 +372,13 @@ export default {
         }
       },
       deep: true
+    },
+    openSearchDrawer: function () {
+      if (this.openSearchDrawer === true) {
+        this.openRightDrawer(true)
+      } else {
+        this.openRightDrawer(false)
+      }
     }
   }
 }

@@ -1,13 +1,15 @@
 const state = () => ({
   notification: {},
   errors: [],
-  clientWidth: ''
+  clientWidth: '',
+  rightDrawer: false
 })
 
 const getters = {
   GET_NOTIFICATION: state => state.notification,
   GET_ERRORS: state => state.errors,
-  GET_CLIENT_WIDTH: state => state.clientWidth
+  GET_CLIENT_WIDTH: state => state.clientWidth,
+  GET_RIGHT_DRAWER: state => state.rightDrawer
 }
 
 const mutations = {
@@ -19,6 +21,9 @@ const mutations = {
   },
   SET_CLIENT_WIDTH (state, value) {
     state.clientWidth = value
+  },
+  SET_RIGHT_DRAWER (state, payload) {
+    state.rightDrawer = payload
   }
 }
 
@@ -27,6 +32,9 @@ const actions = {
     // get widows/client width / viewport
     const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
     context.commit('SET_CLIENT_WIDTH', width)
+  },
+  RIGHT_DRAWER (context, payload) {
+    context.commit('SET_RIGHT_DRAWER', payload)
   }
 }
 
