@@ -8,12 +8,11 @@
         :value="game.value"
         v-ripple
         class="q-mb-xs">
-        <q-card-section @click="showVideo(game.videos[0].embed)">
+        <q-card-section @click="showVideo(game.videos[0].embed, game.title, game.date)">
           <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
             <div class=" row"
                  v-ripple
             >
-
               <div style="margin-right: 2.5px">
                 <q-avatar class="q-responsive" style="font-size:20px" size="px">
                   <img :src="game.thumbnail" alt="Image">
@@ -34,20 +33,26 @@
     </q-list>
 
     <q-dialog v-model="showVideoDialog" transition-show="" transition-hide="" persistent>
-      <q-card class="my-card">
-        <div class="row items-center">
-
-          <div class="text-subtitle1 q-ml-md"> {{ dialogTitle }} </div>
+      <q-card style="width: 800px; max-width: 100vw;">
+        <div class="flex flex-inline items-center">
+          <div class="text-subtitle2 q-px-md q-py-sm">
+            {{ matchDialogDetails[1] }}
+            <q-badge color="green">{{ moment(matchDialogDetails[2]).format("D-MMMYY") }}</q-badge>
+            <span>&nbsp;{{ matchDialogDetails[0] }}</span>
+          </div>
           <q-space />
           <q-btn
+            class=""
             icon="close"
             @click="closeDialog"
-            flat round />
+            flat round
+            size="lg"
+          />
         </div>
         <q-card-section
           style="margin-top:-13px"
         >
-          <q-video v-html="videoUrl" src=""></q-video>
+          <q-video v-html="videoUrl" src="" />
 
         </q-card-section>
         <q-card-actions>
@@ -75,28 +80,27 @@ export default {
     return {
       moment: moment,
       showVideoDialog: false,
-      dialogTitle: '',
+      matchDialogDetails: [],
       videoUrl: ''
     }
   },
   methods: {
-    showVideo (embed) {
+    showVideo (embed, title, date) {
       this.showVideoDialog = true
-      this.dialogTitle = 'Highlights'
+      this.matchDialogDetails.push('Highlights')
+      this.matchDialogDetails.push(title)
+      this.matchDialogDetails.push(date)
       this.videoUrl = embed
     },
     closeDialog () {
       this.showVideoDialog = false
+      this.matchDialogDetails = []
     }
   }
 }
 </script>
 
 <style scoped>
-  .my-card{
-    width: 100%;
-    max-width: 800px
-  }
   .my-list{
     margin-top: -8px;
     margin-left: -12px;

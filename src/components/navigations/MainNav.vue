@@ -216,14 +216,19 @@
         :width="280"
         class="small-screen-only"
       >
-        <Search  />
+        <q-scroll-area
+          style="height: calc(100% - 30%)"
+        >
+          <Search  />
+        </q-scroll-area>
       </q-drawer>
       <q-drawer
-      v-if="rightDrawer"
-      v-model="rightDrawerOpen"
+        v-if="rightDrawer"
+        v-model="rightDrawerOpen"
         side="right"
         show-if-above
-        :breakpoint="700"
+        :width="400"
+        class="large-screen-only"
       >
         <Search  />
       </q-drawer>

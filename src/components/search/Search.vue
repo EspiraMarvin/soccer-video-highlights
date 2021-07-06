@@ -1,93 +1,98 @@
 <template>
-  <q-card class="my-card q-mt-xl" style="height: 450px; margin-top: -10px">
-    <q-card-section class="q-pb-sm row items-center justify-center">
-      <div class="text-h6">
-        <q-avatar size="md">
-          <img src="../../assets/icons/AppIcon.png">
-        </q-avatar>
-        &nbsp; Search Matches
+  <div class="">
+    <q-card class="q-mt-xl absolute-full full-height" style="margin-top: -10px; margin-bottom: 10px; width: 100%">
+      <q-card-section class="q-pb-sm row items-center justify-center">
+        <div class="text-h6">
+          <q-avatar size="md">
+            <q-img src="../../assets/icons/AppIcon.png" />
+          </q-avatar>
+          &nbsp; Search Matches
+        </div>
+        <q-space />
+        <q-btn
+          @click="closeSearch"
+          icon="close" size="lg" class="lt-md" flat round dense v-close-popup
+        />
+      </q-card-section>
+      <div>
+        <q-input
+          v-model="search"
+          square
+          dark
+          standout
+          label="Search ..."
+          type="search"
+          class="bg-primary"
+        >
+          <template v-slot:append>
+            <q-icon
+              v-if="search === ''"
+              text-color=""
+              color="white"
+              name="eva-search">
+            </q-icon>
+            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
+          </template>
+        </q-input>
       </div>
-      <q-space />
-      <q-btn
-        @click="closeSearch"
-        icon="close" size="lg" class="small-screen-only" flat round dense v-close-popup
-      />
-    </q-card-section>
-    <div>
-      <q-input
-        v-model="search"
-        dense
-        square
-        dark
-        standout
-        label="Search ..."
-        type="search"
-        class="bg-primary"
-      >
-        <template v-slot:append>
-          <q-icon
-            v-if="search === ''"
-            text-color=""
-            color="white"
-            name="eva-search">
-          </q-icon>
-          <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
-        </template>
-      </q-input>
-    </div>
-    <template v-if="resultQuery.length">
-      <div v-for="(game, index) in resultQuery"
-           :key="index"
-           :value="game.value"
-      >
-        <q-card-section @click="showVideo(game.videos[0].embed)">
-          <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
-            <div class=" row"
-                 v-ripple
-            >
 
-              <div style="margin-right: 2.5px">
-                <q-avatar class="q-responsive" style="font-size:16px" size="px">
-                  <img :src="game.thumbnail" alt="Image">
-                </q-avatar>
-              </div>
-              <span>
-                <div class="fa-bold" style="font-size: 12px">
-                  &nbsp;<span style="font-size:11px">{{ game.title }}&nbsp;
-                  <sub style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</sub>
-
+      <template v-if="search.length">
+        <q-scroll-area
+          class="full-height"
+        >
+        <div class="flex flex-center q-mt-lg" v-if="resultQuery.length === 0">
+          <p class="text-h6">No Match Found 😪 </p>
+        </div>
+        <q-card flat v-for="(game, index) in resultQuery"
+             :key="index"
+             :value="game.value"
+        >
+          <q-card-section @click="showVideo(game.videos[0].embed, game.title, game.date)">
+            <div class="row no-wrap items-center q-py-sm" style="height:3.5px">
+              <div class="row full-width">
+                <span>
+                  <div class="fa-bold" style="font-size: 12px">
+                    <q-avatar class="q-responsive" style="font-size:16px" size="px">
+                      <img :src="game.thumbnail" alt="Image">
+                    </q-avatar>
+                    <span style="font-size:13px"> {{ game.title }} </span>
+                  </div>
                 </span>
-                </div>
-              </span>
+              </div>
             </div>
+          </q-card-section>
+          <q-separator />
+        </q-card>
+        </q-scroll-area>
+      </template>
+
+    <q-dialog v-model="showVideoDialog" transition-show="" transition-hide="" persistent>
+      <q-card style="width: 800px; max-width: 100vw;">
+        <div class="flex flex-inline items-center">
+          <div class="text-subtitle2 q-px-md q-py-sm">
+            {{ matchDialogDetails[1] }}
+            <q-badge color="green">{{ moment(matchDialogDetails[2]).format("D-MMMYY") }}</q-badge>
+            <span>&nbsp;{{ matchDialogDetails[0] }}</span>
           </div>
+          <q-space />
+          <q-btn
+            class=""
+            icon="close"
+            @click="closeDialog"
+            flat round
+            size="lg"
+          />
+
+        </div>
+        <q-card-section
+          style="margin-top:-13px"
+        >
+          <q-video v-html="videoUrl" src="" />
         </q-card-section>
-        <q-separator />
-      </div>
-    </template>
-    <template v-else>
-      <p class="text-h6">No Match Found 😪 </p>
-    </template>
-<!--    <q-dialog v-model="showVideoDialog" persistent>-->
-<!--      <q-card class="my-card">-->
-<!--        <div class="row items-center">-->
-
-<!--          <div class="text-subtitle1 q-ml-md"> {{ dialogTitle }} </div>-->
-<!--          <q-space />-->
-<!--          <q-btn-->
-<!--            icon="close"-->
-<!--            @click="closeDialog"-->
-<!--            flat round />-->
-<!--        </div>-->
-<!--        <q-card-section-->
-<!--          style="margin-top:-13px"-->
-<!--        >-->
-<!--          <q-video :src="videoUrl" />-->
-<!--        </q-card-section>-->
-<!--      </q-card>-->
-<!--    </q-dialog>-->
-
+      </q-card>
+    </q-dialog>
   </q-card>
+  </div>
 </template>
 
 <script>
@@ -99,9 +104,15 @@ export default {
   data () {
     return {
       search: '',
-      showVideoDialog: true,
-      moment: moment
+      showVideoDialog: false,
+      moment: moment,
+      videoUrl: '',
+      matchDialogDetails: [],
+      noMatches: false
     }
+  },
+  mounted () {
+    console.log('mathc moutd', this.matches)
   },
   computed: {
     ...mapGetters({
@@ -113,12 +124,18 @@ export default {
     // to lowercase search
     resultQuery () {
       if (this.search) {
-        return this.allMatches.filter((game) => {
+        console.log('result query search', this.search)
+        return this.matches.filter((game) => {
           return this.search.toLowerCase().split(' ').every(v => game.title.toLowerCase().includes(v))
         })
       } else {
-        return this.matches
+        return ''
       }
+    }
+  },
+  watch: {
+    resultQuery: function () {
+      console.log('watching resultquery', this.resultQuery)
     }
   },
   methods: {
@@ -133,13 +150,16 @@ export default {
       this.setCurrentTab('allgames')
       this.loadingData = false
     },
-    showVideo (video, index) {
+    showVideo (embed, title, date) {
       this.showVideoDialog = true
-      this.dialogTitle = 'Highlights'
-      this.videoUrl = video
+      this.matchDialogDetails.push('Highlights')
+      this.matchDialogDetails.push(title)
+      this.matchDialogDetails.push(date)
+      this.videoUrl = embed
     },
     closeDialog () {
       this.showVideoDialog = false
+      this.matchDialogDetails = []
     },
     closeSearch () {
       this.openRightDrawer(false)
