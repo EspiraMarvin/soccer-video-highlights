@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    <q-card class="q-mt-xl absolute-full full-height" style="margin-top: -10px; margin-bottom: 10px; width: 100%">
+  <q-page class="relative-position">
+    <q-card class="q-mb-xs full-width">
       <q-card-section class="q-pb-sm row items-center justify-center">
         <div class="text-h6">
           <q-avatar size="md">
@@ -14,7 +14,7 @@
           icon="close" size="lg" class="lt-md" flat round dense v-close-popup
         />
       </q-card-section>
-      <div>
+      <div class="">
         <q-input
           v-model="search"
           square
@@ -37,9 +37,6 @@
       </div>
 
       <template v-if="search.length">
-        <q-scroll-area
-          class="full-height"
-        >
         <div class="flex flex-center q-mt-lg" v-if="resultQuery.length === 0">
           <p class="text-h6">No Match Found 😪 </p>
         </div>
@@ -51,22 +48,21 @@
             <div class="row no-wrap items-center q-py-sm" style="height:3.5px">
               <div class="row full-width">
                 <span>
-                  <div class="fa-bold" style="font-size: 12px">
+                  <q-item class="fa-bold" style="font-size: 12px">
                     <q-avatar class="q-responsive" style="font-size:16px" size="px">
                       <img :src="game.thumbnail" alt="Image">
                     </q-avatar>
                     <span style="font-size:13px"> {{ game.title }} </span>
-                  </div>
+                  </q-item>
                 </span>
               </div>
             </div>
           </q-card-section>
           <q-separator />
         </q-card>
-        </q-scroll-area>
       </template>
 
-    <q-dialog v-model="showVideoDialog" transition-show="" transition-hide="" persistent>
+      <q-dialog v-model="showVideoDialog" transition-show="" transition-hide="" persistent>
       <q-card style="width: 800px; max-width: 100vw;">
         <div class="flex flex-inline items-center">
           <div class="text-subtitle2 q-px-md q-py-sm">
@@ -92,7 +88,7 @@
       </q-card>
     </q-dialog>
   </q-card>
-  </div>
+  </q-page>
 </template>
 
 <script>
@@ -111,9 +107,6 @@ export default {
       noMatches: false
     }
   },
-  mounted () {
-    console.log('mathc moutd', this.matches)
-  },
   computed: {
     ...mapGetters({
       loadingMatches: 'GET_FETCHING_MATCHES',
@@ -131,11 +124,6 @@ export default {
       } else {
         return ''
       }
-    }
-  },
-  watch: {
-    resultQuery: function () {
-      console.log('watching resultquery', this.resultQuery)
     }
   },
   methods: {

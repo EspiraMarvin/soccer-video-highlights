@@ -217,8 +217,7 @@
         class="small-screen-only"
       >
         <q-scroll-area
-          style="height: calc(100% - 30%)"
-        >
+          :thumb-style="thumbStyle" style="height: calc(100vh - 10px)">
           <Search  />
         </q-scroll-area>
       </q-drawer>
@@ -263,10 +262,10 @@ export default {
       },
 
       thumbStyle: {
-        right: '2px',
+        right: '1px',
         borderRadius: '5px',
         backgroundColor: '#027be3',
-        width: '2px',
+        width: '4px',
         opacity: 0.75
       },
 
