@@ -40,26 +40,56 @@
         <div class="flex flex-center q-mt-lg" v-if="resultQuery.length === 0">
           <p class="text-h6">No Match Found 😪 </p>
         </div>
-        <q-card flat v-for="(game, index) in resultQuery"
-             :key="index"
-             :value="game.value"
-        >
+        <q-list>
+        <q-card
+          :loading="loadingMatches"
+          v-for="(game, index) in matches"
+          :key="index"
+          :value="game.value"
+          v-ripple
+          class="q-mb-xs">
           <q-card-section @click="showVideo(game.videos[0].embed, game.title, game.date)">
-            <div class="row no-wrap items-center q-py-sm" style="height:3.5px">
-              <div class="row full-width">
+            <div class="row col-xs-12 no-wrap items-center" style="height:5.5px">
+              <div class=" row"
+                   v-ripple
+              >
+                <div style="margin-right: 2.5px; margin-left: -5px">
+                  <q-avatar class="q-responsive" style="font-size:20px" size="px">
+                    <img :src="game.thumbnail" alt="Image">
+                  </q-avatar>
+                </div>
                 <span>
-                  <q-item class="fa-bold" style="font-size: 12px">
-                    <q-avatar class="q-responsive" style="font-size:16px" size="px">
-                      <img :src="game.thumbnail" alt="Image">
-                    </q-avatar>
-                    <span style="font-size:13px"> {{ game.title }} </span>
-                  </q-item>
+                <div class="fa-bold"  style="">
+                  &nbsp;<span style="font-size:12px">{{ game.title }}&nbsp;
                 </span>
+                </div>
+              </span>
               </div>
             </div>
           </q-card-section>
           <q-separator />
         </q-card>
+        </q-list>
+<!--        <q-card flat v-for="(game, index) in resultQuery"-->
+<!--             :key="index"-->
+<!--             :value="game.value"-->
+<!--        >-->
+<!--          <q-card-section @click="showVideo(game.videos[0].embed, game.title, game.date)">-->
+<!--            <div class="row no-wrap items-center q-py-sm" style="height:3.5px">-->
+<!--              <div class="row full-width">-->
+<!--                <span>-->
+<!--                  <q-item class="fa-bold" style="font-size: 12px">-->
+<!--                    <q-avatar class="q-responsive" style="font-size:16px" size="px">-->
+<!--                      <img :src="game.thumbnail" alt="Image">-->
+<!--                    </q-avatar>-->
+<!--                    <span style="font-size:13px"> {{ game.title }} </span>-->
+<!--                  </q-item>-->
+<!--                </span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </q-card-section>-->
+<!--          <q-separator />-->
+<!--        </q-card>-->
       </template>
 
       <q-dialog v-model="showVideoDialog" transition-show="" transition-hide="" persistent>
