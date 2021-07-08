@@ -4,19 +4,25 @@ const state = () => ({
   matches: {},
   fetchingMatches: false,
   addingMatch: false,
-  currentTab: ''
+  currentTab: '',
+  token: ''
 })
 
 const getters = {
   GET_MATCHES: state => state.matches,
   GET_FETCHING_MATCHES: state => state.fetchingMatches,
   GET_ADDING_MATCH: state => state.addingMatch,
-  GET_CURRENT_TAB: state => state.currentTab
+  GET_CURRENT_TAB: state => state.currentTab,
+  GET_TOKEN: state => state.token
 }
 
 const mutations = {
   SET_MATCHES (state, data) {
     state.matches = data
+  },
+
+  SET_TOKEN (state, data) {
+    state.token = data
   },
 
   SET_FETCHING_MATCHES (state, data) {

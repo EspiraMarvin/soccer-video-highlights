@@ -152,10 +152,6 @@ export default {
     Tab,
     Skeleton
   },
-  created () {
-    this.requestData()
-    console.log('data maches', this.matches)
-  },
   data () {
     return {
       loadingData: false,
@@ -193,6 +189,7 @@ export default {
     ...mapGetters({
       loadingMatches: 'GET_FETCHING_MATCHES',
       matches: 'GET_MATCHES',
+      token: 'GET_TOKEN',
       addingMatch: 'GET_ADDING_MATCH',
       tab: 'GET_CURRENT_TAB',
       rightDrawer: 'GET_RIGHT_DRAWER',
@@ -203,12 +200,6 @@ export default {
     ...mapActions({
       openRightDrawer: 'RIGHT_DRAWER'
     }),
-    requestData () {
-      this.loadingData = true
-      this.$store.dispatch('FETCH_MATCHES')
-      this.setCurrentTab('allgames')
-      this.loadingData = false
-    },
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)
     }
