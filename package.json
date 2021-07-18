@@ -27,6 +27,7 @@
     "firebase": "^7.20.0",
     "moment": "^2.27.0",
     "quasar": "^1.0.0",
+    "vue-cookie-law": "^1.13.3",
     "vue-country-flag": "^2.0.1"
   },
   "devDependencies": {

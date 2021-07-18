@@ -133,6 +133,8 @@
         :icon="!openSearchDrawer ? 'eva-search' : 'close'"
       />
     </q-page-sticky>
+    <div class="q-mx-xl">
+    </div>
   </q-page>
 </template>
 
@@ -142,7 +144,6 @@ import commonMixins from '../mixins/commonMixins'
 import Skeleton from '../components/skeleton/Skeleton'
 import Tab from '../components/tabs/Tab'
 import Matches from '../components/matches/Matches'
-
 const moment = require('moment')
 export default {
   name: 'PageIndex',
