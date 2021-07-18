@@ -17,6 +17,7 @@
     "build-electron": "quasar build -m electron",
     "build-android": "quasar build -m android",
     "build-android-ide": "quasar build -m android --ide",
+    "release": "standard-version",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
