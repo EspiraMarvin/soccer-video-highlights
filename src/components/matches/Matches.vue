@@ -7,6 +7,8 @@
         :key="index"
         :value="game.value"
         v-ripple
+        transition="flip-up"
+        once
         class="q-mb-xs">
         <q-card-section @click="showVideo(game.videos[0].embed, game.title, game.date)">
           <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
@@ -28,7 +30,6 @@
             </div>
           </div>
         </q-card-section>
-        <q-separator />
       </q-card>
     </q-list>
 
@@ -36,9 +37,8 @@
       <q-card style="width: 800px; max-width: 100vw;">
         <div class="flex flex-inline items-center">
           <div class="text-subtitle2 q-px-md q-py-sm">
-            {{ matchDialogDetails[1] }}
+            {{ matchDialogDetails[0] }}
             <q-badge color="green">{{ moment(matchDialogDetails[2]).format("D-MMMYY") }}</q-badge>
-            <span>&nbsp;{{ matchDialogDetails[0] }}</span>
           </div>
           <q-space />
           <q-btn
@@ -87,7 +87,6 @@ export default {
   methods: {
     showVideo (embed, title, date) {
       this.showVideoDialog = true
-      this.matchDialogDetails.push('Highlights')
       this.matchDialogDetails.push(title)
       this.matchDialogDetails.push(date)
       this.videoUrl = embed
@@ -105,5 +104,9 @@ export default {
     margin-top: -8px;
     margin-left: -12px;
     margin-right: -12px
+  }
+  .example-item {
+    height: 290px;
+    width: 290px
   }
 </style>

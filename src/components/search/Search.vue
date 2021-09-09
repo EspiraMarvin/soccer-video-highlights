@@ -74,9 +74,8 @@
       <q-card style="width: 800px; max-width: 100vw;">
         <div class="flex flex-inline items-center">
           <div class="text-subtitle2 q-px-md q-py-sm">
-            {{ matchDialogDetails[1] }}
+            {{ matchDialogDetails[0] }}
             <q-badge color="green">{{ moment(matchDialogDetails[2]).format("D-MMMYY") }}</q-badge>
-            <span>&nbsp;{{ matchDialogDetails[0] }}</span>
           </div>
           <q-space />
           <q-btn
@@ -148,7 +147,6 @@ export default {
     },
     showVideo (embed, title, date) {
       this.showVideoDialog = true
-      this.matchDialogDetails.push('Highlights')
       this.matchDialogDetails.push(title)
       this.matchDialogDetails.push(date)
       this.videoUrl = embed

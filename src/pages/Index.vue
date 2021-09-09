@@ -4,7 +4,6 @@
     <Tab />
 
     <q-separator dense />
-
     <q-scroll-area class="absolute full-height full-width">
 
       <template v-if="!loadingData && matches.length && showInputDialog === false">
