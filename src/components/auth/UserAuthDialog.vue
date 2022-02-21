@@ -75,7 +75,7 @@
           </div>
           <q-separator />
           <p class="text-weight-light text-center q-mt-md q-mb-lg">{{ method }} with credentials</p>
-          <q-form ref="loginForm">
+          <q-form ref="loginForm" :class="$q.screen.gt.sm ? 'q-px-lg' : ''">
             <q-input
               type="email"
               v-model="form.email"
@@ -100,10 +100,10 @@
               class="text-capitalize rounded-borders"
             />
           </q-form>
-          <q-card-actions align="right">
-            <div class="row q-mt-xs float-right" v-if="method === 'sign up'">
+          <q-card-actions class="row">
+            <div class="row q-mt-xs full-width q-px-lg" v-if="method === 'sign up'">
               <q-btn
-                class="q-px-md text-capitalize rounded-borders"
+                class="q-px-md text-capitalize rounded-borders full-width"
                 label="Register"
                 @click="createUser"
                 color="primary"
@@ -115,9 +115,9 @@
                 </template>
               </q-btn>
             </div>
-            <div class="row q-mt-xs float-right" v-if="method === 'sign in'">
+            <div class="row full-width q-mt-xs" v-if="method === 'sign in'">
               <q-btn
-                class="q-px-lg text-capitalize rounded-borders"
+                class="q-px-lg full-width text-capitalize rounded-borders"
                 label="Login"
                 @click="signInExistingUser"
                 color="primary"
@@ -213,7 +213,7 @@ export default {
       form: {
         email: '',
         password: '',
-        accept: ''
+        accept: false
       },
       userAccountDialog: false,
       resetPwdDialog: false,

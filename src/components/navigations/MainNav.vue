@@ -31,7 +31,7 @@
             v-model="theme"
             :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
             color="black"
-            size="lg"
+            size="md"
           />
         </q-toolbar>
       </q-header>
@@ -245,14 +245,19 @@ export default {
   name: 'MainNav',
   components: { CountryFlag, UserAuthDialog, Search },
   created () {
-    this.theme = JSON.parse(localStorage.getItem('theme'))
+    if (localStorage.getItem('theme')) {
+      this.theme = localStorage.getItem('theme')
+    } else {
+      localStorage.setItem('theme', false)
+      this.theme = localStorage.getItem('theme')
+    }
     this.getWidth()
   },
   data () {
     return {
       text: '',
       message: '',
-      theme: '',
+      theme: JSON.parse(localStorage.getItem('theme')),
       leftDrawerOpen: false,
       rightDrawerOpen: false,
       title: 'kscore.com',
@@ -280,7 +285,8 @@ export default {
   },
   watch: {
     theme: function () {
-      localStorage.setItem('theme', JSON.stringify(this.theme))
+      console.log('watchi')
+      localStorage.setItem('theme', this.theme)
     },
     rightDrawer: function () {
       this.rightDrawer === true ? this.rightDrawerOpen = true : this.rightDrawerOpen = false

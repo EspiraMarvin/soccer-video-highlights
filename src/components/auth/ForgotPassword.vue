@@ -1,15 +1,15 @@
 <template>
   <div class="fixed-center">
     <q-card class="card">
-          <q-card-section class="row items-center q-pb-none">
-            <div class="text-subtitle1">
-              <q-avatar size="xs">
+          <q-card-section class="row flex flex-center items-center">
+            <div class="text-subtitle1 flex justify-center items-center flex-center">
+              <q-avatar size="sm" class="q-mr-sm">
                 <q-img src="../../assets/icons/AppIcon.png" />
               </q-avatar>
               Reset Password
             </div>
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup />
+            <!-- <q-space /> -->
+            <q-btn icon="close" class="absolute-right q-px-sm" flat round dense v-close-popup  />
           </q-card-section>
           <div class="flex flex-center q-py-md q-px-sm hidden" v-if="resetPwdMessage">
             <q-chip size="14px" color="green" :class="resetPwdMessage ? '' : 'hidden' ">
@@ -28,10 +28,10 @@
                 :rules="[val => (val && val.length > 0) || 'Please type your email']"
               />
             </q-form>
-            <q-card-actions align="right">
-              <div class="row q-mt-xs">
+            <q-card-actions>
+              <div class="row full-width q-mt-xs">
                 <q-btn
-                  class="q-pl-md q-pr-md q-mr-md text-capitalize rounded-borders"
+                  class="q-pl-md row full-width q-pr-md q-mr-md text-capitalize rounded-borders"
                   label="Submit"
                   color="primary"
                   @click="resetPassword"

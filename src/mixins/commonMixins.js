@@ -18,12 +18,17 @@ const commonMixins = {
       errors: 'GET_ERRORS'
     })
   },
-
   mounted () {
-
+    this.getTheme()
   },
-
   methods: {
+    getTheme () {
+      if (localStorage.getItem('theme')) {
+        return JSON.parse(localStorage.getItem('theme'))
+      }
+      // return null
+      localStorage.setItem('theme', false)
+    },
     matchDialogClick () {
       window.location.reload()
     },

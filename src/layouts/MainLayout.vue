@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     accept () {
-      console.log('accepteed')
+      console.log('accepted')
     }
   }
 }
