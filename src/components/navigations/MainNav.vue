@@ -7,7 +7,7 @@
             dense
             round
             icon="menu"
-            aria-label="Menu"
+           aria-label="Menu"
             @click="leftDrawerOpen = !leftDrawerOpen"
           />
 
@@ -24,12 +24,11 @@
 
 <!--          user auth component-->
           <UserAuthDialog />
-
           <q-toggle
-            :false-value="this.$q.dark.set(theme)"
-            :true-value="this.$q.dark.set(theme)"
+            :false-value="'false'"
+            :true-value="'true'"
             v-model="theme"
-            :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
+            :icon="theme === 'true' ? 'nights_stay' : 'wb_sunny'"
             color="black"
             size="md"
           />
@@ -245,19 +244,14 @@ export default {
   name: 'MainNav',
   components: { CountryFlag, UserAuthDialog, Search },
   created () {
-    if (localStorage.getItem('theme')) {
-      this.theme = localStorage.getItem('theme')
-    } else {
-      localStorage.setItem('theme', false)
-      this.theme = localStorage.getItem('theme')
-    }
+    this.getInitialTheme()
     this.getWidth()
   },
   data () {
     return {
       text: '',
       message: '',
-      theme: JSON.parse(localStorage.getItem('theme')),
+      theme: localStorage.getItem('theme'),
       leftDrawerOpen: false,
       rightDrawerOpen: false,
       title: 'kscore.com',
@@ -285,8 +279,13 @@ export default {
   },
   watch: {
     theme: function () {
-      console.log('watchi')
+      console.log('type of theme in watch', typeof this.theme)
       localStorage.setItem('theme', this.theme)
+      if (this.theme === 'true') {
+        this.$q.dark.set(true)
+      } else if (this.theme === 'false') {
+        this.$q.dark.set(false)
+      }
     },
     rightDrawer: function () {
       this.rightDrawer === true ? this.rightDrawerOpen = true : this.rightDrawerOpen = false
@@ -296,6 +295,22 @@ export default {
     ...mapActions({
       getWidth: 'CLIENT_WIDTH'
     }),
+    getInitialTheme () {
+      let appTheme = 'false'
+      if (window && localStorage.getItem('theme')) {
+        appTheme = localStorage.getItem('theme')
+        appTheme === 'true' ? this.$q.dark.set(true) : this.$q.dark.set(false)
+      } else {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          appTheme = 'true'
+          this.$q.dark.set(true)
+        } else {
+          appTheme = 'false'
+          this.$q.dark.set(false)
+        }
+      }
+      this.theme = appTheme
+    },
     setCurrentTab (tabName) {
       this.$store.commit('SET_CURRENT_TAB', tabName)
 
@@ -340,10 +355,10 @@ export default {
   }
   @keyframes rotation {
     from {
-      transform: rotate(0deg);
+      /* transform: rotate(0deg); */
     }
     to {
-      transform: rotate(359deg);
+      /* transform: rotate(359deg); */
     }
   }
 
