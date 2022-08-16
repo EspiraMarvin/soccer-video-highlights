@@ -8,8 +8,7 @@
         :value="game.value"
         v-ripple
         transition="flip-up"
-        once
-        class="q-mb-xs">
+        class="q-mb-xs cursor-pointer">
         <q-card-section @click="showVideo(game.videos[0].embed, game.title, game.date)">
           <div class="row col-xs-12 no-wrap items-center" style="height:3.5px">
             <div class=" row"
@@ -21,7 +20,7 @@
                 </q-avatar>
               </div>
               <span>
-                <div class="fa-bold "  style="">
+                <div class="fa-bold cursor-pointer"  style="">
                   &nbsp;<span style="font-size:12px">{{ game.title }}&nbsp;
                   <sub style="float:right; font-size:8.5px">{{ moment(game.date).format("DMMMYY") }}</sub>
                 </span>
@@ -36,17 +35,18 @@
     <q-dialog v-model="showVideoDialog" transition-show="" transition-hide="" persistent>
       <q-card style="width: 800px; max-width: 100vw;">
         <div class="flex flex-inline items-center">
-          <div class="text-subtitle2 q-px-md q-py-sm">
+          <div class="text-subtitle2 q-px-md q-pb-sm q-pt-md">
             {{ matchDialogDetails[0] }}
-            <q-badge color="green">{{ moment(matchDialogDetails[2]).format("D-MMMYY") }}</q-badge>
+            <q-badge class="q-ml-sm" color="green">{{ moment(matchDialogDetails[2]).format("D-MMMYY") }}</q-badge>
           </div>
           <q-space />
           <q-btn
-            class=""
+            class="absolute-top-right z-top"
+            style="margin-top: -4px"
             icon="close"
             @click="closeDialog"
-            flat round
-            size="lg"
+            flat
+            :size="$q.screen.gt.md ? 'xl' : 'lg'"
           />
         </div>
         <q-card-section
