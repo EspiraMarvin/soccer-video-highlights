@@ -35,7 +35,7 @@
     <q-dialog v-model="showVideoDialog" transition-show="" transition-hide="" persistent>
       <q-card style="width: 800px; max-width: 100vw;">
         <div class="flex flex-inline items-center">
-          <div class="text-subtitle2 q-px-md q-pb-md " :class="$q.screen.gt.md ? 'q-pt-md' : 'q-pt-xl'">
+          <div class="text-subtitle2 q-px-md q-pb-md " :class="$q.screen.gt.sm ? 'q-pt-md' : 'q-pt-lg'">
             {{ matchDialogDetails[0] }}
             <q-badge class="q-ml-sm" color="green">{{ moment(matchDialogDetails[2]).format("D-MMMYY") }}</q-badge>
           </div>
