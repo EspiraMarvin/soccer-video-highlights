@@ -22,12 +22,10 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
-    "@vueuse/core": "^4.8.4",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "firebase": "^7.20.0",
     "moment": "^2.27.0",
-    "node-sass": "^7.0.1",
     "quasar": "^1.0.0",
     "vue-cookie-law": "^1.13.3",
     "vue-country-flag": "^2.0.1"
