@@ -31,3 +31,10 @@ yarn build
 <img src="src/assets/screenshots/Screenshot3.png" alt="" style="width: 50%">
 </div>
 
+
+
+# Technologies Used
+
+## vuejs
+## vuex - Quasar
+## pwa
