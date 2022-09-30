@@ -65,8 +65,7 @@
             vertical
             no-caps
           >
-
-            <div class="row q-py-xs" v-for="league in leagues" :key="league.id">
+            <div class="row q-py-xs" v-for="(league, index) in leagues" :key="index">
                 <span  class="q-ml-md q-mt-xs" >
                 <country-flag :country="league.country" size='small' style="margin-right: -40px" />
                 </span>
@@ -89,7 +88,7 @@
             no-caps
           >
 
-            <div class="row q-mt-sm"  v-for="league in leaguesPerCountry" :key="league.id">
+            <div class="row q-mt-sm"  v-for="(league, index) in leaguesPerCountry" :key="index">
               <div class="col-xs-2">
                 <country-flag :country="league.country" size='small' style="margin-top: -6px" />
               </div>
@@ -159,7 +158,7 @@ export default {
       theme: localStorage.getItem('theme'),
       leftDrawerOpen: false,
       rightDrawerOpen: false,
-      title: 'kscore.com',
+      title: 'Match Highlights',
       contentStyle: {
         color: '#555',
         backgroundColor: 'rgba(0,0,0,0.02)'
@@ -182,31 +181,26 @@ export default {
       },
       leagues: [
         {
-          id: Math.floor(Math.random() * 100),
           country: 'gb-eng',
           tabName: 'epl',
           tabLabel: 'Premier League'
         },
         {
-          id: Math.floor(Math.random() * 100),
           country: 'ita',
           tabName: 'seriea',
           tabLabel: 'Serie A'
         },
         {
-          id: Math.floor(Math.random() * 100),
           country: 'esp',
           tabName: 'laliga',
           tabLabel: 'Laliga'
         },
         {
-          id: Math.floor(Math.random() * 100),
           country: 'fra',
           tabName: 'franceleague1',
           tabLabel: 'League 1'
         },
         {
-          id: Math.floor(Math.random() * 100),
           country: 'deu',
           label: 'Germany',
           tabName: 'bundesliga',
@@ -215,35 +209,30 @@ export default {
       ],
       leaguesPerCountry: [
         {
-          id: Math.floor(Math.random() * 100),
           country: 'gb-eng',
           label: 'England',
           tabName: 'epl',
           tabLabel: 'Premier League'
         },
         {
-          id: Math.floor(Math.random() * 100),
           country: 'ita',
           label: 'Italy',
           tabName: 'laliga',
           tabLabel: 'Serie A'
         },
         {
-          id: Math.floor(Math.random() * 100),
           country: 'esp',
           label: 'Spain',
           tabName: 'laliga',
           tabLabel: 'La Liga'
         },
         {
-          id: Math.floor(Math.random() * 100),
           country: 'fra',
           label: 'France',
           tabName: 'franceleague1',
           tabLabel: 'League 1'
         },
         {
-          id: Math.floor(Math.random() * 100),
           country: 'deu',
           label: 'Germany',
           tabName: 'bundesliga',
