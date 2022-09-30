@@ -104,7 +104,11 @@
             </div>
           </q-tabs>
         </q-list>
+
       </q-scroll-area>
+      <div class="absolute  q-px-md" style="margin-top: -30px">
+        Made by <a href="https://www.linkedin.com/in/marvin-espira/" target="_blank">Marvin Espira</a>
+      </div>
       </q-drawer>
 
       <!--      right drawer for search component-->
