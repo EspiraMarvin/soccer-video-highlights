@@ -8,8 +8,8 @@
         <q-btn fab-mini icon="keyboard_arrow_up" color="blue glossy" dense/>
       </q-page-scroller>
       <q-footer>
-        <CookieLaw theme="dark-lime" style="height: 65px">
-            <div slot-scope="props" style="margin-top: -5px; margin-bottom: 5px">
+        <CookieLaw theme="dark-lime" style="height: 65px" :style="$q.screen.gt.xs ? 'padding-left: 300px' : ''">
+            <div slot-scope="props" style="margin-top: -5px; margin-bottom: 5px" class="text-center">
                 This application uses cookies.
               <button class="skew shadow-10" @click="props.accept" style="margin: 10px;">
                 <span>Accept</span>
