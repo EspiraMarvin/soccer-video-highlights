@@ -66,46 +66,17 @@
             no-caps
           >
 
-            <div class="row">
-              <div class="col-xs-2">
-                <country-flag country='gb-eng' class="" size='small' style="margin-top: -6px" />
-              </div>
-              <div class="col-xs-10">
-                <q-tab @click="setCurrentTab('epl')" label="Premier League"/>
-              </div>
-            </div>
-
-            <div class="row myLeagues">
-              <div class="col-xs-2">
-                <country-flag country='ita' class="" size='small' style="margin-top: -6px" />
-              </div>
-              <div class="col-xs-10">
-                <q-tab class="q-tab" @click="setCurrentTab('seriea')" dense label="Serie A" />
-              </div>
-            </div>
-
-            <div class="row myLeagues">
-              <div class="col-xs-2">
-                <country-flag country='esp' size='small' style="margin-top: -6px" />
-              </div>
-              <div class="col-xs-10">
-                <q-tab class="q-tab" @click="setCurrentTab('laliga')" dense label="La Liga" />
-              </div>
-            </div>
-
-            <div class="row myLeagues">
-              <div class="col-xs-2">
-                <country-flag country='fra'  size='small' style="margin-top: -6px" />
-              </div>
-              <div class="col-xs-10 ">
-                <q-tab class="q-tab" @click="setCurrentTab('franceleague1')" dense label="League 1" />
-              </div>
+            <div class="row q-py-xs" v-for="league in leagues" :key="league.id">
+                <span  class="q-ml-md q-mt-xs" >
+                <country-flag :country="league.country" size='small' style="margin-right: -40px" />
+                </span>
+                <q-tab @click="setCurrentTab(`${league.tabName}`)" :label="league.tabLabel" />
             </div>
 
           </q-tabs>
 
           <!--  countries-->
-          <q-separator></q-separator>
+          <q-separator class="q-my-md"></q-separator>
           <q-item label="England">
             <q-item-section class="bg-blue-grey-7 text-center text-black" style="margin-top: 0px">
               Countries
@@ -118,87 +89,17 @@
             no-caps
           >
 
-            <div class="row ">
+            <div class="row q-mt-sm"  v-for="league in leaguesPerCountry" :key="league.id">
               <div class="col-xs-2">
-                <country-flag country='gb-eng' size='small' style="margin-top: -10px" />
+                <country-flag :country="league.country" size='small' style="margin-top: -6px" />
               </div>
               <div class="col-xs-10">
-                <q-expansion-item dense dense-toggle label="England" style="margin-top: -6px">
-                  <q-item @click="setCurrentTab('epl')" dense exact clickable icon="star">
-                    Premier League
+                <q-expansion-item dense dense-toggle :label="league.label" class="" style="margin-bottom: -1px">
+                  <q-item @click="setCurrentTab(`${league.tabName}`)" dense exact clickable icon="star" style="margin-top: 5px">
+                    {{ league.tabLabel }}
                     <q-icon icon="star" right name="star"/>
                   </q-item>
-                  <q-item @click="setCurrentTab('englandchampionship')" dense exact clickable>Championship</q-item>
-                  <q-item @click="setCurrentTab('englandleagueone')" dense exact clickable>League One</q-item>
-                  <q-item @click="setCurrentTab('englandleaguetwo')" dense exact clickable>League Two</q-item>
-                  <q-item @click="setCurrentTab('fa')" dense exact clickable>FA Cup</q-item>
-                  <q-item @click="setCurrentTab('efl')" dense exact clickable>EFL Cup</q-item>
                 </q-expansion-item >
-              </div>
-            </div>
-
-            <div class="row q-mt-xs">
-              <div class="col-xs-2">
-                <country-flag country='esp' class="" size='small' style="margin-top: -20px"></country-flag>
-              </div>
-              <div class="col-xs-10">
-                <q-expansion-item dense dense-toggle label="Spain" style="margin-top: -16px">
-                  <q-item dense exact clickable @click="setCurrentTab('laliga')">
-                    La liga
-                    <q-icon icon="star" right name="star"/>
-                  </q-item>
-                  <q-item dense exact clickable>La liga2</q-item>
-                  <q-item dense exact clickable>Segunda Div B-Grp1</q-item>
-                  <q-item dense exact clickable>Segunda Div B-Grp2</q-item>
-                </q-expansion-item>
-              </div>
-            </div>
-
-            <div class="row ">
-              <div class="col-xs-2">
-                <country-flag country='ita' class="" size='small' style="margin-top: -16px"></country-flag>
-              </div>
-              <div class="col-xs-10">
-                <q-expansion-item dense dense-toggle label="Italy" style="margin-top: -12px">
-                  <q-item @click="setCurrentTab('seriea')" dense exact clickable>
-                    Serie A
-                    <q-icon icon="star" right name="star"/>
-                  </q-item>
-                  <q-item dense exact clickable>Serie B</q-item>
-                  <q-item dense exact clickable>Serie C Group A</q-item>
-                  <q-item dense exact clickable>Serie C Group B</q-item>
-                </q-expansion-item>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-xs-2">
-                <country-flag country='deu' class="" size='small' style="margin-top: -18px"></country-flag>
-              </div>
-              <div class="col-xs-10">
-                <q-expansion-item dense dense-toggle label="Germany" style="margin-top: -12px">
-                  <q-item dense exact clickable @click="setCurrentTab('bundesliga')">Bundesliga</q-item>
-                  <q-item dense exact clickable>2nd Bundesliga</q-item>
-                  <q-item dense exact clickable>3rd Liga</q-item>
-                  <q-item dense exact clickable>Regionalliga North</q-item>
-                </q-expansion-item>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-xs-2">
-                <country-flag country='fra' class="" size='small' style="margin-top: -20px" />
-              </div>
-              <div class="col-xs-10">
-                <q-expansion-item dense dense-toggle label="France" header-class="" style="margin-top: -16px">
-                  <q-item dense exact clickable @click="setCurrentTab('franceleague1')">
-                    League 1
-                    <q-icon icon="star" right name="star"/>
-                  </q-item>
-                  <q-item dense exact clickable>League 2</q-item>
-                  <q-item dense exact clickable>National</q-item>
-                  <q-item dense exact clickable>National 2-Group A</q-item>
-                </q-expansion-item>
               </div>
             </div>
           </q-tabs>
@@ -274,7 +175,77 @@ export default {
         backgroundColor: '#027be3',
         width: '9px',
         opacity: 0.2
-      }
+      },
+      leagues: [
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'gb-eng',
+          tabName: 'epl',
+          tabLabel: 'Premier League'
+        },
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'ita',
+          tabName: 'seriea',
+          tabLabel: 'Serie A'
+        },
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'esp',
+          tabName: 'laliga',
+          tabLabel: 'Laliga'
+        },
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'fra',
+          tabName: 'franceleague1',
+          tabLabel: 'League 1'
+        },
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'deu',
+          label: 'Germany',
+          tabName: 'bundesliga',
+          tabLabel: 'Bundesliga'
+        }
+      ],
+      leaguesPerCountry: [
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'gb-eng',
+          label: 'England',
+          tabName: 'epl',
+          tabLabel: 'Premier League'
+        },
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'ita',
+          label: 'Italy',
+          tabName: 'laliga',
+          tabLabel: 'Serie A'
+        },
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'esp',
+          label: 'Spain',
+          tabName: 'laliga',
+          tabLabel: 'La Liga'
+        },
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'fra',
+          label: 'France',
+          tabName: 'franceleague1',
+          tabLabel: 'League 1'
+        },
+        {
+          id: Math.floor(Math.random() * 100),
+          country: 'deu',
+          label: 'Germany',
+          tabName: 'bundesliga',
+          tabLabel: 'Bundesliga'
+        }
+      ]
     }
   },
   watch: {
@@ -304,9 +275,11 @@ export default {
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
           appTheme = 'true'
           this.$q.dark.set(true)
+          localStorage.setItem('theme', true)
         } else {
           appTheme = 'false'
           this.$q.dark.set(false)
+          localStorage.setItem('theme', false)
         }
       }
       this.theme = appTheme
@@ -344,10 +317,10 @@ export default {
     /*position: sticky;*/
   }
   .text-black{
-    margin-top: -3px
+    /* margin-top: -3px */
   }
   .myLeagues {
-    margin-top: -13px
+    /* margin-top: -10px */
   }
 
   .rotatecontinuous {
